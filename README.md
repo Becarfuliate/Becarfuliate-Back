@@ -10,7 +10,8 @@ Antes de arrancar debemos crear un **entorno virtual**, para instalar todos los 
 ```
 $ mkdir <directorio>
 $ cd <directorio>
-$ pipenv shell
+$ virtualenv -p /usr/bin/python3 <nombre>
+$ source <nombre>/bin/activate
 ```
 
 ### Instalación packages
