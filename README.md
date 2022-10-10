@@ -3,28 +3,11 @@ Repositorio backend para ingeniería del software
 
 ## Instalación y creación base de datos
 
-### Creación entorno virtual
+### Requerimientos
 
-Antes de arrancar debemos crear un **entorno virtual**, para instalar todos los *packages* que se utilizarán en este proyecto. 
+> pip install -r requeriments.txt
 
-```
-$ mkdir <directorio>
-$ cd <directorio>
-$ virtualenv -p /usr/bin/python3 <nombre>
-$ source <nombre>/bin/activate
-```
-
-### Instalación packages
-
-Una vez en el entorno deben instalar los *packages* necesarios (fastapi, ponyorm, pymysql)
-
-```
-$ pip install fastapi
-$ pip install "uvicorn[standard]"
-$ pip install pony 
-$ python3 -m pip install PyMySQL
-$ pip install black
-```
+Luego seguir los pasos instalando [SQLite3](#instalación-sqlite-3)
 
 ### Instalación SQLite 3
 
@@ -37,7 +20,7 @@ $ sqlite3 --version
 $ sudo apt-get install sqlitebrowser
 ```
 
-### Levantar fastapi
+## Levantar fastapi
 
 Una vez realizado todo, pueden levantar el servidor de fastapi de esta manera
 
@@ -62,3 +45,33 @@ En VSCode descargar la extensión de python en la barra de extensiones
 Una vez instalada, ir a settings y buscar "python formatting provider", en el resultado elegir la opción "black"
 
 Una vez elegido, buscar "Format on save" y tildar la opción.
+
+
+## Otros
+
+### Creación entorno virtual
+
+Antes de arrancar debemos crear un **entorno virtual**, para instalar todos los *packages* que se utilizarán en este proyecto. 
+
+```sh
+$ sudo apt-get install virtualenv
+$ virtualenv -p /usr/bin/python3 <nombre>
+$ source <nombre>/bin/activate
+```
+
+**Desactivar venv**
+```sh
+# En el path donde esté el venv.
+$ deactivate
+```
+
+### Paquetes instalados en el venv
+
+Una vez en el entorno deben instalar los *packages* necesarios (fastapi, ponyorm, sqlite)
+
+```
+$ pip install fastapi
+$ pip install "uvicorn[standard]"
+$ pip install pony 
+$ pip install black
+```
