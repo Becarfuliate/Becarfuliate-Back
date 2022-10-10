@@ -7,22 +7,26 @@ Repositorio backend para ingeniería del software
 
 Antes de arrancar debemos crear un **entorno virtual**, para instalar todos los *packages* que se utilizarán en este proyecto. 
 
-```
-$ mkdir <directorio>
-$ cd <directorio>
+```sh
+$ sudo apt-get install virtualenv
 $ virtualenv -p /usr/bin/python3 <nombre>
 $ source <nombre>/bin/activate
 ```
 
-### Instalación packages
+**Desactivar venv**
+```sh
+# En el path donde esté el venv.
+$ deactivate
+```
 
-Una vez en el entorno deben instalar los *packages* necesarios (fastapi, ponyorm, pymysql)
+### Paquetes instalados en el venv
+
+Una vez en el entorno deben instalar los *packages* necesarios (fastapi, ponyorm, sqlite)
 
 ```
 $ pip install fastapi
 $ pip install "uvicorn[standard]"
 $ pip install pony 
-$ python3 -m pip install PyMySQL
 $ pip install black
 ```
 
@@ -37,7 +41,7 @@ $ sqlite3 --version
 $ sudo apt-get install sqlitebrowser
 ```
 
-### Levantar fastapi
+## Levantar fastapi
 
 Una vez realizado todo, pueden levantar el servidor de fastapi de esta manera
 
