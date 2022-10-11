@@ -101,3 +101,62 @@ Agregar en settings.json de vscode:
     "editor.formatOnSave": true,
 }
 ```
+
+### Devolución de datos
+
+Al consumir "/matchs"
+```json
+[
+    {
+        "name":"partiduela",
+        "max_players":0,
+        "min_players":0,
+        "password":"string",
+        "n_matchs":0,
+        "n_rounds_matchs":0,
+        "id":1
+    }
+]
+```
+
+Al consumir "/match/{id}":
+
+* En caso de que exista la partida:
+```json
+{
+    "name":"partiduela",
+    "max_players":0,
+    "min_players":0,
+    "password":"string",
+    "n_matchs":0,
+    "n_rounds_matchs":0,
+    "id":1
+}
+```
+
+* En caso de que no exista la partida
+
+```json
+"error"
+```
+
+
+Al consumir "/match/add":
+
+* En caso de que la partida sea agregada
+
+```json
+"Match added succesfully"
+```
+
+* En caso de que no sea agregada
+
+```json
+{
+  "error": {
+    "original_exc": {
+      "original_exc": {}
+    }
+  }
+}
+```
