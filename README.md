@@ -87,9 +87,17 @@ Agregar en settings.json de vscode:
 
 ```json 
 {
+    "python.linting.pycodestyleEnabled": true,
     "python.linting.pylintEnabled": true,
     "python.linting.enabled": true,
     "python.formatting.provider": "black",
-    "python.formatting.blackPath": "/home/xortb/.local/bin/black",
+    "python.formatting.blackPath": "/home/<nombre>/.local/bin/black",
+    "python.linting.pylintArgs": [
+        "--max-line-length=180"
+    ],
+    "python.formatting.autopep8Args": [
+        "--max-line-length=180"
+    ],
+    "editor.formatOnSave": true,
 }
 ```
