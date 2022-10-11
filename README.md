@@ -75,3 +75,21 @@ $ pip install "uvicorn[standard]"
 $ pip install pony 
 $ pip install black
 ```
+
+### Formato
+
+Install pylint
+Luego: 
+* File->Preferences->Settings 
+* buscar "python formatting provider" elegir black. Por default estaba autopep8
+
+Agregar en settings.json de vscode:
+
+```json 
+{
+    "python.linting.pylintEnabled": true,
+    "python.linting.enabled": true,
+    "python.formatting.provider": "black",
+    "python.formatting.blackPath": "/home/xortb/.local/bin/black",
+}
+```
