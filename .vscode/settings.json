@@ -1,0 +1,7 @@
+{
+    "python.linting.pycodestyleEnabled": true,
+    "python.linting.pylintEnabled": false,
+    "python.linting.enabled": true,
+    "python.formatting.provider":"black",
+    "python.formatting.blackPath": "/home/lichi-martinez/.local/black"
+}
