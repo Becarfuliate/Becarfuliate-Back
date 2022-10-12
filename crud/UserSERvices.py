@@ -14,6 +14,10 @@ def add_user(new_user: User_create):
 
 @db_session()
 def search_user(name,email):
-    data = db.select("SELECT * FROM Users WHERE User.username = $name AND User.email = $email ")
+    data = db.select("SELECT * FROM User WHERE User.username = $name AND User.email = $email")
     return data
 
+@db_session()
+def show_user():
+    # with db_session
+    return "Nada"
