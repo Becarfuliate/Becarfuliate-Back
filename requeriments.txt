@@ -2,3 +2,6 @@ fastapi
 uvicorn
 pony
 black
+pyJWT
+python-decouple
+pydantic[email]
