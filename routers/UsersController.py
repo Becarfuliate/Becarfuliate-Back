@@ -1,5 +1,5 @@
 from fastapi import APIRouter
-from models.Users import User
+from models.Entities import User
 from crud.UserServices import add_user, show_user
 from schemas.IUser import User_base
 
