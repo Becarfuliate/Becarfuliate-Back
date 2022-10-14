@@ -1,4 +1,3 @@
--i 
 fastapi
 uvicorn
 pony

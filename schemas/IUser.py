@@ -13,6 +13,7 @@ class User_create(User_base):
     class Config:
         orm_mode = True
 
+
 @validator('password')
 def username_length(cls, password):
     if len(password) < 7:
