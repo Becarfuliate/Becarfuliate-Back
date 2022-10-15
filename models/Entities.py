@@ -6,7 +6,7 @@ from db.database import db
 class User(db.Entity):
     __table__ = "users"
     username = PrimaryKey(str, 40)
-    password = Required(str, 40)
+    password = Required(str, 200)
     avatar = Optional(str, nullable=False)
     confirmation_mail = Required(bool)
     email = Required(str, unique=True)
