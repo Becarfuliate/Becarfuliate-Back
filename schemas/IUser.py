@@ -12,6 +12,14 @@ class User_base(BaseModel):
     avatar: Optional[str] = None
     email: str
 
+    @validator('username')
+    def username_validator(cls, username):
+        if (username == ""):
+            raise ValueError('El usuario no puede ser vacio')
+        if (" " in username):
+            raise ValueError('El nombre de usuario no puede contener espacios')
+        return username
+
     @validator('password')
     def password_validator(cls, password):
         if len(password) < 7:
@@ -34,7 +42,7 @@ class User_base(BaseModel):
 
     @validator('email')
     def email_validator(cls, email):
-        regex = r"^[a-zA-Z0-9]+[\._]?[a-zA-Z0-9]+[@]\w+[.]\w{2,3}$"
+        regex = r"^\w+([-|.]?\w+)*@(?:|hotmail|outlook|yahoo|live|gmail|mi.unc)\.(?:|com|es|edu.ar)+$"
         if not (re.search(regex, email)):
             raise ValueError(
                 'Email invalido'

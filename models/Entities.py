@@ -1,4 +1,5 @@
 from distutils.sysconfig import get_makefile_filename
+from re import S
 from pony.orm import PrimaryKey, Required, Optional, Set
 from db.database import db
 
@@ -16,6 +17,7 @@ class User(db.Entity):
     match_creates = Set('Match', reverse='user_creator')
     # RECOMENTDACION DE NOMBRE: match_creates -> match_owner
     # simulation = Optional('Simulation')
+    validation_code = Required(str, 6)
 
 
 class Robot(db.Entity):

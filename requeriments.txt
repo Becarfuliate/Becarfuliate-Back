@@ -4,3 +4,4 @@ pony
 black
 cryptography
 decouple
+fastapi_mail
