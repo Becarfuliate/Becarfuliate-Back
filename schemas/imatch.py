@@ -1,5 +1,9 @@
+from typing import Set
+
 from pydantic import BaseModel, validator
 import re
+
+from models.entities import User
 
 
 class MatchBase(BaseModel):
@@ -53,6 +57,8 @@ class MatchBase(BaseModel):
 
 
 class MatchCreate(MatchBase):
+    user_creator: str
+
     class Config:
         orm_mode = True
 

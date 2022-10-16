@@ -1,11 +1,15 @@
 from pony.orm import db_session, commit
 from schemas import imatch
-from models.entities import Match
+from models.entities import Match, User
 
 
 @db_session
 def create_match(match: imatch.MatchCreate):
     with db_session:
+        try:
+            creator_aux = User[match.user_creator].username
+        except Exception as e:
+            return "ObjectNotFound"
         try:
             Match(
                 name=match.name,
@@ -14,6 +18,7 @@ def create_match(match: imatch.MatchCreate):
                 password=match.password,
                 n_matchs=min(abs(match.n_matchs), 200),
                 n_rounds_matchs=min(abs(match.n_rounds_matchs), 10000),
+                user_creator=User[match.user_creator],
             )
             commit()
         except Exception as e:
@@ -21,6 +26,7 @@ def create_match(match: imatch.MatchCreate):
         return "added"
 
 
+@db_session
 def read_matchs():
     with db_session:
         try:
