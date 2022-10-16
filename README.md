@@ -318,3 +318,52 @@ Status = 422 Error: Unprocessable Entity
   ]
 }
 ```
+
+## Devolución de datos
+
+Al consumir "/matchs"
+```json
+[
+    {
+        "name":"partida1",
+        "max_players":0,
+        "min_players":0,
+        "password":"string",
+        "n_matchs":0,
+        "n_rounds_matchs":0,
+        "id":0
+    },
+    {
+      "name":"partida2",
+      "max_players":0,
+      "min_players":0,
+      "password":"string",
+      "n_matchs":0,
+      "n_rounds_matchs":0,
+      "id":1
+    }
+]
+```
+
+Al consumir "/match/{id}":
+
+* En caso de que exista la partida:
+```json
+{
+    "name":"partida1",
+    "max_players":0,
+    "min_players":0,
+    "password":"string",
+    "n_matchs":0,
+    "n_rounds_matchs":0,
+    "id":1
+}
+```
+
+* En caso de que no exista la partida
+
+```json
+{
+  "detail": "La partida no existe"
+}
+```
