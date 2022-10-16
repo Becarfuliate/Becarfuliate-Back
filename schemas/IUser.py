@@ -1,5 +1,5 @@
 from typing_extensions import Required
-from pydantic import BaseModel, validator
+from pydantic import BaseModel, validator 
 from typing import Optional
 
 
@@ -26,4 +26,5 @@ def username_length(cls, password):
 
 class user_login_schema(BaseModel):
     username: str
+    email : str
     password: str

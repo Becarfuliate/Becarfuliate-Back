@@ -1,4 +1,5 @@
 # databas3
+from select import select
 from models.Users import User
 from pony.orm import db_session
 from schemas.IUser import *
@@ -37,12 +38,12 @@ def decode_JWT(token: str):
 
 # inserta un usuario en la base de datos
 @db_session()
-def add_user(new_user: User_create):
+def add_user(inusername,inpassword,inavatar,inemail):
     User(
-        username=new_user.username,
-        password=new_user.password,
-        avatar=new_user.avatar,
-        email=new_user.email,
+        username=inusername,
+        password=inpassword,
+        avatar=inavatar,
+        email=inemail,
     )
 
 
@@ -50,4 +51,10 @@ def add_user(new_user: User_create):
 @db_session()
 def search_user(name):
     data = User.get(username=name)
+    return data
+
+@db_session
+def search_user_by_email(input_email):
+    data = User.select(lambda p : p.email ==input_email).get()
+    print (data)
     return data

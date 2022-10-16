@@ -7,13 +7,17 @@ user_end_points = APIRouter()
 
 @user_end_points.post("/register")
 async def user_register(user_to_add: User_base):
-    add_user(new_user=user_to_add)
+    add_user(user_to_add.username,user_to_add.password,user_to_add.avatar,user_to_add.email)
     return {"Status": "Usuer added succesfully"}
 
 
 @user_end_points.post("/login")
 async def user_login(input: user_login_schema):
-    data = search_user(input.username)
+    if (input.username == ""):
+        data = search_user_by_email(input.email)
+        print(data)
+    else :
+        data = data = search_user(input.username)
 
     if data is None:
         raise HTTPException(status_code=400, detail="no existe el usuario")
