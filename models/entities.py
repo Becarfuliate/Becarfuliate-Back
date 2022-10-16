@@ -1,4 +1,3 @@
-from enum import unique
 from pony.orm import PrimaryKey, Optional, Set
 from db.database import db
 
@@ -11,7 +10,7 @@ class Match(db.Entity):
     password = Optional(str)
     n_matchs = Optional(int)
     n_rounds_matchs = Optional(int)
-    # users = Set(Usuario, reverse="matchs")
-    # robot_winner = Set("Robot_Match", reverse="match_winner")
-    # user_creator = Required(Usuario, reverse="match_creates")
-    # robot_player = Set("Robot_Match", reverse="match_player")
+    # users = Set('User', reverse="matchs")
+    # robot_winner -> instancia de la class robot_in_match (no disponible)
+    # user_creator = Required(User, reverse="match_creates")
+    # robots_players -> instancia de la class robot_in_match (no disponible)

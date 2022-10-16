@@ -1,14 +1,21 @@
 from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
 from dependency import *
+from routers.match_controller import match_end_points
+from db.database import gen_map
+from models import entities
 
-# configuramos la bd
-from db.database import db
 
-# importamos todo lo relacionado a partidas.
-from models import Matchs
-
-# inicializamos fastapi
 app = FastAPI()
-db.generate_mapping(create_tables=True)
-
-from routers import MatchController
+# Agregando cors urls
+origins = ["http://localhost:3000", "localhost:3000"]
+# Agregando middleware
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+gen_map()
+app.include_router(match_end_points)
