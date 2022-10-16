@@ -21,33 +21,33 @@ class MatchBase(BaseModel):
 
     @validator("max_players")
     def max_players_validator(cls, max_players):
-        if isinstance(max_players, int):
+        if not isinstance(max_players, int):
             raise ValueError("El valor 'máximo de jugadores' debe ser un número")
-        if 2 <= max_players <= 4:
+        if not (2 <= max_players <= 4):
             raise ValueError("El valor debe estar entre 2 y 4")
         return max_players
 
     @validator("min_players")
     def min_players_validator(cls, min_players):
-        if isinstance(min_players, int):
+        if not isinstance(min_players, int):
             raise ValueError("El valor 'mínimo de jugadores' debe ser un número")
-        if 2 <= min_players <= 4:
+        if not (2 <= min_players <= 4):
             raise ValueError("El valor debe estar entre 2 y 4")
         return min_players
 
     @validator("n_matchs")
     def n_matchs_validator(cls, n_matchs):
-        if isinstance(n_matchs, int):
+        if not isinstance(n_matchs, int):
             raise ValueError("El valor 'número de juegos' debe ser un número")
-        if 1 <= n_matchs <= 200:
-            raise ValueError("El valor debe estar entre 2 y 4")
+        if not (1 <= n_matchs <= 200):
+            raise ValueError("El valor debe estar entre 1 y 200")
         return n_matchs
 
     @validator("n_rounds_matchs")
     def n_rounds_matchs_validator(cls, n_rounds_matchs):
-        if isinstance(n_rounds_matchs, int):
+        if not isinstance(n_rounds_matchs, int):
             raise ValueError("El valor 'número de rounds' debe ser un número")
-        if 2 <= n_rounds_matchs <= 10000:
+        if not (2 <= n_rounds_matchs <= 10000):
             raise ValueError("El valor debe estar entre 2 y 10.000")
         return n_rounds_matchs
 

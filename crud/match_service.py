@@ -9,11 +9,11 @@ def create_match(match: imatch.MatchCreate):
         try:
             Match(
                 name=match.name,
-                max_players=match.max_players,
-                min_players=match.min_players,
+                max_players=abs(match.max_players),
+                min_players=abs(match.min_players),
                 password=match.password,
-                n_matchs=min(match.n_matchs, 200),
-                n_rounds_matchs=min(match.n_rounds_matchs, 10000),
+                n_matchs=min(abs(match.n_matchs), 200),
+                n_rounds_matchs=min(abs(match.n_rounds_matchs), 10000),
             )
             commit()
         except Exception as e:
