@@ -1,16 +1,9 @@
 from fastapi import FastAPI
 from dependency import *
-from fastapi import APIRouter
+from routers.match_controller import match_end_points
+from db.database import gen_map
+from models import entities
 
-# configuramos la bd
-from db.database import db
-
-# importamos todo lo relacionado a partidas.
-from models import Partidas
-
-# inicializamos fastapi
 app = FastAPI()
-router = APIRouter()
-db.generate_mapping(create_tables=True)
-
-from routers import PartidaController
+gen_map()
+app.include_router(match_end_points)
