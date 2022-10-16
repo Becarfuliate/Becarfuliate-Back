@@ -1,7 +1,8 @@
 from fastapi import FastAPI
-from db.database import db, gen_map
-from models.Entities import User, Robot, Match
-from routers.UsersController import user_end_points, match_end_points
+from db.database import gen_map
+from models.entities import User, Robot, Match
+from routers.users_controller import user_end_points
+from routers.match_controller import match_end_points
 from fastapi.middleware.cors import CORSMiddleware
 
 app = FastAPI()

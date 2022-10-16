@@ -3,5 +3,5 @@ uvicorn
 pony
 black
 cryptography
-decouple
+python-decouple
 fastapi_mail
