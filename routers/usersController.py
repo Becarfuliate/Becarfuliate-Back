@@ -4,13 +4,6 @@ from schemas.IUser import *
 
 user_end_points = APIRouter()
 
-
-@user_end_points.post("/register")
-async def user_register(user_to_add: User_base):
-    add_user(user_to_add.username,user_to_add.password,user_to_add.avatar,user_to_add.email)
-    return {"Status": "Usuer added succesfully"}
-
-
 @user_end_points.post("/login")
 async def user_login(input: user_login_schema):
     if (input.username == ""):

@@ -35,18 +35,6 @@ def decode_JWT(token: str):
     except:
         return {"userID": "", "expiry": 0}
 
-
-# inserta un usuario en la base de datos
-@db_session()
-def add_user(inusername,inpassword,inavatar,inemail):
-    User(
-        username=inusername,
-        password=inpassword,
-        avatar=inavatar,
-        email=inemail,
-    )
-
-
 # busca un usuario en la base de datos por su nombre
 @db_session()
 def search_user(name):

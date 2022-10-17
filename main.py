@@ -1,6 +1,5 @@
 from fastapi import FastAPI
 from db.database import db
-from models.Users import User
 from routers.usersController import user_end_points
 
 
