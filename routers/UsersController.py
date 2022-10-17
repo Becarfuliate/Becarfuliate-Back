@@ -6,6 +6,7 @@ from schemas.IUser import User_base
 from fastapi_mail import FastMail, MessageSchema, ConnectionConfig
 from decouple import config
 
+
 user_end_points = APIRouter()
 
 
@@ -23,28 +24,46 @@ async def user_register(user_to_add: User_base):
             detail="El email ya existe"
             )
     code_validation = get_code_for_user(user_to_add.username)
+    if "no existe" in code_validation:
+        raise HTTPException(
+            status_code=400,
+            detail="El usuario "+user_to_add.username+" no existe"
+            ) 
     await send_confirmation_mail(
         user_to_add.email,
         code_validation,
         user_to_add.username
         )
-    return {"Status": "Usuer added succesfully"}
+    return {"Status": msg}
 
 
 @user_end_points.get("/verify")
 def user_verification(username: str, code: str):
-    update_confirmation(username,code)
+    msg = update_confirmation(username, code)
+    if "no existe" in msg:
+        raise HTTPException(
+            status_code=400,
+            detail="El usuario "+username+" no existe"
+            )
+    if msg == "El codigo de confirmacion no es valido":
+        raise HTTPException(
+            status_code=400,
+            detail=msg
+            )
+    return {"Status": msg}
+
 
 MAIL_USERNAME_S = config('MAIL_USERNAME')
 MAIL_PASSWORD_S = config('MAIL_PASSWORD')
 MAIL_PORT_S = config('MAIL_PORT')
 MAIL_SERVER_S = config('MAIL_SERVER')
 
+
 async def send_confirmation_mail(
-    email: str,
-    code_validation: str,
-    username: str
-    ):
+        email: str,
+        code_validation: str,
+        username: str
+        ):
     conf = ConnectionConfig(
         MAIL_USERNAME=MAIL_USERNAME_S,
         MAIL_PASSWORD=MAIL_PASSWORD_S,
@@ -54,8 +73,8 @@ async def send_confirmation_mail(
         MAIL_STARTTLS=True,
         MAIL_SSL_TLS=False,
         USE_CREDENTIALS=True
-    )   
-    html = open("email.html","r")
+    )
+    html = open("email.html", "r")
     template = html.read().format(
         user=username,
         end_point_verify=code_validation)
@@ -64,7 +83,6 @@ async def send_confirmation_mail(
         recipients=[email],
         body=template,
         subtype='html',
-    ) 
+    )
     fm = FastMail(conf)
     await fm.send_message(message)
-

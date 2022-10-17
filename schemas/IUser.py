@@ -34,6 +34,10 @@ class User_base(BaseModel):
             raise ValueError(
                 'No debe contener espacios'
                 )
+        if not (re.search(r'\d', password)):
+            raise ValueError(
+                'Debe contener al menos un numero'
+                )
         if not any(c in special_chars for c in password):
             raise ValueError(
                 'Debe contener al menos un caracter especial'
@@ -42,7 +46,9 @@ class User_base(BaseModel):
 
     @validator('email')
     def email_validator(cls, email):
-        regex = r"^\w+([-|.]?\w+)*@(?:|hotmail|outlook|yahoo|live|gmail|mi.unc)\.(?:|com|es|edu.ar)+$"
+        regex = r'^\w+([-|.]?\w+)*@'
+        r'(?:|hotmail|outlook|yahoo|live|gmail|mi.unc)'
+        r'\.(?:|com|es|edu.ar)+$"'
         if not (re.search(regex, email)):
             raise ValueError(
                 'Email invalido'
