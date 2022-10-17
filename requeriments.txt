@@ -5,3 +5,5 @@ black
 cryptography
 python-decouple
 fastapi_mail
+pydantic
+pyJWT

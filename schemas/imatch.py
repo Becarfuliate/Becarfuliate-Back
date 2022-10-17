@@ -61,6 +61,7 @@ class MatchCreate(MatchBase):
     player2: str
     player3: str
     player4: str
+    token: str
 
     class Config:
         orm_mode = True

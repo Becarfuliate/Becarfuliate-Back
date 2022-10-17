@@ -1,10 +1,41 @@
 from fastapi import APIRouter, HTTPException
-from crud.user_services import add_user, update_confirmation, get_code_for_user
-from schemas.iuser import User_base
 from fastapi_mail import FastMail, MessageSchema, ConnectionConfig
 from decouple import config
+from crud.user_services import (
+    add_user,
+    update_confirmation,
+    get_code_for_user,
+    search_user_by_email,
+    search_user,
+    sign_JWT,
+    decrypt_password,
+)
+from schemas.iuser import User_base, User_login_schema
 
 user_end_points = APIRouter()
+
+
+@user_end_points.post("/login")
+async def user_login(credentials: User_login_schema):
+    if credentials.username == "":
+        data = search_user_by_email(credentials.email)
+    else:
+        data = search_user(credentials.username)
+
+    if data is None:
+        raise HTTPException(status_code=400, detail="No existe el usuario")
+    else:
+        pass_decrypt = decrypt_password(data.password)
+        mail_is_verificated = data.confirmation_mail
+        password_is_correct = credentials.password == pass_decrypt
+
+        if not mail_is_verificated:
+            raise HTTPException(status_code=400, detail="Email no verificado")
+        elif not password_is_correct:
+            raise HTTPException(status_code=400, detail="Contraseña incorrecta")
+        else:
+            response = sign_JWT(credentials.username)
+            return {"token": response}
 
 
 @user_end_points.post("/register")
@@ -22,7 +53,7 @@ async def user_register(user_to_add: User_base):
 
 
 @user_end_points.get("/verify")
-def user_verification(username: str, code: str):
+async def user_verification(username: str, code: str):
     update_confirmation(username, code)
 
 
