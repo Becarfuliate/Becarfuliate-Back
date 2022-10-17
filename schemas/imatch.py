@@ -58,9 +58,6 @@ class MatchBase(BaseModel):
 
 class MatchCreate(MatchBase):
     user_creator: str
-    player2: str
-    player3: str
-    player4: str
     token: str
 
     class Config:

@@ -23,9 +23,7 @@ def create_match(match: imatch.MatchCreate):
                     n_matchs=min(abs(match.n_matchs), 200),
                     n_rounds_matchs=min(abs(match.n_rounds_matchs), 10000),
                     users={
-                        User[match.player2],
-                        User[match.player3],
-                        User[match.player4],
+                        User[match.user_creator],
                     },
                     user_creator=User[match.user_creator],
                 )
