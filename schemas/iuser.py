@@ -18,6 +18,8 @@ class User_base(BaseModel):
             raise ValueError("El usuario no puede ser vacio")
         if " " in username:
             raise ValueError("El nombre de usuario no puede contener espacios")
+        if len(username) > 40:
+            raise ValueError("El nombre de usuario supera los 40 caracteres")
         return username
 
     @validator("password")
@@ -39,9 +41,8 @@ class User_base(BaseModel):
 
     @validator('email')
     def email_validator(cls, email):
-        regex = r'^\w+([-|.]?\w+)*@'
-        r'(?:|hotmail|outlook|yahoo|live|gmail|mi.unc)'
-        r'\.(?:|com|es|edu.ar)+$"'
+        regex = r'[a-zA-Z0-9_.-]+[^!#$%^&*()]@(?:gmail'
+        r'|hotmail|yahoo|live|mi.unc|outlook)\.(?:com|es|edu.ar)'
         if not (re.search(regex, email)):
             raise ValueError(
                 'Email invalido'
