@@ -41,9 +41,8 @@ class User_base(BaseModel):
 
     @validator('email')
     def email_validator(cls, email):
-        regex = r'[a-zA-Z0-9_.-]+[^!#$%^&*()]@(?:gmail'
-        r'|hotmail|yahoo|live|mi.unc|outlook)\.(?:com|es|edu.ar)'
-        if not (re.search(regex, email)):
+        regex = r'[a-zA-Z0-9_.-]+[^!#$%^&*()]@(?:gmail'r'|hotmail|yahoo|live|mi.unc|outlook)\.(?:com|es|edu.ar)'
+        if not re.search(regex, email):
             raise ValueError(
                 'Email invalido'
             )
