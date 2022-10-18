@@ -6,7 +6,28 @@ from routers.usersController import *
 from crud.UserSERvices import *
 import string
 import random
-from datetime import datetime,timedelta  
+from datetime import datetime
+
+@db_session
+def add_user(in_username,in_password,in_confirmation_mail,in_email):
+    with db_session:
+        User(
+            username=in_username,
+            password= in_password,
+            avatar = "",
+            confirmation_mail = in_confirmation_mail,
+            email= in_email
+        )
+
+
+@db_session
+def elim_user(username:str):
+    with db_session:
+        User[username].delete()
+
+
+add_user("juanka","asd123",1,"juanka@hotmail.com") 
+add_user("messi","antonela",0,"messi@hotmail.com")
 
 client = TestClient(main.app)
 
@@ -68,6 +89,8 @@ decoded_token = decode_JWT(token)
 
 def test_sign_and_decode_JWT(r=random_str):
     assert payload['userID'] == decoded_token['userID']
+    delete_db()
 
-
-
+def delete_db():
+    elim_user("juanka")
+    elim_user("messi")

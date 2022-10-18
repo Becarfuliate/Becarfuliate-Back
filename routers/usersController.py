@@ -25,3 +25,4 @@ async def user_login(input: user_login_schema):
         else:
             response = sign_JWT(input.username)
             return {"token": response}
+    
