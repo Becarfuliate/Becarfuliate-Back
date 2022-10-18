@@ -1,5 +1,11 @@
--i 
 fastapi
 uvicorn
 pony
 black
+cryptography
+python-decouple
+fastapi_mail
+pydantic
+pyJWT
+pytest
+requests
