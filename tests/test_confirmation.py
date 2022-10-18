@@ -36,5 +36,4 @@ def test_confirmation_code_wrong():
         username_to_ver="anonymous",
         user_code="elToken"
         )
-    assert response.json()["detail"] == "El codigo de confirmacion"
-    "no es valido"
+    assert response.json()["detail"] == "El codigo de confirmacion no es valido"

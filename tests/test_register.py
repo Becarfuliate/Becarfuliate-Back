@@ -46,8 +46,7 @@ def test_register_username_empty():
         "",
         "anonymous_ok@hotmail.com"
     )
-    assert response.json()["detail"][0]["msg"] == "El usuario"
-    "no puede ser vacio"
+    assert response.json()["detail"][0]["msg"] == "El usuario no puede ser vacio"
 
 
 def test_register_username_with_spaces():
@@ -57,8 +56,7 @@ def test_register_username_with_spaces():
         "",
         "anonymous_ok@hotmail.com"
     )
-    assert response.json()["detail"][0]["msg"] == "El nombre de"
-    "usuario no puede contener espacios"
+    assert response.json()["detail"][0]["msg"] == "El nombre de usuario no puede contener espacios"
 
 
 def test_register_username_full_spaces():
@@ -68,8 +66,7 @@ def test_register_username_full_spaces():
         "",
         "anonymous_ok@hotmail.com"
     )
-    assert response.json()["detail"][0]["msg"] == "El nombre de usuario"
-    "no puede contener espacios"
+    assert response.json()["detail"][0]["msg"] == "El nombre de usuario no puede contener espacios"
 
 
 def test_register_username_long():
@@ -79,8 +76,7 @@ def test_register_username_long():
         "",
         "anonymous_ok@hotmail.com"
     )
-    assert response.json()["detail"][0]["msg"] == "El nombre de usuario"
-    "supera los 40 caracteres"
+    assert response.json()["detail"][0]["msg"] == "El nombre de usuario supera los 40 caracteres"
 
 
 # Test para la password
@@ -91,8 +87,7 @@ def test_register_password_short():
         "",
         "anonymous_real_ok@hotmail.com"
     )
-    assert response.json()["detail"][0]["msg"] == "La longitud mínima"
-    "es de 8 caracteres."
+    assert response.json()["detail"][0]["msg"] == "La longitud mínima es de 8 caracteres."
 
 
 def test_register_password_no_upper():
@@ -102,8 +97,7 @@ def test_register_password_no_upper():
         "",
         "anonymous_real_ok@hotmail.com"
     )
-    assert response.json()["detail"][0]["msg"] == "Debe contener"
-    "al menos una mayuscula y una minuscula"
+    assert response.json()["detail"][0]["msg"] == "Debe contener al menos una mayuscula y una minuscula"
 
 
 def test_register_password_no_lower():
@@ -113,8 +107,7 @@ def test_register_password_no_lower():
         "",
         "anonymous_real_ok@hotmail.com"
     )
-    assert response.json()["detail"][0]["msg"] == "Debe contener"
-    "al menos una mayuscula y una minuscula"
+    assert response.json()["detail"][0]["msg"] == "Debe contener al menos una mayuscula y una minuscula"
 
 
 def test_register_password_no_num():
@@ -124,8 +117,7 @@ def test_register_password_no_num():
         "",
         "anonymous_real_ok@hotmail.com"
     )
-    assert response.json()["detail"][0]["msg"] == "Debe contener"
-    "al menos un numero"
+    assert response.json()["detail"][0]["msg"] == "Debe contener al menos un numero"
 
 
 def test_register_password_no_special():
@@ -135,8 +127,7 @@ def test_register_password_no_special():
         "",
         "anonymous_real_ok@hotmail.com"
     )
-    assert response.json()["detail"][0]["msg"] == "Debe contener"
-    "al menos un caracter especial"
+    assert response.json()["detail"][0]["msg"] == "Debe contener al menos un caracter especial"
 
 
 def test_register_password_long():
@@ -146,8 +137,7 @@ def test_register_password_long():
         "",
         "anonymous_real_ok@hotmail.com"
     )
-    assert response.json()["detail"][0]["msg"] == "La longitud máxima"
-    "es de 50 caracteres."
+    assert response.json()["detail"][0]["msg"] == "La longitud máxima es de 50 caracteres."
 
 
 def test_register_password_success():
