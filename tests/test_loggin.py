@@ -34,7 +34,11 @@ def set_confirmation_true(username):
     with db_session:
         user_data = User[username]
         user_data.confirmation_mail=True
+        return {"exito"}
 
+def test_set_confirmation_true():
+    response = set_confirmation_true("juanka")
+    assert response == {"exito"}
 
 @db_session
 def elim_user(username:str):
@@ -44,42 +48,42 @@ def elim_user(username:str):
 def test_username_login_invalid_user():
     response = client.post("/login",
         json={"username":"asdsad","email":"aasdasd","password":"asdasdasd"})
-    assert response.json() == {"detail":"No existe el usuario"}
+    assert response.json() == {"detail":"no existe el usuario"}
 
 def test_email_login_invalid_user():
     response = client.post("/login",
         json={"username":"","email":"aasdasd","password":"asdasdasd"})
-    assert response.json() == {"detail":"No existe el usuario"}
+    assert response.json() == {"detail":"no existe el usuario"}
 
 def test_user_login_invalid_password():
     response = client.post("/login",
         json={"username":"juanka","email":"","password":"asdasdasd"})
-    assert response.json() == {"detail":"Contrasenia incorrecta"}
+    assert response.json() == {"detail":"contrasenia incorrecta"}
 
 def test_email_login_invalid_password():
     response = client.post("/login",
         json={"username":"","email":"juanka@hotmail.com","password":"asdasdasd"})
-    assert response.json() == {"detail":"Contrasenia incorrecta"}
+    assert response.json() == {"detail":"contrasenia incorrecta"}
 
 def test_user_login_email_not_verificated():
     response = client.post("/login",
         json={"username":"messi","email":"","password":"Antonela@123"})
-    assert response.json() == {"detail":"Email no verificado"}
+    assert response.json() == {"detail":"email no verificado"}
 
 def test_email_login_email_not_verificated():
     response = client.post("/login",
         json={"username":"","email":"messi@hotmail.com","password":"Antonela@123"})
-    assert response.json() == {"detail":"Email no verificado"}
+    assert response.json() == {"detail":"email no verificado"}
 
 def test_user_login_success():
     response = client.post("/login",
         json={"username":"juanka","email":"","password":"Asd123@"})
-    assert response.json() != {"detail":"Email no verificado"} and response.json() != {"detail":"Contrasenia incorrecta"} and response.json() !={"detail":"No existe el usuario"}
+    assert response.json() != {"detail":"email no verificado"} and response.json() != {"detail":"contrasenia incorrecta"} and response.json() !={"detail":"no existe el usuario"}
 
 def test_email_login_success():
     response = client.post("/login",
         json={"username":"","email":"juanka@hotmail.com","password":"Asd123@"})
-    assert response.json() != {"detail":"Email no verificado"} and response.json() != {"detail":"Contrasenia incorrecta"} and response.json() !={"detail":"No existe el usuario"}
+    assert response.json() != {"detail":"email no verificado"} and response.json() != {"detail":"contrasenia incorrecta"} and response.json() !={"detail":"no existe el usuario"}
 
 
 length_of_string = 8

@@ -20,7 +20,7 @@ def test_match_add_success():
             "password": "Asd23asdasdasdasd@",
         },
     )
-    toq_var = response.json()["token"]
+    toq_var = response.json()['token']
     num_partida = randint(0, 200)
     nombre_partida = "NombrePartida" + str(num_partida)
     response = client.post(
@@ -52,7 +52,7 @@ def test_match_add_bad_max_players():
             "password": "Asd23asdasdasdasd@",
         },
     )
-    toq_var = response.json()["token"]
+    toq_var = response.json()['token']
     response = client.post(
         "/match/add",
         json={
@@ -90,7 +90,7 @@ def test_match_add_bad_min_players():
             "password": "Asd23asdasdasdasd@",
         },
     )
-    toq_var = response.json()["token"]
+    toq_var = response.json()['token']
     response = client.post(
         "/match/add",
         json={
@@ -128,7 +128,7 @@ def test_match_add_bad_number_matchs():
             "password": "Asd23asdasdasdasd@",
         },
     )
-    toq_var = response.json()["token"]
+    toq_var = response.json()['token']
     response = client.post(
         "/match/add",
         json={
@@ -166,7 +166,7 @@ def test_match_add_bad_number_rounds():
             "password": "Asd23asdasdasdasd@",
         },
     )
-    toq_var = response.json()["token"]
+    toq_var = response.json()['token']
     response = client.post(
         "/match/add",
         json={
@@ -204,7 +204,7 @@ def test_match_add_bad_name():
             "password": "Asd23asdasdasdasd@",
         },
     )
-    toq_var = response.json()["token"]
+    toq_var = response.json()['token']
     response = client.post(
         "/match/add",
         json={
@@ -242,7 +242,7 @@ def test_match_add_bad_name_long():
             "password": "Asd23asdasdasdasd@",
         },
     )
-    toq_var = response.json()["token"]
+    toq_var = response.json()['token']
     response = client.post(
         "/match/add",
         json={
@@ -280,7 +280,7 @@ def test_match_add_bad_name_long_v1():
             "password": "Asd23asdasdasdasd@",
         },
     )
-    toq_var = response.json()["token"]
+    toq_var = response.json()['token']
     response = client.post(
         "/match/add",
         json={
@@ -318,7 +318,7 @@ def test_match_add_bad_name_long_v2():
             "password": "Asd23asdasdasdasd@",
         },
     )
-    toq_var = response.json()["token"]
+    toq_var = response.json()['token']
     response = client.post(
         "/match/add",
         json={
@@ -356,7 +356,7 @@ def test_match_add_bad_type_insert_v0():
             "password": "Asd23asdasdasdasd@",
         },
     )
-    toq_var = response.json()["token"]
+    toq_var = response.json()['token']
     response = client.post(
         "/match/add",
         json={

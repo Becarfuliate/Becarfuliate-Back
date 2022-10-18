@@ -23,18 +23,18 @@ async def user_login(credentials: User_login_schema):
         data = search_user(credentials.username)
 
     if data is None:
-        raise HTTPException(status_code=400, detail="No existe el usuario")
+        raise HTTPException(status_code=400, detail="no existe el usuario")
     else:
         pass_decrypt = decrypt_password(data.password)
         mail_is_verificated = data.confirmation_mail
         password_is_correct = credentials.password == pass_decrypt
 
-        if not mail_is_verificated:
-            raise HTTPException(status_code=400, detail="Email no verificado")
-        elif not password_is_correct:
+        if not password_is_correct:
+            raise HTTPException(status_code=400, detail="contrasenia incorrecta")
+        elif not mail_is_verificated:
             raise HTTPException(
                 status_code=400,
-                detail="Contraseña incorrecta"
+                detail="email no verificado"
                 )
         else:
             response = sign_JWT(credentials.username)
