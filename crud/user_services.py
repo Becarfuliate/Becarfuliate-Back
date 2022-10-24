@@ -36,7 +36,6 @@ def add_user(new_user: User_create):
             User(
                 username=new_user.username,
                 password=password_encrypted,
-                avatar=new_user.avatar,
                 confirmation_mail=False,
                 email=new_user.email,
                 validation_code=code_for_validation

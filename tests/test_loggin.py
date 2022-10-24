@@ -12,13 +12,12 @@ client = TestClient(main.app)
 
 
 # Cargando la base de datos
-def client_post_register_l(username, password, avatar, email):
+def client_post_register_l(username, password, email):
     return client.post(
         "/register",
         json={
             "username": username,
             "password": password,
-            "avatar": avatar,
             "email": email
             }
     )
@@ -28,7 +27,6 @@ def test_register_username1_success():
     response = client_post_register_l(
         "juanka",
         "Asd123@",
-        "",
         "juanka@hotmail.com"
     )
     assert response.json() == {"Status": "Usuario agregado con exito"}
@@ -38,7 +36,6 @@ def test_register_username2_success():
     response = client_post_register_l(
         "messi",
         "Antonela@123",
-        "",
         "messi@hotmail.com")
     assert response.json() == {"Status": "Usuario agregado con exito"}
 

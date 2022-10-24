@@ -155,7 +155,6 @@ Type: Request Body
 {
   "username": "string",
   "password": "string",
-  "avatar": "string", <-- Opcional.
   "email": "string"
 }
 ```
