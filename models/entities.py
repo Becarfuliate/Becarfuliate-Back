@@ -21,7 +21,7 @@ class User(db.Entity):
 class Robot(db.Entity):
     __table__ = "robots"
     id = PrimaryKey(int, auto=True)
-    name = Optional(str)
+    name = Optional(str) #referencia al nombre del archivo
     avatar = Optional(str)
     matchs_pleyed = Required(int)
     matchs_won = Required(int)
