@@ -73,6 +73,9 @@ OR
 * [Read Matchs](#read-matchs)
     * [Request](#matchs-request)
     * [Response](#matchs-response)
+* [Read Robots](#read-robots)
+    * [Request](#robots-request)
+    * [Response](#robots-response)
 
 ## Login
 
@@ -549,3 +552,47 @@ Status Code: 500 Internal Server Error
 Internal Server Error
 ```
 
+## Read Robots
+
+Method: GET
+Endpoint: '/robots'
+
+### Robots Request
+
+Type: Parameters
+
+```json
+{
+  "token": "string"
+}
+```
+
+### Robots Response
+
+#### Case: Robot List Success
+
+Descripción: "Se agrega token válido, se listan los robots"
+Status Code: 200 Successful Response
+
+Response Body:
+```json
+[
+  {
+    "name": "Krlos",
+    "avatar": "asdf",
+    "matchs_pleyed": 2,
+    "matchs_won": 2,
+    "avg_life_time": 80,
+    "id": 5
+  }
+]
+```
+
+#### Case: Ivalid Token
+
+Descripicón: "Token no válido"
+Status Code: 500 Internal Server Error
+
+```json
+Internal Server Error
+```
