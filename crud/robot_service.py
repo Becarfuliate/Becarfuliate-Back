@@ -15,10 +15,8 @@ def validate_file(
     content = file.file.read().decode()
     is_valid = True
     if (filename+".py" != file.filename):
-        print("fallo 1")
         is_valid = False
     if not (filename in content):
-        print("fallo 2")
         is_valid = False
     return is_valid
 

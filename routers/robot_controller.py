@@ -1,11 +1,24 @@
 from fastapi import APIRouter, HTTPException, File, UploadFile
 from crud.robot_service import add_robot
-# pip install python-multipart
+from pathlib import Path
+import shutil
 robot_end_points = APIRouter()
 
 
+def store_config(file: UploadFile):
+    file.file.seek(0)
+    with open('./robots/'+file.filename, 'wb+') as upload_folder:
+        shutil.copyfileobj(file.file, upload_folder)
+
+
+def store_avatar(file: UploadFile):
+    file.file.seek(0)
+    with open('./robots/avatars/'+file.filename, 'wb+') as upload_folder:
+        shutil.copyfileobj(file.file, upload_folder)
+
+
 @robot_end_points.post("/upload/robot")
-def robot_upload(
+async def robot_upload(
     config: UploadFile,
     avatar: UploadFile,
     name: str,
@@ -37,6 +50,8 @@ def robot_upload(
             status_code=440,
             detail="Sesión expirada"
             )
+    store_config(config)
+    store_avatar(avatar)
     return {
         "msg": msg
     }
