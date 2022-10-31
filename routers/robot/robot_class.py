@@ -1,5 +1,5 @@
 class robot:
-    def __init__(self,position,direction):
+    def __init__(self):
         self.required_direction= 0
         self.required_velocity = 0
     
