@@ -6,6 +6,7 @@ import re
 from models.entities import User, Robot
 from crud import simulation_service as sc
 
+
 class SimulationBase(BaseModel):
     id_robot: str
     n_rounds_simulations: int
@@ -15,21 +16,17 @@ class SimulationBase(BaseModel):
         id_robot_parsed = id_robot.split(",")
         regex = r"\s+"
         cant_robots = len(id_robot_parsed)
-        if cant_robots>4:
-            raise ValueError("La cantidad máxima de robots no puede exceder los 4")
-        if cant_robots<2:
-            raise ValueError("La cantidad mínima de robots no puede ser menor a 2")
+        if cant_robots >= 4 or cant_robots <= 2:
+            raise ValueError("El valor debe estar entre 2 y 4")
         if not isinstance(id_robot, str):
             raise ValueError("El valor 'id de robots' debe ser un string")
-        if id_robot == "":
-            raise ValueError("La lista de robots no puede ser vacía")
         if re.search(regex, id_robot):
             raise ValueError("La lista de robots no puede contener caracteres vacíos")
         for i in id_robot_parsed:
             if not sc.check_robot(i):
                 raise ValueError("El robot " + i + " no existe")
         return id_robot
-    
+
     @validator("n_rounds_simulations")
     def n_rounds_simulations_validator(cls, n_rounds_simulations):
         if not isinstance(n_rounds_simulations, int):
@@ -45,7 +42,7 @@ class SimulationCreate(SimulationBase):
 
     @validator("user_creator")
     def user_creator_validator(cls, user_creator):
-        if not isinstance(user_creator,str):
+        if not isinstance(user_creator, str):
             raise ValueError("El valor 'usuario creador' debe ser un string")
         if not sc.check_user(user_creator):
             raise ValueError("El usuario no existe")
