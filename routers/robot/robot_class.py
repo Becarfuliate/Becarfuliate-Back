@@ -73,14 +73,6 @@ class Robot:
                 distance=self.cannon_distance,
                 origin=self.current_position
             )
-            if misil_target[0] > 1000:
-                misil_target = (1000,misil_target[1])
-            elif misil_target[0] < 0:
-                misil_target = (0,misil_target[1])
-            if misil_target[1] > 1000:
-                misil_target = (misil_target[0], 1000)
-            elif misil_target[1] < 0:
-                misil_target = (misil_target[0], 0)
         else:
             self.cannon_ammo += 1
         return misil_target
@@ -100,11 +92,11 @@ def print_status(obj1: Robot):
 
 
 obj1 = Robot(
-    position=(5, 5),
+    position=(5, 10),
     damage=100,
     direction=45,
     velocity=100)
 print_status(obj1)
-obj1.cannon(degree=225, distance=1000)
+obj1.cannon(degree=45, distance=1000)
 print("El misil va rumbo hacia:", obj1._shoot())
 print_status(obj1)
