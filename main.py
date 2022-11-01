@@ -3,7 +3,6 @@ from db.database import gen_map
 from models.entities import User, Robot, Match
 from routers.users_controller import user_end_points
 from routers.match_controller import match_end_points
-from routers.robot_controller import robot_end_points
 from fastapi.middleware.cors import CORSMiddleware
 
 app = FastAPI()
@@ -23,4 +22,3 @@ app.add_middleware(
 gen_map()
 app.include_router(user_end_points)
 app.include_router(match_end_points)
-app.include_router(robot_end_points)

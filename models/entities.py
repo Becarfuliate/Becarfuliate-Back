@@ -21,7 +21,7 @@ class User(db.Entity):
 class Robot(db.Entity):
     __table__ = "robots"
     id = PrimaryKey(int, auto=True)
-    name = Optional(str, unique=True)
+    name = Optional(str)
     avatar = Optional(str)
     matchs_pleyed = Required(int)
     matchs_won = Required(int)
