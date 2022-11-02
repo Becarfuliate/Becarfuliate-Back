@@ -58,7 +58,7 @@ class Robot:
     def get_direction(self):
         return self.current_direction
 
-    def _polar_to_rect(self,ang,distance,origin):
+    def _polar_to_rect(self, ang, distance, origin):
 
         def correct_y(origin_x,origin_y,dest_x,dest_y,x_border):
             res = ((dest_y - origin_y) / (dest_x - origin_x)) * (x_border - origin_x) + origin_y
@@ -73,33 +73,62 @@ class Robot:
         radian = float(ang * pi /180) 
         x = round(origin[0] + distance * cos(radian))
         y = round(origin[1] + distance * sin(radian))
-
+        print((x,y))
         if (x<0 or x>1000 or y<0 or y>1000):
             if(ang == 90):
                 return (x,1000)
             if(ang ==270):
                 return (x,0)
-            if (ang==0):
+            if (ang==0 or ang==360):
                 return (1000,y)
             if (ang==180):
                 return (0,y)
             #cuadrante izq
-            if(x<=y and x<= -y + 1000):
+            if(x<0):
                 corrected_y = correct_y(origin[0],origin[1],x,y,0)
-                return (0,corrected_y)
+                corrected_x = correct_x(origin[0],origin[1],x,y,0)
+                if(y<0 and corrected_x>0 and corrected_x<1000):
+                    # Entonces estoy en el inferior
+                    return (corrected_x,0)
+                elif(y>1000 and corrected_x>0 and corrected_x<1000):
+                    # Entonces estoy en el superior
+                    return (corrected_x,1000)
+                return (0,abs(corrected_y))
             #cuadrante superior
-            elif(x<=y and not x<= -y + 1000):
+            elif(y>1000):
                 corrected_x = correct_x(origin[0],origin[1],x,y,1000)
-                return (corrected_x,1000)
-            #cuadrante derecho
-            elif(not x<=y and not x<= y- 1000):
                 corrected_y = correct_y(origin[0],origin[1],x,y,1000)
-                return (1000,corrected_y)
+                if (x > 1000 and corrected_y>0 and corrected_y<1000):
+                    # Estoy en el derecho
+                    return (1000,corrected_y)
+                elif (x < 0 and corrected_y>0 and corrected_y<1000):
+                    # Estoy en el izquierdo
+                    return (0,corrected_y)
+                return (abs(corrected_x),1000)
+            #cuadrante derecho
+            elif(x>1000):
+                corrected_y = correct_y(origin[0],origin[1],x,y,1000)
+                corrected_x = correct_x(origin[0],origin[1],x,y,0)
+                if (y<0 and corrected_x>0 and corrected_x<1000):
+                    # Estoy en el inferior
+                    return (corrected_x,0)
+                elif (y>1000 and corrected_x>0 and corrected_x<1000):
+                    # Estoy en el superior
+                    return (corrected_x,1000)
+                return (1000,abs(corrected_y))
             #cuadrante inferior
             else:
                 #not x<=y and x<=-y+1000
                 corrected_x = correct_x(origin[0],origin[1],x,y,0)
-                return (corrected_x,0)
+                corrected_y = correct_y(origin[0],origin[1],x,y,1000)
+                if (x>1000 and corrected_y>0 and corrected_y<1000):
+                    # Estoy en el derecho
+                    return (1000,corrected_y)
+                elif (x<0 and corrected_y>0 and corrected_y<1000):
+                    # Estoy en el izquierdo
+                    corrected_y = correct_y(origin[0],origin[1],x,y,0)
+                    return (0,corrected_y)
+                return (abs(corrected_x),0)
         else:
             return (x,y)
 
