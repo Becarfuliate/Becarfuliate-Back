@@ -15,51 +15,77 @@ class robot :
         self.required_direction = 0
     
     
-    def polar_to_rect(self,ang,distance,origin):
-        
+    def polar_to_rect(self, ang, distance, origin):
+ 
         def correct_y(origin_x,origin_y,dest_x,dest_y,x_border):
             res = ((dest_y - origin_y) / (dest_x - origin_x)) * (x_border - origin_x) + origin_y
-            return res
+            return int(res)
         def correct_x(origin_x,origin_y,dest_x,dest_y,y_border):
             res = (y_border - origin_y) * ((dest_x - origin_x) / (dest_y - origin_y)) + origin_x
-            return res
-        
+            return int(res)
+ 
         if(distance==0):
             return (origin[0],origin[1])
-    
+ 
         radian = float(ang * pi /180) 
-        
         x = round(origin[0] + distance * cos(radian))
         y = round(origin[1] + distance * sin(radian))
-        
-        #si x o y cae fuera del tablero
+
         if (x<0 or x>999 or y<0 or y>999):
-            #angulos rectos
             if(ang == 90):
                 return (x,999)
             if(ang ==270):
                 return (x,0)
-            if (ang==0):
+            if (ang==0 or ang==360):
                 return (999,y)
             if (ang==180):
                 return (0,y)
-            #cuadrante izq            
-            if(x<=y and x<= -y + 999):
+            #cuadrante izq
+            if(x<0):
                 corrected_y = correct_y(origin[0],origin[1],x,y,0)
-                return (0,corrected_y)
+                corrected_x = correct_x(origin[0],origin[1],x,y,0)
+                if(y<0 and corrected_x>0 and corrected_x<1000):
+                    # Entonces estoy en el inferior
+                    return (corrected_x,0)
+                elif(y>1000 and corrected_x>0 and corrected_x<1000):
+                    # Entonces estoy en el superior
+                    return (corrected_x,999)
+                return (0,abs(corrected_y))
             #cuadrante superior
-            elif(x<=y and not x<= -y + 999):
-                corrected_x = correct_x(origin[0],origin[1],x,y,999)
-                return (corrected_x,999)
+            elif(y>999):
+                corrected_x = correct_x(origin[0],origin[1],x,y,1000)
+                corrected_y = correct_y(origin[0],origin[1],x,y,1000)
+                if (x > 999 and corrected_y>0 and corrected_y<1000):
+                    # Estoy en el derecho
+                    return (999,corrected_y)
+                elif (x < 0 and corrected_y>0 and corrected_y<1000):
+                    # Estoy en el izquierdo
+                    return (0,corrected_y)
+                return (abs(corrected_x),999)
             #cuadrante derecho
-            elif(not x<=y and not x<= y- 999):
-                corrected_y = correct_y(origin[0],origin[1],x,y,999)
-                return (999,corrected_y)
+            elif(x>999):
+                corrected_y = correct_y(origin[0],origin[1],x,y,1000)
+                corrected_x = correct_x(origin[0],origin[1],x,y,0)
+                if (y<0 and corrected_x>0 and corrected_x<1000):
+                    # Estoy en el inferior
+                    return (corrected_x,0)
+                elif (y>999 and corrected_x>0 and corrected_x<1000):
+                    # Estoy en el superior
+                    return (corrected_x,999)
+                return (999,abs(corrected_y))
             #cuadrante inferior
             else:
-                #not x<=y and x<=-y+999
+                #not x<=y and x<=-y+1000
                 corrected_x = correct_x(origin[0],origin[1],x,y,0)
-                return (corrected_x,0)
+                corrected_y = correct_y(origin[0],origin[1],x,y,1000)
+                if (x>999 and corrected_y>0 and corrected_y<1000):
+                    # Estoy en el derecho
+                    return (999,corrected_y)
+                elif (x<0 and corrected_y>0 and corrected_y<1000):
+                    # Estoy en el izquierdo
+                    corrected_y = correct_y(origin[0],origin[1],x,y,0)
+                    return (0,corrected_y)
+                return (abs(corrected_x),0)
         else:
             return (x,y)
         

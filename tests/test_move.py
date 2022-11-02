@@ -17,13 +17,13 @@ def test_polartorect2():
 def test_polartorect3():
     robot1 = robot((0, 0), 0)
     res = robot1.polar_to_rect(179, 200, (100, 500))
-    assert res == (0, 501.5)
+    assert res == (0, 501)
 
 
 def test_polartorect4():
     robot1 = robot((0, 0), 0)
     res = robot1.polar_to_rect(30, 999, (100, 500))
-    assert res == (963.27, 999)
+    assert res == (965, 999)
 
 
 def test_blockdrirection1():
