@@ -1,40 +1,58 @@
-class RobotMadre:
+from robot.robot_class import Robot
 
-        def init(self,position: tuple = None,damage: int = None,direction: int = None,velocity: int = None):
-            self.current_position = position
-            self.current_damage = 0
-            self.current_direction = direction
-            self.current_velocity = velocity
-            self.required_position = (0,0)
-            self.required_direction = 0
-            self.required_velocity = 0
-            self.direction_scaner = 0
-            self.resolution_in_degrees = 10
-            self.scanned_list = []
-            self.scanner_range = 100
-            self.cannon_degree = 0
-            self.cannon_distance = 0
-            self.cannon_ammo = 1
-            self.cannon_shoot = False             
-            self.misil_position = (0,0)
+def distance(t1: tuple, t2: tuple):
+    return round(((t1[0] - t2[0])**2 + (t1[1] - t2[1])**2)**0.5)
 
 
-        def _scan(self):
-            self.scanned_list = []
-        def _shoot(self):
-            self.cannon_ammo = 
-            self.misil_position = (0,0)
-        def _drive(self):
-            self.current_position = self.required_position
-            self.current_velocity = self.required_velocity
-            self.current_direction = self.required_direction
+def danio_misil(robot_position: tuple, misil_position: tuple):
+    if (distance(robot_position, misil_position) <= 5):
+        danio = 10
+    elif (distance(robot_position, misil_position) <= 20):
+        danio = 5
+    elif (distance(robot_position, misil_position) <= 40):
+        danio = 3
+    else:
+        danio = 0
+    return danio
 
-class Robot(RobotMadre):
-        def respond():
-            a=a
 
-def inflingir_danio(r1, r2, r3, r4):
-    a=a
+def danio_colision(pos_r1: tuple, pos_r2: tuple):
+    danio = (0, 0)
+    if distance(pos_r1, pos_r2) <= 20:
+        danio = (2,2)
+    return danio
+
+def danio_pared(pos_r: tuple):
+    danio = 0
+    if (pos_r[0] == 0) or (pos_r[0] == 1000):
+        danio = 2
+    if (pos_r[1] == 0) or (pos_r[1] == 1000):
+        danio = 2
+    return danio
+
+def inflingir_danio(
+    r1: Robot = None,
+    r2: Robot = None,
+    r3: Robot = None,
+    r4: Robot = None
+):
+    list_robot = [r1, r2, r3, r4]
+    list_robot_aux = [r1, r2, r3, r4]
+    for robot in list_robot:
+        list_robot = list_robot[1:]
+        danio_p = danio_pared(robot.current_position)
+        robot.current_damage -= danio_p
+        for robot_check in list_robot:
+            danio_c = danio_colision(robot.current_position, robot_check.current_position)
+            robot.current_damage -= danio_c[0]
+            robot_check.current_damage -= danio_c[1]
+        for robot_x in list_robot_aux:
+            # Revisar daño por misil
+            if robot.current_velocity < 80:
+                danio2 = danio_misil(robot.current_position, robot_x.misil_position)
+                robot.current_damage -= danio2
+                if danio2 > 0:
+                    print("Pego un misil")
 
 
 def check_robots_alive(l_robots: list(Robot)):
