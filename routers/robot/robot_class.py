@@ -16,11 +16,50 @@ class robot :
     
     
     def polar_to_rect(self,ang,distance,origin):
-        radian = float(ang * pi /180) 
-        x = int(origin[0] + distance * cos(radian))
-        y = int(origin[1] + distance * sin(radian))
-        return (x,y)
+        
+        def correct_y(origin_x,origin_y,dest_x,dest_y,x_border):
+            res = ((dest_y - origin_y) / (dest_x - origin_x)) * (x_border - origin_x) + origin_y
+            return res
+        def correct_x(origin_x,origin_y,dest_x,dest_y,y_border):
+            res = (y_border - origin_y) * ((dest_x - origin_x) / (dest_y - origin_y)) + origin_x
+            return res
+        
+        if(distance==0):
+            return (origin[0],origin[1])
     
+        radian = float(ang * pi /180) 
+        x = round(origin[0] + distance * cos(radian))
+        y = round(origin[1] + distance * sin(radian))
+        
+        if (x<0 or x>1000 or y<0 or y>1000):
+            if(ang == 90):
+                return (x,1000)
+            if(ang ==270):
+                return (x,0)
+            if (ang==0):
+                return (1000,y)
+            if (ang==180):
+                return (0,y)
+            #cuadrante izq            
+            if(x<=y and x<= -y + 1000):
+                corrected_y = correct_y(origin[0],origin[1],x,y,0)
+                return (0,corrected_y)
+            #cuadrante superior
+            elif(x<=y and not x<= -y + 1000):
+                corrected_x = correct_x(origin[0],origin[1],x,y,1000)
+                return (corrected_x,1000)
+            #cuadrante derecho
+            elif(not x<=y and not x<= y- 1000):
+                corrected_y = correct_y(origin[0],origin[1],x,y,1000)
+                return (1000,corrected_y)
+            #cuadrante inferior
+            else:
+                #not x<=y and x<=-y+1000
+                corrected_x = correct_x(origin[0],origin[1],x,y,0)
+                return (corrected_x,0)
+        else:
+            return (x,y)
+        
     def block_direction(self,current_direction,current_velocity,required_direction):
         if(current_velocity<=50):
             return required_direction % 360
@@ -41,6 +80,7 @@ class robot :
         else:
             new_velocity = required_velocity
         
+        #calc velocity
         if(new_velocity < current_velocity):
             decrease = ((MAX_VELOCITY-new_velocity) * ACELERATION_FACTOR/MAX_VELOCITY)
             if (decrease < 0):
