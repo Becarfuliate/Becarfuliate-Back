@@ -74,8 +74,7 @@ def test_calc_velocity5():
     assert res == 30
 
 def test_move1():
-    robot1 = Robot((0, 0), 0)
-    robot1.required_direction = 90
-    robot1.required_velocity = 100
+    robot1 = Robot((0, 0), 100, 0, 0)
+    robot1.drive(90,100)
     robot1._move()
     assert robot1.current_position == (0, 50)
