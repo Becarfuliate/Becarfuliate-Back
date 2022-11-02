@@ -21,6 +21,7 @@ class Robot:
         self.required_position = position
         self.cannon_degree = 0
         self.cannon_distance = 0
+        self.cannon_shoot = False
         self.misil_position = position
 
     # Cañón
@@ -42,6 +43,7 @@ class Robot:
             degree = 360
         if degree < 0:
             degree = 0
+        self.cannon_shoot = True
         self.cannon_degree = degree
         self.cannon_distance = distance
 
@@ -59,28 +61,28 @@ class Robot:
         return self.current_direction
 
     def _polar_to_rect(self, ang, distance, origin):
-
+ 
         def correct_y(origin_x,origin_y,dest_x,dest_y,x_border):
             res = ((dest_y - origin_y) / (dest_x - origin_x)) * (x_border - origin_x) + origin_y
             return int(res)
         def correct_x(origin_x,origin_y,dest_x,dest_y,y_border):
             res = (y_border - origin_y) * ((dest_x - origin_x) / (dest_y - origin_y)) + origin_x
             return int(res)
-
+ 
         if(distance==0):
             return (origin[0],origin[1])
-
+ 
         radian = float(ang * pi /180) 
         x = round(origin[0] + distance * cos(radian))
         y = round(origin[1] + distance * sin(radian))
-        print((x,y))
-        if (x<0 or x>1000 or y<0 or y>1000):
+ 
+        if (x<0 or x>999 or y<0 or y>999):
             if(ang == 90):
-                return (x,1000)
+                return (x,999)
             if(ang ==270):
                 return (x,0)
             if (ang==0 or ang==360):
-                return (1000,y)
+                return (999,y)
             if (ang==180):
                 return (0,y)
             #cuadrante izq
@@ -92,38 +94,38 @@ class Robot:
                     return (corrected_x,0)
                 elif(y>1000 and corrected_x>0 and corrected_x<1000):
                     # Entonces estoy en el superior
-                    return (corrected_x,1000)
+                    return (corrected_x,999)
                 return (0,abs(corrected_y))
             #cuadrante superior
-            elif(y>1000):
+            elif(y>999):
                 corrected_x = correct_x(origin[0],origin[1],x,y,1000)
                 corrected_y = correct_y(origin[0],origin[1],x,y,1000)
-                if (x > 1000 and corrected_y>0 and corrected_y<1000):
+                if (x > 999 and corrected_y>0 and corrected_y<1000):
                     # Estoy en el derecho
-                    return (1000,corrected_y)
+                    return (999,corrected_y)
                 elif (x < 0 and corrected_y>0 and corrected_y<1000):
                     # Estoy en el izquierdo
                     return (0,corrected_y)
-                return (abs(corrected_x),1000)
+                return (abs(corrected_x),999)
             #cuadrante derecho
-            elif(x>1000):
+            elif(x>999):
                 corrected_y = correct_y(origin[0],origin[1],x,y,1000)
                 corrected_x = correct_x(origin[0],origin[1],x,y,0)
                 if (y<0 and corrected_x>0 and corrected_x<1000):
                     # Estoy en el inferior
                     return (corrected_x,0)
-                elif (y>1000 and corrected_x>0 and corrected_x<1000):
+                elif (y>999 and corrected_x>0 and corrected_x<1000):
                     # Estoy en el superior
-                    return (corrected_x,1000)
-                return (1000,abs(corrected_y))
+                    return (corrected_x,999)
+                return (999,abs(corrected_y))
             #cuadrante inferior
             else:
                 #not x<=y and x<=-y+1000
                 corrected_x = correct_x(origin[0],origin[1],x,y,0)
                 corrected_y = correct_y(origin[0],origin[1],x,y,1000)
-                if (x>1000 and corrected_y>0 and corrected_y<1000):
+                if (x>999 and corrected_y>0 and corrected_y<1000):
                     # Estoy en el derecho
-                    return (1000,corrected_y)
+                    return (999,corrected_y)
                 elif (x<0 and corrected_y>0 and corrected_y<1000):
                     # Estoy en el izquierdo
                     corrected_y = correct_y(origin[0],origin[1],x,y,0)
@@ -134,7 +136,7 @@ class Robot:
 
     def _shoot(self):
         misil_target = None
-        if self.is_cannon_ready():
+        if self.is_cannon_ready() and self.cannon_shoot:
             self.cannon_ammo = 0
             misil_target = self._polar_to_rect(
                 ang=self.cannon_degree,
