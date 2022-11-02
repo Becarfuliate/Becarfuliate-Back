@@ -6,10 +6,10 @@ class Robot:
 
     def __init__(
         self,
-        position: tuple,
-        damage: int,
-        direction: int,
-        velocity: int
+        position: tuple = None,
+        damage: int = None,
+        direction: int = None,
+        velocity: int = None
     ):
         self.current_position = position
         self.current_damage = damage
@@ -21,6 +21,7 @@ class Robot:
         self.required_position = position
         self.cannon_degree = 0
         self.cannon_distance = 0
+        self.misil_position = position
 
     # Cañón
     def is_cannon_ready(self):
@@ -57,12 +58,50 @@ class Robot:
     def get_direction(self):
         return self.current_direction
 
-    def _polar_to_rect(self, ang: int, distance: int, origin: Tuple):
-        radian = (ang * pi)/180
+    def _polar_to_rect(self,ang,distance,origin):
+
+        def correct_y(origin_x,origin_y,dest_x,dest_y,x_border):
+            res = ((dest_y - origin_y) / (dest_x - origin_x)) * (x_border - origin_x) + origin_y
+            return int(res)
+        def correct_x(origin_x,origin_y,dest_x,dest_y,y_border):
+            res = (y_border - origin_y) * ((dest_x - origin_x) / (dest_y - origin_y)) + origin_x
+            return int(res)
+
+        if(distance==0):
+            return (origin[0],origin[1])
+
+        radian = float(ang * pi /180) 
         x = round(origin[0] + distance * cos(radian))
         y = round(origin[1] + distance * sin(radian))
-        print((x, y))
-        return (x, y)
+
+        if (x<0 or x>1000 or y<0 or y>1000):
+            if(ang == 90):
+                return (x,1000)
+            if(ang ==270):
+                return (x,0)
+            if (ang==0):
+                return (1000,y)
+            if (ang==180):
+                return (0,y)
+            #cuadrante izq
+            if(x<=y and x<= -y + 1000):
+                corrected_y = correct_y(origin[0],origin[1],x,y,0)
+                return (0,corrected_y)
+            #cuadrante superior
+            elif(x<=y and not x<= -y + 1000):
+                corrected_x = correct_x(origin[0],origin[1],x,y,1000)
+                return (corrected_x,1000)
+            #cuadrante derecho
+            elif(not x<=y and not x<= y- 1000):
+                corrected_y = correct_y(origin[0],origin[1],x,y,1000)
+                return (1000,corrected_y)
+            #cuadrante inferior
+            else:
+                #not x<=y and x<=-y+1000
+                corrected_x = correct_x(origin[0],origin[1],x,y,0)
+                return (corrected_x,0)
+        else:
+            return (x,y)
 
     def _shoot(self):
         misil_target = None
@@ -75,28 +114,5 @@ class Robot:
             )
         else:
             self.cannon_ammo += 1
+        self.misil_position = misil_target
         return misil_target
-
-
-def print_status(obj1: Robot):
-    print("current position", obj1.current_position)
-    print("current_damage", obj1.current_damage)
-    print("current_direction", obj1.current_direction)
-    print("current_velocity", obj1.current_velocity)
-    print("cannon_ammo", obj1.cannon_ammo)
-    print("required_direction", obj1.required_direction)
-    print("required_velocity", obj1.required_velocity)
-    print("required_position", obj1.required_position)
-    print("cannon_degree", obj1.cannon_degree)
-    print("cannon_distance", obj1.cannon_distance)
-
-
-obj1 = Robot(
-    position=(5, 10),
-    damage=100,
-    direction=45,
-    velocity=100)
-print_status(obj1)
-obj1.cannon(degree=45, distance=1000)
-print("El misil va rumbo hacia:", obj1._shoot())
-print_status(obj1)
