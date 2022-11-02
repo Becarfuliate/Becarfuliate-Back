@@ -5,15 +5,19 @@ import shutil
 robot_end_points = APIRouter()
 
 
-def store_config(file: UploadFile):
+def store_config(file: UploadFile, owner: str):
     file.file.seek(0)
-    with open('./robots/'+file.filename, 'wb+') as upload_folder:
+    new_filename=file.filename.replace(".py","_"+owner+".py")
+    with open('routers/robots/'+new_filename, 'wb+') as upload_folder:
         shutil.copyfileobj(file.file, upload_folder)
 
 
-def store_avatar(file: UploadFile):
+def store_avatar(file: UploadFile, owner: str):
     file.file.seek(0)
-    with open('./robots/avatars/'+file.filename, 'wb+') as upload_folder:
+    new_filename=file.filename.replace(".jpeg","_"+owner+".jpeg")
+    new_filename=file.filename.replace(".peg","_"+owner+".peg")
+    new_filename=file.filename.replace(".jpg","_"+owner+".jpg")
+    with open('routers/robots/avatars/'+new_filename, 'wb+') as upload_folder:
         shutil.copyfileobj(file.file, upload_folder)
 
 
@@ -50,8 +54,8 @@ async def robot_upload(
             status_code=440,
             detail="Sesión expirada"
             )
-    store_config(config)
-    store_avatar(avatar)
+    store_config(config, username)
+    store_avatar(avatar, username)
     return {
         "msg": msg
     }

@@ -41,8 +41,8 @@ def add_robot(
                 return str(e)+" no existe"
             try:
                 Robot(
-                    name=robot_name+user_for_validate.username,
-                    avatar=avatar_file,
+                    name=robot_name+"_"+user_for_validate.username,
+                    avatar=avatar_file+"_"+user_for_validate.username,
                     matchs_pleyed=0,
                     matchs_won=0,
                     avg_life_time=0,
