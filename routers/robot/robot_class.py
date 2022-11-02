@@ -31,6 +31,10 @@ class Robot:
         el cañón está completamente recargado"""
         return self.cannon_ammo == 1
 
+    def drive(self,degree,velocity):
+        self.required_direction = degree
+        self.required_velocity = velocity
+
     def cannon(self, degree, distance):
         """Cuando se llama a este método, se prepara el cañón para disparar.
         Si se llama a este método dos veces seguidas, sólo la última tiene
