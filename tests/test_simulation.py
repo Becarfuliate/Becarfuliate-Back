@@ -65,12 +65,11 @@ def delete_db_v2():
     elim_robots()
 
 
-"""
 # Tests de partidas
 def test_simulation_add_success():
-    
+    """
     TEST_0: Agregar simulación correctamente.
-    
+    """
     client_post_register("Alexis", "Asd23asdasdasdasd@", "ale@gmail.com")
     client_fast_confirmation("Alexis")
     client_add_robots("Alexis")
@@ -93,8 +92,27 @@ def test_simulation_add_success():
             "token": toq_var,
         },
     )
-    assert response.json() == {"Status": "Match added succesfully"}
-"""
+    robot1 = {
+        "id": None,  # Se carga afuera
+        "imagen": None,  # Se carga afuera
+        "x": 0,
+        "y": 0,
+        "xf": 0,
+        "yf": 0,
+        "nombre": None,  # Se carga afuera
+        "vida": 100,
+        "mira": (0, 0),
+        "motor": 0,
+        "xmis": 0,
+        "ymis": 0,
+        "xmisf": 0,
+        "ymisf": 0,
+    }
+    robots = [robot1, robot1]
+    json_response = []
+    for i in range(num_rondas):
+        json_response.append(robots)
+    assert response.json() == json_response
 
 
 def test_simulation_add_bad_robot():
