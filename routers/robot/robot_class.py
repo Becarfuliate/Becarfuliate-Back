@@ -28,48 +28,56 @@ class robot :
             return (origin[0],origin[1])
     
         radian = float(ang * pi /180) 
+        
         x = round(origin[0] + distance * cos(radian))
         y = round(origin[1] + distance * sin(radian))
         
-        if (x<0 or x>1000 or y<0 or y>1000):
+        #si x o y cae fuera del tablero
+        if (x<0 or x>999 or y<0 or y>999):
+            #angulos rectos
             if(ang == 90):
-                return (x,1000)
+                return (x,999)
             if(ang ==270):
                 return (x,0)
             if (ang==0):
-                return (1000,y)
+                return (999,y)
             if (ang==180):
                 return (0,y)
             #cuadrante izq            
-            if(x<=y and x<= -y + 1000):
+            if(x<=y and x<= -y + 999):
                 corrected_y = correct_y(origin[0],origin[1],x,y,0)
                 return (0,corrected_y)
             #cuadrante superior
-            elif(x<=y and not x<= -y + 1000):
-                corrected_x = correct_x(origin[0],origin[1],x,y,1000)
-                return (corrected_x,1000)
+            elif(x<=y and not x<= -y + 999):
+                corrected_x = correct_x(origin[0],origin[1],x,y,999)
+                return (corrected_x,999)
             #cuadrante derecho
-            elif(not x<=y and not x<= y- 1000):
-                corrected_y = correct_y(origin[0],origin[1],x,y,1000)
-                return (1000,corrected_y)
+            elif(not x<=y and not x<= y- 999):
+                corrected_y = correct_y(origin[0],origin[1],x,y,999)
+                return (999,corrected_y)
             #cuadrante inferior
             else:
-                #not x<=y and x<=-y+1000
+                #not x<=y and x<=-y+999
                 corrected_x = correct_x(origin[0],origin[1],x,y,0)
                 return (corrected_x,0)
         else:
             return (x,y)
         
     def block_direction(self,current_direction,current_velocity,required_direction):
+        new_direction = required_direction % 360
+        if (new_direction<0):
+            new_direction = new_direction + 360
         if(current_velocity<=50):
-            return required_direction % 360
+            return new_direction
         else:
-            right_limit = (current_direction + SPIN_FACTOR) % 360
-            left_limit = (current_direction + (360-SPIN_FACTOR)) % 360
-            if(abs(required_direction-right_limit) <= abs(required_direction-left_limit)):
+            right_limit = (current_direction - SPIN_FACTOR) % 360
+            left_limit = (current_direction + SPIN_FACTOR) % 360
+            if(new_direction < right_limit):
                 return right_limit
-            else:
+            elif(new_direction> left_limit):
                 return left_limit
+            else:
+                return new_direction
     
     def calc_velocity(self,required_velocity,current_velocity):
         #sanitize input
@@ -98,14 +106,5 @@ class robot :
         #seting velocity
         self.current_velocity = self.calc_velocity(self.required_velocity,self.current_velocity)
         #seting position
-        (x,y) = self.polar_to_rect(self.current_direction,self.current_velocity,self.current_position)
-        if (x>1000):
-            x=1000
-        if(y>1000):
-            y=1000
-        if(x<0):
-            x=0
-        if(y<0):
-            y=0
-        self.current_position = (x,y)
+        self.current_position = self.polar_to_rect(self.current_direction,self.current_velocity,self.current_position)
 
