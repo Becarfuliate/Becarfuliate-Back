@@ -1,8 +1,12 @@
 from math import sin, cos, pi
 from typing import Tuple
+from decouple import config
 
+ACELERATION_FACTOR = int(config("aceleration"))
+MAX_VELOCITY = int(config("maxvelocity"))
+SPIN_FACTOR = int(config("spinFactor"))
 
-class Robot:
+class Robot():
 
     def __init__(
         self,
@@ -151,3 +155,50 @@ class Robot:
             self.cannon_ammo += 1
         self.misil_position = misil_target
         return misil_target
+    
+    def block_direction(self,current_direction,current_velocity,required_direction):
+        new_direction = required_direction % 360
+        if (new_direction<0):
+            new_direction = new_direction + 360
+        if(current_velocity<=50):
+            return new_direction
+        else:
+            right_limit = (current_direction - SPIN_FACTOR) % 360
+            left_limit = (current_direction + SPIN_FACTOR) % 360
+            if(new_direction < right_limit):
+                return right_limit
+            elif(new_direction> left_limit):
+                return left_limit
+            else:
+                return new_direction
+    
+    def calc_velocity(self,required_velocity,current_velocity):
+        #sanitize input
+        if(required_velocity >100):
+            new_velocity = 100
+        elif(required_velocity <0):
+            new_velocity = 0
+        else:
+            new_velocity = required_velocity
+        
+        #calc velocity
+        if(new_velocity < current_velocity):
+            decrease = ((MAX_VELOCITY-new_velocity) * ACELERATION_FACTOR/MAX_VELOCITY)
+            if (decrease < 0):
+                decrease = 0
+            return current_velocity - decrease 
+        else:
+            increase = new_velocity * ACELERATION_FACTOR/MAX_VELOCITY
+            if (increase > MAX_VELOCITY):
+                increase = MAX_VELOCITY                
+            return current_velocity + increase  
+
+    def _move(self):
+        #seting direction 
+        self.current_direction = self.block_direction(self.current_direction,self.current_velocity,self.required_direction)
+        #seting velocity
+        self.current_velocity = self.calc_velocity(self.required_velocity,self.current_velocity)
+        #seting position
+        self.current_position = self._polar_to_rect(self.current_direction,self.current_velocity,self.current_position)
+
+
