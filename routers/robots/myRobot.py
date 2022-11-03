@@ -4,8 +4,8 @@ from random import randint
 
 class myRobot(Robot):
     def initialize(self):
-        direction = self.get_position()
+        pass
 
     def respond(self):
         self.cannon(20, 300)
-        self.drive(100 + direction[0], 80 + direction[1])
+        self.drive(randint(0, 360), randint(0, 100))

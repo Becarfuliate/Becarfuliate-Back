@@ -72,7 +72,7 @@ def avanzar_ronda(r1, r2, r3, r4):
     list_robot_alive = check_robots_alive([r1, r2, r3, r4])
     inflingir_danio(r1, r2, r3, r4)
     for robot in list_robot_alive:
-        robot.respond
+        robot.respond()
     for robot in list_of_robots:
         # Escanear->Atacar->Mover (Con metodos privados)
         inic_pos_x = robot.current_position[0]

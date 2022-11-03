@@ -20,9 +20,8 @@ class Robot:
         self.current_direction = direction
         self.current_velocity = velocity
         self.cannon_ammo = 1
-        self.required_direction = direction
-        self.required_velocity = velocity
-        self.required_position = position
+        self.required_direction = 0
+        self.required_velocity = 0
         self.cannon_degree = 0
         self.cannon_distance = 0
         self.cannon_shoot = False
