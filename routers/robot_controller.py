@@ -1,4 +1,5 @@
 from fastapi import APIRouter, HTTPException, File, UploadFile
+from crud import robot_service
 from crud.robot_service import add_robot
 from pathlib import Path
 import shutil
@@ -59,3 +60,8 @@ async def robot_upload(
     return {
         "msg": msg
     }
+
+@robot_end_points.get("/robots")
+def read_robots(token: str):
+    msg = robot_service.read_robots(token)
+    return msg

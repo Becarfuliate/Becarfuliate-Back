@@ -2,9 +2,9 @@ from datetime import datetime
 from distutils.command.config import config
 from attr import validate
 from pony.orm import db_session, commit
-from schemas import imatch
+from schemas import irobot
 from models.entities import Robot, User
-from crud.user_services import decode_JWT, encrypt_password
+from crud.user_services import decode_JWT
 from fastapi import UploadFile
 
 
@@ -38,7 +38,7 @@ def add_robot(
             try:
                 user_for_validate = User[username]
             except Exception as e:
-                return str(e)+" no existe"
+                return str(e) + " no existe"
             try:
                 Robot(
                     name=robot_name+"_"+user_for_validate.username,
@@ -54,3 +54,19 @@ def add_robot(
         else:
             return "El archivo no cumple los requisitos"
         return "Robot agregado con exito"
+
+
+@db_session
+def read_robots(token: str):
+    with db_session:
+        decode_token = decode_JWT(token)
+        if decode_token["expiry"] > str(datetime.now()):
+            try:
+                robots = Robot.select()
+                result = [irobot.Robot.from_orm(r) for r in robots]
+                commit()
+            except Exception as e:
+                return str(e)
+        else:
+            result = "Token no válido"
+        return result
