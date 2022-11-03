@@ -82,13 +82,30 @@ class robot:
                 # Salvar los angulos en los que estoy en la misma pendiente,
                 # sino div zero
                 # pendiente
-
+                slope = 0.0
                 # Fixme: Hacer cuatro casos distintos si y1 > y0 --> abs
-                slope = (self.position[1] - r_position[1]) / (
-                    self.position[0] - r_position[0]
-                )
+                if self.position[0] != r_position[0]:
+                    slope = (self.position[1] - r_position[1]) / (
+                        self.position[0] - r_position[0]
+                    )
+                # Los puntos están en la misma coordenada x,
+                # chequeo que y1 <= y2
+                elif self.position[1] <= r_position[1]:
+                    theta_s_r = 90
+                elif self.position[1] > r_position[1]:
+                    theta_s_r = 270
+                # x_0 <= x1 and
+                if (
+                    self.position[0] <= r_position[0]
+                    and self.position[1] >= r_position[1]
+                ):
+                    # ángulo desde mí robot al otro robot
+                    theta_s_r = 360 + degrees(atan(slope))
                 # x_0 <= x1
-                if self.position[0] <= r_position[0]:
+                if (
+                    self.position[0] <= r_position[0]
+                    and self.position[1] < r_position[1]
+                ):
                     # ángulo desde mí robot al otro robot
                     theta_s_r = degrees(atan(slope))
                 # x_0 > x_1
@@ -101,13 +118,20 @@ class robot:
                     self.scanned_list.append(r_position)
 
 
-# Caso que anda
-# r1 = robot((500, 490), 90)
-# r2 = robot((500, 500), 90)
-# r1.point_scanner(90, 10)
-# r1.scan(r2.position)
-# escaneado = r1.scanned()
-# print(escaneado)
+# Caso que cae en div por zero
+r1 = robot((500, 490), 90)
+r2 = robot((500, 500), 90)
+r1.point_scanner(90, 10)
+r1.scan(r2.position)
+escaneado = r1.scanned()
+print(escaneado)
+
+r1 = robot((500, 490), 90)
+r2 = robot((400, 490), 90)
+r1.point_scanner(180, 10)
+r1.scan(r2.position)
+escaneado = r1.scanned()
+print(escaneado)
 
 # Este caso lo rompe
 r1 = robot((500, 600), 90)
@@ -117,10 +141,18 @@ r1.scan(r2.position)
 escaneado = r1.scanned()
 print(escaneado)
 
+# Caso cuadrante 3
+r1 = robot((500, 500), 90)
+r2 = robot((600, 600), 90)
+r1.point_scanner(45, 3)
+r1.scan(r2.position)
+escaneado = r1.scanned()
+print(escaneado)
+
 # Caso que anda
-# r1 = robot((600, 600), 90)
-# r2 = robot((500, 500), 90)
-# r1.point_scanner(225, 9)
-# r1.scan(r2.position)
-# escaneado = r1.scanned()
-# print(escaneado)
+r1 = robot((600, 600), 90)
+r2 = robot((500, 500), 90)
+r1.point_scanner(225, 9)
+r1.scan(r2.position)
+escaneado = r1.scanned()
+print(escaneado)
