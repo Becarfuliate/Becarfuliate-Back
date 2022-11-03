@@ -9,7 +9,6 @@ special_chars = "~`!@#$%^&*()-_+={}[]\\|/:;\"'<>,.?"
 class User_base(BaseModel):
     username: str
     password: str
-    avatar: Optional[str] = None
     email: str
 
     @validator("username")

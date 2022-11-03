@@ -9,13 +9,12 @@ client = TestClient(main.app)
 
 
 # Funciones auxiliares para los test
-def client_post_register(username, password, avatar, email):
+def client_post_register(username, password, email):
     return client.post(
         "/register",
         json={
             "username": username,
             "password": password,
-            "avatar": avatar,
             "email": email
             }
     )
@@ -43,7 +42,6 @@ def test_confirmation_success():
     client_post_register(
         "anonymous",
         "Asd23asdasdasdasd@",
-        "",
         "anonymous@hotmail.com"
     )
     response = client_get_verify(
