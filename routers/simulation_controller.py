@@ -4,12 +4,17 @@ from crud import simulation_service as sc
 from routers.robot.robot_class import Robot
 from routers.game.game import inflingir_danio, avanzar_ronda
 from crud.robot_service import get_file_by_id
+from pathlib import Path
 
 simulation_end_points = APIRouter()
 
+
 def game(r1, r2, r3, r4, rounds):
     list_robot = [r1, r2, r3, r4]
-    print(list_robot)
+    for robot in list_robot:
+        robot.initialize()
+    if None in list_robot:
+        list_robot.remove(None)
     if None in list_robot:
         list_robot.remove(None)
     for i in range(rounds):
@@ -23,33 +28,41 @@ async def create_simulation(simulation: isim.SimulationCreate):
     id_robot_parsed = simulation.id_robot.split(",")
     cant_robots = len(id_robot_parsed)
     outer_response = []
-
+    robots = []
     for x in id_robot_parsed:
         file = get_file_by_id(x)
-        # ejecutar el file, traerlo todo
-        #exec()
+        exec(
+            open("routers/robots/" + file).read(),
+            globals(),
+        )
+        r = myRobot()
+        robots.append(r)
+
+    # ejecutar el file, traerlo todo
+    # exec()
 
     for i in range(simulation.n_rounds_simulations):
         if cant_robots == 2:
-            outer_response.append(game(id_robot_parsed[0], id_robot_parsed[1]))
-            print("Mando 2")
+            outer_response.append(
+                game(robots[0], robots[1]), rounds=simulation.n_rounds_simulations
+            )
         if cant_robots == 3:
-            print("Mando 3")
             outer_response.append(
                 game(
-                    id_robot_parsed[0],
-                    id_robot_parsed[1],
-                    id_robot_parsed[2],
+                    robots[0],
+                    robots[1],
+                    robots[2],
+                    rounds=simulation.n_rounds_simulations,
                 )
             )
         if cant_robots == 4:
-            print("Mando 4")
             outer_response.append(
                 game(
-                    id_robot_parsed[0],
-                    id_robot_parsed[1],
-                    id_robot_parsed[2],
-                    id_robot_parsed[3],
+                    robots[0],
+                    robots[1],
+                    robots[2],
+                    robots[3],
+                    simulation.n_rounds_simulations,
                 )
             )
     return outer_response
