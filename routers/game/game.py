@@ -1,4 +1,4 @@
-from robot.robot_class import Robot
+from routers.robot.robot_class import Robot
 
 def distance(t1: tuple, t2: tuple):
     return round(((t1[0] - t2[0])**2 + (t1[1] - t2[1])**2)**0.5)
@@ -55,22 +55,18 @@ def inflingir_danio(
                     print("Pego un misil")
 
 
-def check_robots_alive(l_robots: list(Robot)):
+def check_robots_alive(l_robots: list):
     list_clean = []
     for robot in l_robots:
-        if robot.current_damage > 0:
-            list_clean.append(robot)
+        if robot != None:
+            if robot.current_damage > 0:
+                list_clean.append(robot)
     return list_clean 
 
 
-def avanzar_ronda(
-    r1: Robot = None,
-    r2: Robot = None,
-    r3: Robot = None,
-    r4: Robot = None,
-):
+def avanzar_ronda(r1, r2, r3, r4):
     results_by_robots = []
-    list_robot_alive = check_robots_alive(list_robot_alive)
+    list_robot_alive = check_robots_alive([r1, r2, r3, r4])
     inflingir_danio(r1, r2, r3, r4)
     for robot in list_robot_alive:
         robot.respond

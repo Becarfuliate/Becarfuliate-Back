@@ -70,3 +70,10 @@ def read_robots(token: str):
         else:
             result = "Token no válido"
         return result
+
+@db_session
+def get_file_by_id(rob_id: int):
+    with db_session:
+        robot = Robot[rob_id]
+        filename = robot.name+".py"
+        return filename
