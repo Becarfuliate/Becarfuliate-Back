@@ -75,12 +75,15 @@ def avanzar_ronda(
         "xmisf": 0,
         "ymisf": 0,
     }
-
+    if None in robots:
+        robots.remove(None)
     json_response.append(robot1)
     json_response.append(robot2)
     if len(robots) == 3:
+        print("Meti 3")
         json_response.append(robot3)
     if len(robots) == 4:
+        print("Meti 4")
         json_response.append(robot3)
         json_response.append(robot4)
 
@@ -94,17 +97,13 @@ def game(
     r4: Robot = None,
     rounds: int = 2,
 ):
-    json_response = []
     list_robot = [r1, r2, r3, r4]
+    print(list_robot)
     if None in list_robot:
         list_robot.remove(None)
-    list_robot_alive = list_robot
-    for robot in list_robot_alive:
-        robot.initialize()
-    for round in rounds:
+    for i in range(rounds):
         results_by_robots = avanzar_ronda(r1, r2, r3, r4)
-        json_response.append({"robots": results_by_robots})
-    return json_response
+    return results_by_robots
 
 
 @simulation_end_points.post("/simulation/add")
@@ -116,18 +115,19 @@ async def create_simulation(simulation: isim.SimulationCreate):
 
     for i in range(simulation.n_rounds_simulations):
         if cant_robots == 2:
-            outer_response.append(
-                game(Robot(id_robot_parsed[0]), Robot(id_robot_parsed[1]))
-            )
+            outer_response.append(game(id_robot_parsed[0], id_robot_parsed[1]))
+            print("Mando 2")
         if cant_robots == 3:
+            print("Mando 3")
             outer_response.append(
                 game(
-                    Robot(id_robot_parsed[0]),
-                    Robot(id_robot_parsed[1]),
-                    Robot(id_robot_parsed[2]),
+                    id_robot_parsed[0],
+                    id_robot_parsed[1],
+                    id_robot_parsed[2],
                 )
             )
         if cant_robots == 4:
+            print("Mando 4")
             outer_response.append(
                 game(
                     id_robot_parsed[0],

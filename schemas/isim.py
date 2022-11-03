@@ -16,7 +16,7 @@ class SimulationBase(BaseModel):
         id_robot_parsed = id_robot.split(",")
         regex = r"\s+"
         cant_robots = len(id_robot_parsed)
-        if cant_robots >= 4 or cant_robots <= 2:
+        if cant_robots > 4 or cant_robots < 2:
             raise ValueError("El valor debe estar entre 2 y 4")
         if not isinstance(id_robot, str):
             raise ValueError("El valor 'id de robots' debe ser un string")
