@@ -74,29 +74,6 @@ def test_load_robot():
     assert response.json()["msg"] == "Robot agregado con exito"
 
 
-def test_load_same_robot():
-    response = client.post(
-        "/login",
-        json={
-            "username": "anonymous",
-            "email": "anonymous@hotmail.com",
-            "password": "Asd23asdasdasdasd@"
-        },
-    )
-    usr_tkn = response.json()['token']
-    files_up = [("config", open("tests/test_files/robot1.py", "rb")),
-             ("avatar", open("tests/test_files/tortuga.jpg", "rb"))]
-    response = client.post(
-        "/upload/robot",
-        params={
-            "name": "robot1",
-            "tkn": usr_tkn,
-            "username": "anonymous"
-        },
-        files=files_up
-    )
-    assert response.json()["detail"] == "El robot ya existe"
-
 def test_load_user_not_exist():
     response = client.post(
         "/login",
