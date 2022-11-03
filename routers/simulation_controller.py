@@ -25,27 +25,26 @@ def game(r1, r2, r3, r4, rounds):
 
 @simulation_end_points.post("/simulation/add")
 async def create_simulation(simulation: isim.SimulationCreate):
-
     id_robot_parsed = simulation.id_robot.split(",")
     cant_robots = len(id_robot_parsed)
     outer_response = []
     robots = []
-
     for x in id_robot_parsed:
         file = get_file_by_id(x)
         exec(
             open("routers/robots/" + file).read(),
             globals(),
         )
-        r = myRobot((randint(800, 999), randint(800, 999)), 100, randint(0, 360), 10)
-        print(r)
+        file = file.strip(".py")
+        klass = globals()[file]
+        r = klass((randint(800, 999), randint(800, 999)), 100, randint(0, 360), 10)
         robots.append(r)
-
     for i in range(simulation.n_rounds_simulations):
         if cant_robots == 2:
             outer_response.append(
                 game(robots[0], robots[1]), rounds=simulation.n_rounds_simulations
             )
+
         if cant_robots == 3:
             outer_response.append(
                 game(
@@ -65,4 +64,10 @@ async def create_simulation(simulation: isim.SimulationCreate):
                     simulation.n_rounds_simulations,
                 )
             )
+            for i in outer_response:
+                k = 0
+                for j in i:
+                    j["id"] = id_robot_parsed[k]
+                    j["nombre"] = sc.get_robot_name(id_robot_parsed[k])
+                    k += 1
     return outer_response

@@ -43,38 +43,45 @@ def test_blockdrirection3():
     res = robot1.block_direction(90, 40, 360)
     assert res == 0
 
+
 def test_blockdrirection4():
     robot1 = Robot((0, 0), 0)
     res = robot1.block_direction(220, 60, 270)
     assert res == 270
 
+
 def test_calc_velocity1():
     robot1 = Robot((0, 0), 0)
-    res = robot1.calc_velocity(100,0)
+    res = robot1.calc_velocity(100, 0)
     assert res == 50
+
 
 def test_calc_velocity2():
     robot1 = Robot((0, 0), 0)
-    res = robot1.calc_velocity(0,100)
+    res = robot1.calc_velocity(0, 100)
     assert res == 50
+
 
 def test_calc_velocity3():
     robot1 = Robot((0, 0), 0)
-    res = robot1.calc_velocity(1000,0)
+    res = robot1.calc_velocity(1000, 0)
     assert res == 50
+
 
 def test_calc_velocity4():
     robot1 = Robot((0, 0), 0)
-    res = robot1.calc_velocity(80,0)
+    res = robot1.calc_velocity(80, 0)
     assert res == 40
+
 
 def test_calc_velocity5():
     robot1 = Robot((0, 0), 0)
-    res = robot1.calc_velocity(0,80)
+    res = robot1.calc_velocity(0, 80)
     assert res == 30
+
 
 def test_move1():
     robot1 = Robot((0, 0), 100, 0, 0)
-    robot1.drive(90,100)
-    robot1._move()
+    robot1.drive(90, 100)
+    robot1.move()
     assert robot1.current_position == (0, 50)
