@@ -154,8 +154,9 @@ class Robot:
                 distance=self.cannon_distance,
                 origin=self.current_position,
             )
+            self.misil_position = misil_target
         else:
-            self.cannon_ammo += 1
+            self.cannon_ammo = 1
         self.misil_position = misil_target
         return misil_target
 
@@ -189,7 +190,10 @@ class Robot:
             decrease = (MAX_VELOCITY - new_velocity) * ACELERATION_FACTOR / MAX_VELOCITY
             if decrease < 0:
                 decrease = 0
-            return current_velocity - decrease
+            if current_velocity - decrease < 0:
+                return 0
+            else:
+                return current_velocity - decrease
         else:
             increase = new_velocity * ACELERATION_FACTOR / MAX_VELOCITY
             if increase > MAX_VELOCITY:

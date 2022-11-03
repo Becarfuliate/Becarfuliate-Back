@@ -41,9 +41,6 @@ async def create_simulation(simulation: isim.SimulationCreate):
         print(r)
         robots.append(r)
 
-    # ejecutar el file, traerlo todo
-    # exec()
-
     for i in range(simulation.n_rounds_simulations):
         if cant_robots == 2:
             outer_response.append(

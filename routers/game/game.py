@@ -78,8 +78,9 @@ def avanzar_ronda(r1, r2, r3, r4):
         inic_pos_x = robot.current_position[0]
         inic_pos_y = robot.current_position[1]
         # robot._scan
-        robot.shoot()
+        tupla = robot.shoot()
         robot.move()
+
         # Inicializamos las variables
         result_round = {
             "id": None,  # Se carga afuera
@@ -94,8 +95,8 @@ def avanzar_ronda(r1, r2, r3, r4):
             "motor": robot.current_velocity,
             "xmis": inic_pos_x,
             "ymis": inic_pos_y,
-            "xmisf": robot.misil_position[0],
-            "ymisf": robot.misil_position[1],
+            "xmisf": tupla[0],
+            "ymisf": tupla[1],
         }
         results_by_robots.append(result_round)
     return results_by_robots
