@@ -26,7 +26,7 @@ class Robot():
         self.cannon_degree = 0
         self.cannon_distance = 0
         self.cannon_shoot = False
-        self.misil_position = position
+        self.misil_position = (None, None)
 
     # Cañón
     def is_cannon_ready(self):
@@ -68,7 +68,7 @@ class Robot():
     def get_direction(self):
         return self.current_direction
 
-    def _polar_to_rect(self, ang, distance, origin):
+    def polar_to_rect(self, ang, distance, origin):
  
         def correct_y(origin_x,origin_y,dest_x,dest_y,x_border):
             res = ((dest_y - origin_y) / (dest_x - origin_x)) * (x_border - origin_x) + origin_y
@@ -142,8 +142,8 @@ class Robot():
         else:
             return (x,y)
 
-    def _shoot(self):
-        misil_target = None
+    def shoot(self):
+        misil_target = (None,None)
         if self.is_cannon_ready() and self.cannon_shoot:
             self.cannon_ammo = 0
             misil_target = self._polar_to_rect(
@@ -193,7 +193,7 @@ class Robot():
                 increase = MAX_VELOCITY                
             return current_velocity + increase  
 
-    def _move(self):
+    def move(self):
         #seting direction 
         self.current_direction = self.block_direction(self.current_direction,self.current_velocity,self.required_direction)
         #seting velocity

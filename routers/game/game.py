@@ -5,7 +5,9 @@ def distance(t1: tuple, t2: tuple):
 
 
 def danio_misil(robot_position: tuple, misil_position: tuple):
-    if (distance(robot_position, misil_position) <= 5):
+    if(misil_position ==(None,None) ):
+        return 0
+    if(distance(robot_position, misil_position) <= 5):
         danio = 10
     elif (distance(robot_position, misil_position) <= 20):
         danio = 5
@@ -30,12 +32,7 @@ def danio_pared(pos_r: tuple):
         danio = 2
     return danio
 
-def inflingir_danio(
-    r1: Robot = None,
-    r2: Robot = None,
-    r3: Robot = None,
-    r4: Robot = None
-):
+def inflingir_danio(r1: Robot = None,r2: Robot = None,r3: Robot = None,r4: Robot = None):
     list_robot = [r1, r2, r3, r4]
     list_robot_aux = [r1, r2, r3, r4]
     for robot in list_robot:
@@ -51,8 +48,8 @@ def inflingir_danio(
             if robot.current_velocity < 80:
                 danio2 = danio_misil(robot.current_position, robot_x.misil_position)
                 robot.current_damage -= danio2
-                if danio2 > 0:
-                    print("Pego un misil")
+                    
+
 
 
 def check_robots_alive(l_robots: list):
@@ -66,17 +63,18 @@ def check_robots_alive(l_robots: list):
 
 def avanzar_ronda(r1, r2, r3, r4):
     results_by_robots = []
+    list_of_robots = [r1,r2,r3,r4]
     list_robot_alive = check_robots_alive([r1, r2, r3, r4])
     inflingir_danio(r1, r2, r3, r4)
     for robot in list_robot_alive:
         robot.respond
-    for robot in list_robot_alive:   
+    for robot in list_of_robots:  
         # Escanear->Atacar->Mover (Con metodos privados)
         inic_pos_x = robot.current_position[0]
         inic_pos_y = robot.current_position[1]
-        robot._scan
-        robot._shoot
-        robot._drive
+        #robot._scan
+        robot.shoot
+        robot.drive
         # Inicializamos las variables
         result_round = {
             "id": None, # Se carga afuera
