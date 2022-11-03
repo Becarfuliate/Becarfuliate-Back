@@ -8,13 +8,12 @@ client = TestClient(main.app)
 
 
 # Funciones auxiliares para los test
-def client_post_register(username, password, avatar, email):
+def client_post_register(username, password, email):
     return client.post(
         "/register",
         json={
             "username": username,
             "password": password,
-            "avatar": avatar,
             "email": email
             }
     )
@@ -37,7 +36,6 @@ def test_register_username_success():
     response = client_post_register(
         "anonymous",
         "Asd23asdasdasdasd@",
-        "",
         "anonymous@hotmail.com"
         )
     assert response.json() == {"Status": "Usuario agregado con exito"}
@@ -47,7 +45,6 @@ def test_register_username_repeat():
     response = client_post_register(
         "anonymous",
         "Asd23asdasdasdasd@",
-        "",
         "anonymous_ok@hotmail.com"
     )
     assert response.json()["detail"] == "El nombre de usuario ya existe"
@@ -57,7 +54,6 @@ def test_register_username_empty():
     response = client_post_register(
         "",
         "Asd23asdasdasdasd@",
-        "",
         "anonymous_ok@hotmail.com"
     )
     assert response.json()["detail"][0]["msg"] \
@@ -68,7 +64,6 @@ def test_register_username_with_spaces():
     response = client_post_register(
         "asdfañsdjfa                  fajñsldkfja",
         "Asd23asdasdasdasd@",
-        "",
         "anonymous_ok@hotmail.com"
     )
     assert response.json()["detail"][0]["msg"] \
@@ -79,7 +74,6 @@ def test_register_username_full_spaces():
     response = client_post_register(
         "                                 ",
         "Asd23asdasdasdasd@",
-        "",
         "anonymous_ok@hotmail.com"
     )
     assert response.json()["detail"][0]["msg"] \
@@ -90,7 +84,6 @@ def test_register_username_long():
     response = client_post_register(
         "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
         "Asd23asdasdasdasd@",
-        "",
         "anonymous_ok@hotmail.com"
     )
     assert response.json()["detail"][0]["msg"] \
@@ -102,7 +95,6 @@ def test_register_password_short():
     response = client_post_register(
         "anonymousReal",
         "ano",
-        "",
         "anonymous_real_ok@hotmail.com"
     )
     assert response.json()["detail"][0]["msg"] \
@@ -113,7 +105,6 @@ def test_register_password_no_upper():
     response = client_post_register(
         "anonymousReal",
         "anonymouspass",
-        "",
         "anonymous_real_ok@hotmail.com"
     )
     assert response.json()["detail"][0]["msg"] \
@@ -124,7 +115,6 @@ def test_register_password_no_lower():
     response = client_post_register(
         "anonymousReal",
         "ANONYMOUSPASS",
-        "",
         "anonymous_real_ok@hotmail.com"
     )
     assert response.json()["detail"][0]["msg"] \
@@ -135,7 +125,6 @@ def test_register_password_no_num():
     response = client_post_register(
         "anonymousReal",
         "anonymousPass",
-        "",
         "anonymous_real_ok@hotmail.com"
     )
     assert response.json()["detail"][0]["msg"] \
@@ -146,7 +135,6 @@ def test_register_password_no_special():
     response = client_post_register(
         "anonymousReal",
         "anonymousPass666",
-        "",
         "anonymous_real_ok@hotmail.com"
     )
     assert response.json()["detail"][0]["msg"] \
@@ -157,7 +145,6 @@ def test_register_password_long():
     response = client_post_register(
         "anonymousReal",
         "an@nymousPass666jajajajajajajajajajajajajajajajajaja",
-        "",
         "anonymous_real_ok@hotmail.com"
     )
     assert response.json()["detail"][0]["msg"] \
@@ -168,7 +155,6 @@ def test_register_password_success():
     response = client_post_register(
         "anonymousReal",
         "an@nymousPass666",
-        "",
         "anonymous_real_ok@hotmail.com"
     )
     assert response.json() == {"Status": "Usuario agregado con exito"}
@@ -179,7 +165,6 @@ def test_register_email_repeat():
     response = client_post_register(
         "anonymousRealNoFake",
         "an@nymousPass666",
-        "",
         "anonymous_real_ok@hotmail.com"
     )
     assert response.json() == {"detail": "El email ya existe"}
@@ -189,7 +174,6 @@ def test_register_email_error():
     response = client_post_register(
         "anonymousRealNoFake",
         "an@nymousPass666",
-        "",
         "anonymous_real_ok@jemail.com"
     )
     assert response.json()["detail"][0]["msg"] == "Email invalido"
@@ -199,7 +183,6 @@ def test_register_email_success():
     response = client_post_register(
         "anonymousRealNoFake",
         "an@nymousPass666",
-        "",
         "anonymous_real_ok@mi.unc.edu.ar"
     )
     delete_db()
