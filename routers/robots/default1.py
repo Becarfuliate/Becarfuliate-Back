@@ -2,7 +2,7 @@ from routers.robot.robot_class import Robot
 from random import randint
 
 
-class myRobot(Robot):
+class default1(Robot):
     def initialize(self):
         pass
 

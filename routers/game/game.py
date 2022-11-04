@@ -37,7 +37,7 @@ def danio_pared(pos_r: tuple):
 
 def inflingir_danio(robots:list[Robot]):
     for robot in robots:
-        list_robot = list_robot[1:]
+        list_robot = robots[1:]
         danio_p = danio_pared(robot.current_position)
         robot.current_damage -= danio_p
         for robot_check in list_robot:
