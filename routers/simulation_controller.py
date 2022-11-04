@@ -12,14 +12,13 @@ simulation_end_points = APIRouter()
 
 def game(r1, r2, r3, r4, rounds):
     list_robot = [r1, r2, r3, r4]
-    if None in list_robot:
-        list_robot.remove(None)
-    if None in list_robot:
-        list_robot.remove(None)
     for robot in list_robot:
-        robot.initialize()
+        if robot != None:
+            robot.initialize()
     for i in range(rounds):
-        results_by_robots = avanzar_ronda(r1, r2, r3, r4)
+        results_by_robots = avanzar_ronda(
+            list_robot[0], list_robot[1], list_robot[2], list_robot[3]
+        )
     return results_by_robots
 
 
@@ -31,18 +30,33 @@ async def create_simulation(simulation: isim.SimulationCreate):
     robots = []
     for x in id_robot_parsed:
         file = get_file_by_id(x)
+        filename = (
+            "routers/robots/"
+            + file.strip(".py")
+            + "_"
+            + simulation.user_creator
+            + ".py"
+        )
+        print(filename)
         exec(
-            open("routers/robots/" + file).read(),
+            open(filename).read(),
             globals(),
         )
         file = file.strip(".py")
         klass = globals()[file]
-        r = klass((randint(800, 999), randint(800, 999)), 100, randint(0, 360), 10)
+        r = klass((randint(1, 999), randint(1, 999)), 100, randint(0, 360), 10)
         robots.append(r)
     for i in range(simulation.n_rounds_simulations):
+
         if cant_robots == 2:
             outer_response.append(
-                game(robots[0], robots[1]), rounds=simulation.n_rounds_simulations
+                game(
+                    robots[0],
+                    robots[1],
+                    None,
+                    None,
+                    rounds=simulation.n_rounds_simulations,
+                )
             )
 
         if cant_robots == 3:
@@ -51,6 +65,7 @@ async def create_simulation(simulation: isim.SimulationCreate):
                     robots[0],
                     robots[1],
                     robots[2],
+                    None,
                     rounds=simulation.n_rounds_simulations,
                 )
             )
