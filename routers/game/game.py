@@ -35,12 +35,8 @@ def danio_pared(pos_r: tuple):
     return danio
 
 
-def inflingir_danio(
-    r1: Robot = None, r2: Robot = None, r3: Robot = None, r4: Robot = None
-):
-    list_robot = [r1, r2, r3, r4]
-    list_robot_aux = [r1, r2, r3, r4]
-    for robot in list_robot:
+def inflingir_danio(robots:list[Robot]):
+    for robot in robots:
         list_robot = list_robot[1:]
         danio_p = danio_pared(robot.current_position)
         robot.current_damage -= danio_p
@@ -50,53 +46,64 @@ def inflingir_danio(
             )
             robot.current_damage -= danio_c[0]
             robot_check.current_damage -= danio_c[1]
-        for robot_x in list_robot_aux:
+        for robot_x in robots:
             # Revisar daño por misil
             if robot.current_velocity < 80:
                 danio2 = danio_misil(robot.current_position, robot_x.misil_position)
                 robot.current_damage -= danio2
 
 
-def check_robots_alive(l_robots: list):
-    list_clean = []
-    for robot in l_robots:
-        if robot != None:
-            if robot.current_damage > 0:
-                list_clean.append(robot)
-    return list_clean
-
-
-def avanzar_ronda(r1, r2, r3, r4):
+def avanzar_ronda(robots:list[Robot]):
     results_by_robots = []
-    list_of_robots = [r1, r2, r3, r4]
-    list_robot_alive = check_robots_alive([r1, r2, r3, r4])
-    inflingir_danio(r1, r2, r3, r4)
-    for robot in list_robot_alive:
-        robot.respond()
-    for robot in list_of_robots:
+    inflingir_danio(robots)
+    for robot in robots:
+        if (robot.current_damage<=0):
+            pass
+        else:
+            robot.respond()
+    for robot in robots:
         # Escanear->Atacar->Mover (Con metodos privados)
         inic_pos_x = robot.current_position[0]
         inic_pos_y = robot.current_position[1]
-        # robot._scan
-        tupla = robot.shoot()
-        robot.move()
 
-        # Inicializamos las variables
-        result_round = {
-            "id": None,  # Se carga afuera
-            "imagen": None,  # Se carga afuera
-            "x": inic_pos_x,
-            "y": inic_pos_y,
-            "xf": robot.current_position[0],
-            "yf": robot.current_position[1],
-            "nombre": None,  # Se carga afuera
-            "vida": robot.current_damage,
-            "mira": robot.current_direction,
-            "motor": robot.current_velocity,
-            "xmis": inic_pos_x,
-            "ymis": inic_pos_y,
-            "xmisf": tupla[0],
-            "ymisf": tupla[1],
-        }
-        results_by_robots.append(result_round)
+        if (robot.current_damage<=0):
+            result_round = {
+                "id": None,  # Se carga afuera
+                "imagen": None,  # Se carga afuera
+                "x": inic_pos_x,
+                "y": inic_pos_y,
+                "xf": inic_pos_x,
+                "yf": inic_pos_y,
+                "nombre": None,  # Se carga afuera
+                "vida": robot.current_damage,
+                "mira": robot.current_direction,
+                "motor": 0,
+                "xmis": inic_pos_x,
+                "ymis": inic_pos_y,
+                "xmisf": None,
+                "ymisf": None,
+            }
+            results_by_robots.append(result_round)
+        else:
+            tupla = robot.shoot()
+            robot.move()
+
+            # Inicializamos las variables
+            result_round = {
+                "id": None,  # Se carga afuera
+                "imagen": None,  # Se carga afuera
+                "x": inic_pos_x,
+                "y": inic_pos_y,
+                "xf": robot.current_position[0],
+                "yf": robot.current_position[1],
+                "nombre": None,  # Se carga afuera
+                "vida": robot.current_damage,
+                "mira": robot.current_direction,
+                "motor": robot.current_velocity,
+                "xmis": inic_pos_x,
+                "ymis": inic_pos_y,
+                "xmisf": tupla[0],
+                "ymisf": tupla[1],
+            }
+            results_by_robots.append(result_round)
     return results_by_robots
