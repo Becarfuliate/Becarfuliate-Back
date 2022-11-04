@@ -4,3 +4,8 @@
 *.bd
 .env
 *__pycache__/
+crud/__pycache__/__init__.cpython-310.pyc
+db/__pycache__/__init__.cpython-310.pyc
+db/__pycache__/database.cpython-310.pyc
+routers/__pycache__/__init__.cpython-310.pyc
+schemas/__pycache__/__init__.cpython-310.pyc
