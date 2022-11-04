@@ -4,7 +4,7 @@ from routers.robot.robot_class import Robot
 def distance(t1: tuple, t2: tuple):
     return round(((t1[0] - t2[0]) ** 2 + (t1[1] - t2[1]) ** 2) ** 0.5)
 
-
+#asdasd
 def danio_misil(robot_position: tuple, misil_position: tuple):
     if misil_position == (None, None):
         return 0
