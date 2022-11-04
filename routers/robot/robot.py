@@ -19,6 +19,10 @@ def get_distance(tuple1, tuple2):
 
 
 def in_direction(theta, alpha, min_plus):
+    """
+    Chequea que el ángulo theta esté en el rango
+        { alpha - min_plus, alpha + min_plus }
+    """
     is_direction = False
 
     if theta in range(alpha - min_plus, alpha + min_plus):
@@ -72,50 +76,66 @@ class robot:
 
     # Setter
     def scan(self, *robots_position):
-
+        # La máxima distancia desde (0,0) a (1000,1000) es 1414.213562373095.
+        # Por eso tomando 1500 como máximo es suficiente.
+        min_distance = 1500
+        # Coordenada del robot más cercano
+        coor_r_min_d = 0
         for r_position in robots_position:
             distance_b2_points = get_distance(self.position, r_position)
-            # Ya sé que está en el rango, ahora quiero ver
-            # si está en la dirección
             if distance_b2_points <= self.scanner_range:
+                # Ya sé que está en el rango, ahora quiero ver
+                # si está en la dirección
                 theta_s_r = 0
-                # Salvar los angulos en los que estoy en la misma pendiente,
-                # sino div zero
-                # pendiente
+
+                # Pendiente
                 slope = 0.0
-                # Fixme: Hacer cuatro casos distintos si y1 > y0 --> abs
+
+                # x_1 != x_0
                 if self.position[0] != r_position[0]:
+                    # Calculamos la pendiente
                     slope = (self.position[1] - r_position[1]) / (
                         self.position[0] - r_position[0]
                     )
+
                 # Los puntos están en la misma coordenada x,
-                # chequeo que y1 <= y2
+                # entonces calculamos los ángulos sin pendiente
+
+                # y_1 <= y_0
                 elif self.position[1] <= r_position[1]:
                     theta_s_r = 90
+                # y_1 > y_0
                 elif self.position[1] > r_position[1]:
                     theta_s_r = 270
-                # x_0 <= x1 and
+
+                # x_0 <= x_1 and y_1 >= y_0
                 if (
-                    self.position[0] <= r_position[0]
+                    self.position[0] < r_position[0]
                     and self.position[1] >= r_position[1]
                 ):
                     # ángulo desde mí robot al otro robot
                     theta_s_r = 360 + degrees(atan(slope))
-                # x_0 <= x1
+                # x_0 <= x1 and y_1 < y_0
                 if (
-                    self.position[0] <= r_position[0]
+                    self.position[0] < r_position[0]
                     and self.position[1] < r_position[1]
                 ):
                     # ángulo desde mí robot al otro robot
                     theta_s_r = degrees(atan(slope))
+
                 # x_0 > x_1
                 if self.position[0] > r_position[0]:
                     # La suma acá la introduje yo, la formula original es resta.
                     theta_s_r = 180 + degrees(atan(slope))
+
                 if in_direction(
                     theta_s_r, self.direction_scanner, self.resolution_in_degrees
                 ):
-                    self.scanned_list.append(r_position)
+                    min_distance = min(min_distance, distance_b2_points)
+                    if min_distance == distance_b2_points:
+                        coor_r_min_d = r_position
+        if coor_r_min_d != 0:
+            self.scanned_list.append(coor_r_min_d)
 
 
 # Caso que cae en div por zero
@@ -136,7 +156,7 @@ print(escaneado)
 # Este caso lo rompe
 r1 = robot((500, 600), 90)
 r2 = robot((600, 500), 90)
-r1.point_scanner(315, 3)
+r1.point_scanner(315, 9)
 r1.scan(r2.position)
 escaneado = r1.scanned()
 print(escaneado)
@@ -144,7 +164,7 @@ print(escaneado)
 # Caso cuadrante 3
 r1 = robot((500, 500), 90)
 r2 = robot((600, 600), 90)
-r1.point_scanner(45, 3)
+r1.point_scanner(45, 9)
 r1.scan(r2.position)
 escaneado = r1.scanned()
 print(escaneado)
@@ -154,5 +174,14 @@ r1 = robot((600, 600), 90)
 r2 = robot((500, 500), 90)
 r1.point_scanner(225, 9)
 r1.scan(r2.position)
+escaneado = r1.scanned()
+print(escaneado)
+
+#
+r1 = robot((500, 600), 90)
+r2 = robot((600, 500), 90)
+r3 = robot((610, 500), 90)
+r1.point_scanner(315, 9)
+r1.scan(r2.position, r3.position)
 escaneado = r1.scanned()
 print(escaneado)
