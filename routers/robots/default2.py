@@ -8,4 +8,4 @@ class default2(Robot):
 
     def respond(self):
         self.cannon(40, 300)
-        self.drive(randint(0, 360), randint(0, 100))
+        self.drive(90, 10)
