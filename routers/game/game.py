@@ -36,7 +36,7 @@ def danio_pared(pos_r: tuple):
     return danio
 
 
-def inflingir_danio(robots:list[Robot]):
+def inflingir_danio(robots:list):
     i = 0
     for robot in robots:
         list_robot = robots.copy()
@@ -65,7 +65,7 @@ def inflingir_danio(robots:list[Robot]):
             robot.current_damage = 0
         i+=1
         
-def avanzar_ronda(robots:list[Robot]):
+def avanzar_ronda(robots:list):
     results_by_robots = []
     inflingir_danio(robots)
     for robot in robots:
