@@ -66,77 +66,103 @@ class Robot:
         return self.current_direction
 
     def polar_to_rect(self, ang, distance, origin):
-        def correct_y(origin_x,origin_y,dest_x,dest_y,x_border):
-            res = ((dest_y - origin_y) / (dest_x - origin_x)) * (x_border - origin_x) + origin_y
-            return round(res)
-        def correct_x(origin_x,origin_y,dest_x,dest_y,y_border):
-            res = (y_border - origin_y) * ((dest_x - origin_x) / (dest_y - origin_y)) + origin_x
-            return round(res)
- 
-        if(distance==0):
-            return (origin[0],origin[1])
- 
+        
+        def line_intersection(line1, line2):
+            xdiff = (line1[0][0] - line1[1][0], line2[0][0] - line2[1][0])
+            ydiff = (line1[0][1] - line1[1][1], line2[0][1] - line2[1][1])
+            def det(a, b):
+                return a[0] * b[1] - a[1] * b[0]
+
+            div = det(xdiff, ydiff)
+            if div == 0:
+                return (0,0)
+
+            d = (det(*line1), det(*line2))
+            x = det(d, xdiff) / div
+            y = det(d, ydiff) / div
+            return int(x), int(y)
+
+        cuad = -1
         radian = float(ang * pi /180) 
         x = round(origin[0] + distance * cos(radian))
         y = round(origin[1] + distance * sin(radian))
-
-        if (x<0 or x>1000 or y<0 or y>1000):
-            if(80<ang and ang<100):
-                return (x,1000)
-            if(260<ang and ang<280):
-                return (x,0)
-            if (350<ang or ang<10):
-                return (1000,y)
-            if (170<ang or ang<190):
-                return (0,y)
-            #cuadrante izq
-            if(x<0):
-                corrected_y = correct_y(origin[0],origin[1],x,y,0)
-                corrected_x = correct_x(origin[0],origin[1],x,y,0)
-                if(y<0 and corrected_x>0 and corrected_x<1000):
-                    # Entonces estoy en el inferior
-                    return (corrected_x,0)
-                elif(y>1000 and corrected_x>0 and corrected_x<1000):
-                    # Entonces estoy en el superior
-                    return (corrected_x,1000)
-                return (0,abs(corrected_y))
-            #cuadrante superior
-            elif(y>1000):
-                corrected_x = correct_x(origin[0],origin[1],x,y,1000)
-                corrected_y = correct_y(origin[0],origin[1],x,y,1000)
-                if (x > 1000 and corrected_y>0 and corrected_y<1000):
-                    # Estoy en el derecho
-                    return (1000,corrected_y)
-                elif (x < 0 and corrected_y>0 and corrected_y<1000):
-                    # Estoy en el izquierdo
-                    return (0,corrected_y)
-                return (abs(corrected_x),1000)
-            #cuadrante derecho
-            elif(x>1000):
-                corrected_y = correct_y(origin[0],origin[1],x,y,1000)
-                corrected_x = correct_x(origin[0],origin[1],x,y,0)
-                if (y<0 and corrected_x>0 and corrected_x<1000):
-                    # Estoy en el inferior
-                    return (corrected_x,0)
-                elif (y>1000 and corrected_x>0 and corrected_x<1000):
-                    # Estoy en el superior
-                    return (corrected_x,1000)
-                return (1000,abs(corrected_y))
-            #cuadrante inferior
-            else:
-                #not x<=y and x<=-y+1000
-                corrected_x = correct_x(origin[0],origin[1],x,y,0)
-                corrected_y = correct_y(origin[0],origin[1],x,y,1000)
-                if (x>1000 and corrected_y>0 and corrected_y<1000):
-                    # Estoy en el derecho
-                    return (1000,corrected_y)
-                elif (x<0 and corrected_y>0 and corrected_y<1000):
-                    # Estoy en el izquierdo
-                    corrected_y = correct_y(origin[0],origin[1],x,y,0)
-                    return (0,corrected_y)
-                return (abs(corrected_x),0)
+        A = (0,0)
+        B = (0,0)
+        C = (0,0)
+        D = (0,0)
+        if(x>=0 and x<1000 and y>=0 and y<1000):
+            res = (x,y)
         else:
-            return (abs(x),abs(y))
+            A = (origin[0],origin[1])
+            B = (x,y)
+            # Cuadrante izquierdo
+            if(x<0):
+                cuad = 0
+                C = (0,0)
+                D = (0,999)
+                # Cuadrante inferior
+                if(y<0):
+                    C = (0,0)
+                    D = (999,0)
+                # Cuadrante superior
+                elif(y>999):
+                    C = (0,999)
+                    D = (999,999)
+            # Cuadrante derecho
+            elif(x>999):
+                cuad = 2
+                C = (999,0)
+                D = (999,999) 
+                # Cuadrante inferior
+                if(y<0):
+                    C = (0,0)
+                    D = (999,0)
+                # Cuadrante superior
+                elif(y>999):
+                    C = (0,999)
+                    D = (999,999)
+            # Cuadrante inferior
+            elif(y<0):
+                cuad = 3
+                C = (0,0)
+                D = (999,0)
+                # Cuadrante izquierdo
+                if (x<0):
+                    C = (0,0)
+                    D = (0,999)
+                # Cuadrante derecho
+                elif (x>999):
+                    C = (999,0)
+                    D = (999,999)
+            # Cuadrante superior
+            elif(y>999):
+                cuad = 1
+                C = (0,999)
+                D = (999,999)
+                if (x<0):
+                    C = (0,0)
+                    D = (0,999)
+                # Cuadrante derecho
+                elif(x>999):
+                    C = (999,0)
+                    D = (999,999)
+            res = line_intersection((A, B), (C, D))
+            if(res[0]<0 or res[0]>999 or res[1]<0 or res[1]>999):
+                if cuad == 0:
+                    C = (0,0)
+                    D = (0,999)
+                elif cuad == 1:
+                    C = (0,999)
+                    D = (999,999)
+                elif cuad == 2:
+                    C = (999,0)
+                    D = (999,999)
+                elif cuad == 3:
+                    C = (0,0)
+                    D = (999,0)
+                res = line_intersection((A, B), (C, D))
+        return (res[0],res[1])
+
 
     def shoot(self):
         misil_target = (None, None)

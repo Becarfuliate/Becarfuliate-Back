@@ -43,7 +43,7 @@ async def create_simulation(simulation: isim.SimulationCreate):
         file = file.strip(".py")
         file = file.split("_")[0]
         klass = globals()[file]
-        r = klass((randint(1, 999),randint(1, 999)),randint(0, 360))
+        r = klass((randint(0, 999), randint(0, 999)), randint(0, 360))
         robots.append(r)
     
     for i in range(simulation.n_rounds_simulations):
