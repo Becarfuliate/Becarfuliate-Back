@@ -46,3 +46,4 @@ class SimulationCreate(SimulationBase):
             raise ValueError("El valor 'usuario creador' debe ser un string")
         if not sc.check_user(user_creator):
             raise ValueError("El usuario no existe")
+        return user_creator

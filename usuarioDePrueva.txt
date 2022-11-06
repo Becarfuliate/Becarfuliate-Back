@@ -1,0 +1,3 @@
+  "username": "juan",
+  "password": "Querty123!",
+  "email": "kersulo@gmail.com"

@@ -77,3 +77,24 @@ def get_file_by_id(rob_id: int):
         robot = Robot[rob_id]
         filename = robot.name+".py"
         return filename
+
+@db_session
+def add_default_robot(username:str):
+    with db_session:
+        Robot(
+                    name="default1"+"_"+username,
+                    matchs_pleyed=0,
+                    matchs_won=0,
+                    avg_life_time=0,
+                    user_owner=username
+                )
+        commit()
+        Robot(
+                    name="default2"+"_"+username,
+                    matchs_pleyed=0,
+                    matchs_won=0,
+                    avg_life_time=0,
+                    user_owner=username
+                )
+        commit()
+        
