@@ -46,12 +46,12 @@ async def create_simulation(simulation: isim.SimulationCreate):
         r = klass((randint(100, 800), randint(100, 800)), randint(0, 360))
         robots.append(r)
     
-    for i in range(simulation.n_rounds_simulations):
-        outer_response = game(robots,simulation.n_rounds_simulations)
-        for i in outer_response:
-            k = 0
-            for j in i:
-                j["id"] = id_robot_parsed[k]
-                j["nombre"] = sc.get_robot_name(id_robot_parsed[k])
-                k += 1
+    # for i in range(simulation.n_rounds_simulations):
+    outer_response = game(robots,simulation.n_rounds_simulations)
+    for i in outer_response:
+        k = 0
+        for j in i:
+            j["id"] = id_robot_parsed[k]
+            j["nombre"] = sc.get_robot_name(id_robot_parsed[k])
+            k += 1
     return outer_response

@@ -2,6 +2,11 @@ from math import sin, cos, pi, sqrt, degrees, atan
 from typing import Tuple
 from decouple import config
 
+def distance(t1: tuple, t2: tuple):
+    #return round(((t1[0] - t2[0]) ** 2 + (t1[1] - t2[1]) ** 2) ** 0.5)
+    res = round(sqrt((t2[0]-t1[0])**2 + (t2[1]-t1[1])**2))
+    return res 
+
 ACELERATION_FACTOR = int(config("aceleration"))
 MAX_VELOCITY = int(config("maxvelocity"))
 SPIN_FACTOR = int(config("spinFactor"))
@@ -29,6 +34,7 @@ class Robot:
         self.resolution_in_degrees = 10
         self.scanned_list = []
         self.scanner_range = 100
+        self.scanned_list_OK = []
 
     # Cañón
     def is_cannon_ready(self):
@@ -73,16 +79,16 @@ class Robot:
         return self.scanned_list
    
     def polar_to_rect(self, ang, distance, origin):
+            
         def line_intersection(line1, line2):
             xdiff = (line1[0][0] - line1[1][0], line2[0][0] - line2[1][0])
             ydiff = (line1[0][1] - line1[1][1], line2[0][1] - line2[1][1])
-
             def det(a, b):
                 return a[0] * b[1] - a[1] * b[0]
 
             div = det(xdiff, ydiff)
             if div == 0:
-                return (0, 0)
+                return (0,0)
 
             d = (det(*line1), det(*line2))
             x = det(d, xdiff) / div
@@ -90,85 +96,86 @@ class Robot:
             return int(x), int(y)
 
         cuad = -1
-        radian = float(ang * pi / 180)
-        x = round(origin[0] + (distance * cos(radian)))
-        y = round(origin[1] + (distance * sin(radian)))
-        A = (0, 0)
-        B = (0, 0)
-        C = (0, 0)
-        D = (0, 0)
-        if x >= 0 and x < 1000 and y >= 0 and y < 1000:
-            res = (x, y)
+        radian = float(ang * pi /180) 
+        x = round(origin[0] + distance * cos(radian))
+        y = round(origin[1] + distance * sin(radian))
+        A = (0,0)
+        B = (0,0)
+        C = (0,0)
+        D = (0,0)
+        if(x>=0 and x<1000 and y>=0 and y<1000):
+            res = (x,y)
         else:
-            A = (origin[0], origin[1])
-            B = (x, y)
+            A = (origin[0],origin[1])
+            B = (x,y)
             # Cuadrante izquierdo
-            if x < 0:
+            if(x<0):
                 cuad = 0
-                C = (0, 0)
-                D = (0, 999)
+                C = (0,0)
+                D = (0,999)
                 # Cuadrante inferior
-                if y < 0:
-                    C = (0, 0)
-                    D = (999, 0)
+                if(y<0):
+                    C = (0,0)
+                    D = (999,0)
                 # Cuadrante superior
-                elif y > 999:
-                    C = (0, 999)
-                    D = (999, 999)
+                elif(y>999):
+                    C = (0,999)
+                    D = (999,999)
             # Cuadrante derecho
-            elif x > 999:
+            elif(x>999):
                 cuad = 2
-                C = (999, 0)
-                D = (999, 999)
+                C = (999,0)
+                D = (999,999) 
                 # Cuadrante inferior
-                if y < 0:
-                    C = (0, 0)
-                    D = (999, 0)
+                if(y<0):
+                    C = (0,0)
+                    D = (999,0)
                 # Cuadrante superior
-                elif y > 999:
-                    C = (0, 999)
-                    D = (999, 999)
+                elif(y>999):
+                    C = (0,999)
+                    D = (999,999)
             # Cuadrante inferior
-            elif y < 0:
+            elif(y<0):
                 cuad = 3
-                C = (0, 0)
-                D = (999, 0)
+                C = (0,0)
+                D = (999,0)
                 # Cuadrante izquierdo
-                if x < 0:
-                    C = (0, 0)
-                    D = (0, 999)
+                if (x<0):
+                    C = (0,0)
+                    D = (0,999)
                 # Cuadrante derecho
-                elif x > 999:
-                    C = (999, 0)
-                    D = (999, 999)
+                elif (x>999):
+                    C = (999,0)
+                    D = (999,999)
             # Cuadrante superior
-            elif y > 999:
+            elif(y>999):
                 cuad = 1
-                C = (0, 999)
-                D = (999, 999)
-                if x < 0:
-                    C = (0, 0)
-                    D = (0, 999)
+                C = (0,999)
+                D = (999,999)
+                if (x<0):
+                    C = (0,0)
+                    D = (0,999)
                 # Cuadrante derecho
-                elif x > 999:
-                    C = (999, 0)
-                    D = (999, 999)
+                elif(x>999):
+                    C = (999,0)
+                    D = (999,999)
             res = line_intersection((A, B), (C, D))
-            if res[0] < 0 or res[0] > 999 or res[1] < 0 or res[1] > 999:
+            if(res[0]<0 or res[0]>999 or res[1]<0 or res[1]>999):
                 if cuad == 0:
-                    C = (0, 0)
-                    D = (0, 999)
+                    C = (0,0)
+                    D = (0,999)
                 elif cuad == 1:
-                    C = (0, 999)
-                    D = (999, 999)
+                    C = (0,999)
+                    D = (999,999)
                 elif cuad == 2:
-                    C = (999, 0)
-                    D = (999, 999)
+                    C = (999,0)
+                    D = (999,999)
                 elif cuad == 3:
-                    C = (0, 0)
-                    D = (999, 0)
+                    C = (0,0)
+                    D = (999,0)
                 res = line_intersection((A, B), (C, D))
-        return (res[0], res[1])
+        return (res[0],res[1])
+
 
     def shoot(self):
         misil_target = (None, None)
@@ -242,6 +249,7 @@ class Robot:
         a través del siguiente método.
         """
         # Set scan direction
+        self.scanned_list_OK = self.scanned_list.copy()
         if direction < 0:
             direction = -direction
         elif direction >= 360:
@@ -257,11 +265,15 @@ class Robot:
         devuelve el resultado del escaneo de la ronda previo. Devuelve la
         distancia al robot más cercano en la dirección apuntada.
         """
-        distance = self.scanned_list
-        return distance
+        min = 1500
+        for pos in self.scanned_list_OK:
+            aux = distance(self.current_position,pos)
+            if aux < min:
+                min = aux
+        return min
 
     # Setter
-    def _scan(self, *robots_position):
+    def _scan(self, robots_position: list):
         # La máxima distancia desde (0,0) a (1000,1000) es 1414.213562373095.
         # Por eso tomando 1500 como máximo es suficiente.
         min_distance = 1500

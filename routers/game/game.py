@@ -37,7 +37,7 @@ def danio_pared(pos_r: tuple):
 
 
 def inflingir_danio(robot,other_robots):
-
+    
     if(robot.current_damage>0):
         danio_p = danio_pared(robot.current_position)
         robot.current_damage -= danio_p
@@ -66,6 +66,7 @@ def avanzar_ronda(robots:list):
     for robot in robots:
         other_robots = robots.copy()
         other_robots.remove(robot)
+        
         inflingir_danio(robot,other_robots)
     
     #respond
@@ -73,13 +74,12 @@ def avanzar_ronda(robots:list):
         if robot.current_damage > 0:
             robot.respond()
     #scan
-    #for robot in robots:
-    #    if robot.current_damage > 0:
-    #        other_robots = robots.copy()
-    #        other_robots.remove(robot)
-    #        scan_list = map(lambda x : x.current_position,other_robots)
-    #        print(scan_list)
-    #        robot._scan(scan_list)
+    for robot in robots:
+       if robot.current_damage > 0:
+           other_robots = robots.copy()
+           other_robots.remove(robot)
+           scan_list = [r.current_position for r in other_robots]
+           robot._scan(scan_list)
     #atack
     for robot in robots:
         if robot.current_damage > 0:
