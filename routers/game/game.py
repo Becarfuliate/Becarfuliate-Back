@@ -29,58 +29,57 @@ def danio_colision(pos_r1: tuple, pos_r2: tuple):
 
 def danio_pared(pos_r: tuple):
     danio = 0
-    if (pos_r[0] == 0) or (pos_r[0] == 1000):
+    if (pos_r[0] == 0) or (pos_r[0] == 999):
         danio = 2
-    elif (pos_r[1] == 0) or (pos_r[1] == 1000):
+    elif (pos_r[1] == 0) or (pos_r[1] == 999):
         danio = 2
     return danio
 
 
 def inflingir_danio(robot,other_robots):
-    i = 0
-    for robot in robots:
-        list_robot = robots.copy()
-        list_robot.pop(i)
-        if(robot.current_damage>0):
-            danio_p = danio_pared(robot.current_position)
-            robot.current_damage -= danio_p
-        
-        for robot_check in list_robot:
 
-            danio_c = danio_colision(
-                robot.current_position, robot_check.current_position
-            )
-            if (robot.current_damage>0):
-                robot.current_damage -= danio_c
-            if (robot_check.current_damage>0):    
-                robot_check.current_damage -= danio_c
-        
-        for robot_x in robots:
-            # Revisar daño por misil
-            if (robot.current_velocity < 80 and robot.current_damage>0):
-                danio2 = danio_misil(robot.current_position, robot_x.misil_position)
-                robot.current_damage -= danio2
-        
-        if(robot.current_damage<0):
-            robot.current_damage = 0
-        i+=1
+    if(robot.current_damage>0):
+        danio_p = danio_pared(robot.current_position)
+        robot.current_damage -= danio_p
+    
+    for robot_check in other_robots:
+        danio_c = danio_colision(
+            robot.current_position, robot_check.current_position
+        )
+        if (robot.current_damage>0):
+            robot.current_damage -= danio_c
+        if (robot_check.current_damage>0):    
+            robot_check.current_damage -= danio_c
+    
+    for robot_x in other_robots:
+        # Revisar daño por misil
+        if (robot.current_velocity < 80 and robot.current_damage>0):
+            danio2 = danio_misil(robot.current_position, robot_x.misil_position)
+            robot.current_damage -= danio2
+    
+    if(robot.current_damage<0):
+        robot.current_damage = 0
         
 def avanzar_ronda(robots:list):
     results_by_robots = []
     
-    #inflingir_danio(robots)
+    for robot in robots:
+        other_robots = robots.copy()
+        other_robots.remove(robot)
+        inflingir_danio(robot,other_robots)
+    
     #respond
     for robot in robots:
         if robot.current_damage > 0:
             robot.respond()
     #scan
-    i=0
-    for robot in robots:
-        if robot.current_damage > 0:
-            list_robot = robots.copy()
-            list_robot.pop(i)
-            robot._scan()
-            i+=1
+    #for robot in robots:
+    #    if robot.current_damage > 0:
+    #        other_robots = robots.copy()
+    #        other_robots.remove(robot)
+    #        scan_list = map(lambda x : x.current_position,other_robots)
+    #        print(scan_list)
+    #        robot._scan(scan_list)
     #atack
     for robot in robots:
         if robot.current_damage > 0:
@@ -90,6 +89,7 @@ def avanzar_ronda(robots:list):
     #move
     for robot in robots:
         if robot.current_damage > 0:
+            robot.last_position = robot.current_position
             robot.move()
     #generate json
     for robot in robots:
@@ -97,8 +97,8 @@ def avanzar_ronda(robots:list):
             result_round = {
                 "id": None,  # Se carga afuera
                 "imagen": None,  # Se carga afuera
-                "x": robot.current_position[0],
-                "y": robot.current_position[1],
+                "x": robot.last_position[0],
+                "y": robot.last_position[1],
                 "xf": robot.current_position[0],
                 "yf": robot.current_position[1],
                 "nombre": None,  # Se carga afuera

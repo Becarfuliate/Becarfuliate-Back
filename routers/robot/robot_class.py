@@ -14,6 +14,7 @@ class Robot:
         direction: int = None,
     ):
         self.current_position = position
+        self.last_position = position
         self.current_damage = 100
         self.current_direction = direction
         self.current_velocity = 0
@@ -68,7 +69,9 @@ class Robot:
 
     def get_direction(self):
         return self.current_direction
-
+    def get_scann(self):
+        return self.scanned_list
+   
     def polar_to_rect(self, ang, distance, origin):
         def line_intersection(line1, line2):
             xdiff = (line1[0][0] - line1[1][0], line2[0][0] - line2[1][0])
@@ -88,8 +91,8 @@ class Robot:
 
         cuad = -1
         radian = float(ang * pi / 180)
-        x = round(origin[0] + distance * cos(radian))
-        y = round(origin[1] + distance * sin(radian))
+        x = round(origin[0] + (distance * cos(radian)))
+        y = round(origin[1] + (distance * sin(radian)))
         A = (0, 0)
         B = (0, 0)
         C = (0, 0)
@@ -225,17 +228,11 @@ class Robot:
 
     def move(self):
         # seting direction
-        self.current_direction = self.block_direction(
-            self.current_direction, self.current_velocity, self.required_direction
-        )
+        self.current_direction = self.block_direction(self.current_direction, self.current_velocity, self.required_direction)
         # seting velocity
-        self.current_velocity = self.calc_velocity(
-            self.required_velocity, self.current_velocity
-        )
+        self.current_velocity = self.calc_velocity(self.required_velocity, self.current_velocity)
         # seting position
-        self.current_position = self.polar_to_rect(
-            self.current_direction, self.current_velocity, self.current_position
-        )
+        self.current_position = self.polar_to_rect(self.required_direction, self.required_velocity, self.current_position)
 
     # Escáner
     # Setter

@@ -7,5 +7,5 @@ class default2(Robot):
         pass
 
     def respond(self):
-        self.cannon(40, 300)
-        self.drive(90, 10)
+        #self.cannon(40, 300)
+        self.drive(90, 100)
