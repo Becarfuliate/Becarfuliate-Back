@@ -1,12 +1,9 @@
 from datetime import datetime
-from distutils.command.config import config
-from attr import validate
-from pony.orm import db_session, commit
-from schemas import irobot
+from pony.orm import db_session, commit,select
 from models.entities import Robot, User
 from crud.user_services import decode_JWT
 from fastapi import UploadFile
-
+from schemas import irobot
 
 def validate_file(
     filename: str,
@@ -60,9 +57,11 @@ def add_robot(
 def read_robots(token: str):
     with db_session:
         decode_token = decode_JWT(token)
+        result = []
         if decode_token["expiry"] > str(datetime.now()):
             try:
-                robots = Robot.select()
+                user = decode_token["userID"]
+                robots = select(x for x in Robot if x.user_owner.username == user)
                 result = [irobot.Robot.from_orm(r) for r in robots]
                 commit()
             except Exception as e:
