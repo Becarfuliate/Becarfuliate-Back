@@ -11,7 +11,7 @@ from crud.user_services import (
     decrypt_password,
 )
 from schemas.iuser import User_base, User_login_schema
-
+from crud.robot_service import add_default_robot
 user_end_points = APIRouter()
 
 
@@ -81,6 +81,7 @@ def user_verification(username: str, code: str):
             status_code=400,
             detail=msg
             )
+    add_default_robot(username)
     return {"Status": msg}
 
 
