@@ -36,7 +36,7 @@ def danio_pared(pos_r: tuple):
     return danio
 
 
-def inflingir_danio(robots:list):
+def inflingir_danio(robot,other_robots):
     i = 0
     for robot in robots:
         list_robot = robots.copy()
@@ -67,25 +67,58 @@ def inflingir_danio(robots:list):
         
 def avanzar_ronda(robots:list):
     results_by_robots = []
-    inflingir_danio(robots)
+    
+    #inflingir_danio(robots)
+    #respond
     for robot in robots:
-        if (robot.current_damage<=0):
-            pass
-        else:
+        if robot.current_damage > 0:
             robot.respond()
+    #scan
+    i=0
     for robot in robots:
-        # Escanear->Atacar->Mover (Con metodos privados)
-        inic_pos_x = robot.current_position[0]
-        inic_pos_y = robot.current_position[1]
-
-        if (robot.current_damage<=0):
+        if robot.current_damage > 0:
+            list_robot = robots.copy()
+            list_robot.pop(i)
+            robot._scan()
+            i+=1
+    #atack
+    for robot in robots:
+        if robot.current_damage > 0:
+            robot.shoot()
+        else:
+            robot.misil_position = (None,None)
+    #move
+    for robot in robots:
+        if robot.current_damage > 0:
+            robot.move()
+    #generate json
+    for robot in robots:
+        if robot.current_damage > 0:
             result_round = {
                 "id": None,  # Se carga afuera
                 "imagen": None,  # Se carga afuera
-                "x": inic_pos_x,
-                "y": inic_pos_y,
-                "xf": inic_pos_x,
-                "yf": inic_pos_y,
+                "x": robot.current_position[0],
+                "y": robot.current_position[1],
+                "xf": robot.current_position[0],
+                "yf": robot.current_position[1],
+                "nombre": None,  # Se carga afuera
+                "vida": robot.current_damage,
+                "mira": robot.current_direction,
+                "motor": robot.current_velocity,
+                "xmis": robot.current_position[0],
+                "ymis": robot.current_position[1],
+                "xmisf": robot.misil_position[0],
+                "ymisf": robot.misil_position[1],
+            }
+            results_by_robots.append(result_round)
+        else:
+            result_round = {
+                "id": None,  # Se carga afuera
+                "imagen": None,  # Se carga afuera
+                "x": robot.current_position[0],
+                "y": robot.current_position[1],
+                "xf": robot.current_position[0],
+                "yf": robot.current_position[1],
                 "nombre": None,  # Se carga afuera
                 "vida": robot.current_damage,
                 "mira": robot.current_direction,
@@ -96,26 +129,5 @@ def avanzar_ronda(robots:list):
                 "ymisf": None,
             }
             results_by_robots.append(result_round)
-        else:
-            tupla = robot.shoot()
-            robot.move()
-
-            # Inicializamos las variables
-            result_round = {
-                "id": None,  # Se carga afuera
-                "imagen": None,  # Se carga afuera
-                "x": inic_pos_x,
-                "y": inic_pos_y,
-                "xf": robot.current_position[0],
-                "yf": robot.current_position[1],
-                "nombre": None,  # Se carga afuera
-                "vida": robot.current_damage,
-                "mira": robot.current_direction,
-                "motor": robot.current_velocity,
-                "xmis": inic_pos_x,
-                "ymis": inic_pos_y,
-                "xmisf": tupla[0],
-                "ymisf": tupla[1],
-            }
-            results_by_robots.append(result_round)
+    
     return results_by_robots

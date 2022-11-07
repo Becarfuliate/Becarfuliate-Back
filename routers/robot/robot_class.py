@@ -180,7 +180,6 @@ class Robot:
         else:
             self.cannon_ammo = 1
         self.misil_position = misil_target
-        return misil_target
 
     def block_direction(self, current_direction, current_velocity, required_direction):
         new_direction = required_direction % 360
@@ -208,7 +207,7 @@ class Robot:
             new_velocity = required_velocity
 
         # calc velocity
-        if new_velocity < current_velocity:
+        if (new_velocity < current_velocity):
             decrease = (MAX_VELOCITY - new_velocity) * ACELERATION_FACTOR / MAX_VELOCITY
             if decrease < 0:
                 decrease = 0
@@ -216,11 +215,13 @@ class Robot:
                 return 0
             else:
                 return current_velocity - decrease
-        else:
+        elif (new_velocity>current_velocity):
             increase = new_velocity * ACELERATION_FACTOR / MAX_VELOCITY
             if increase > MAX_VELOCITY:
                 increase = MAX_VELOCITY
             return current_velocity + increase
+        else:
+            return current_velocity
 
     def move(self):
         # seting direction
