@@ -1,8 +1,40 @@
 from datetime import datetime
+from types import NoneType
 from pony.orm import db_session, commit, select, left_join
 from schemas import imatch
 from models.entities import Match, User
-from crud.user_services import decode_JWT, encrypt_password
+from crud.user_services import decode_JWT, encrypt_password, search_user_by_email
+import re
+
+
+def is_email(user_crator: str):
+    regex = (
+        r"[a-zA-Z0-9_.-]+[^!#$%^&*()]@(?:gmail"
+        r"|hotmail|yahoo|live|mi.unc|outlook)\.(?:com|es|edu.ar)"
+    )
+    result = isinstance(re.search(regex, user_crator), re.Match)
+    return result
+
+
+def is_username(user_creator: str):
+    result = True
+    if user_creator == "":
+        resutl = False
+    if " " in user_creator:
+        result = False
+    if len(user_creator) > 40:
+        result = False
+    return result
+
+
+def find_by_username_or_email(user_creator: str):
+    if is_email(user_creator):
+        result = search_user_by_email(user_creator)
+        if isinstance(result, NoneType):
+            raise Exception
+    elif is_username(user_creator):
+        result = User[user_creator]
+    return result
 
 
 @db_session
@@ -11,7 +43,7 @@ def create_match(match: imatch.MatchCreate):
         decode_token = decode_JWT(match.token)
         if decode_token["expiry"] > str(datetime.now()):
             try:
-                creator_aux = User[match.user_creator].username
+                creator_aux = find_by_username_or_email(match.user_creator)
             except Exception as e:
                 return "ObjectNotFound"
             try:
@@ -23,9 +55,9 @@ def create_match(match: imatch.MatchCreate):
                     n_matchs=min(abs(match.n_matchs), 200),
                     n_rounds_matchs=min(abs(match.n_rounds_matchs), 10000),
                     users={
-                        User[match.user_creator],
+                        creator_aux,
                     },
-                    user_creator=User[match.user_creator],
+                    user_creator=creator_aux,
                 )
                 commit()
             except Exception as e:
