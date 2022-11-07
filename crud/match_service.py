@@ -1,5 +1,5 @@
 from datetime import datetime
-from pony.orm import db_session, commit
+from pony.orm import db_session, commit, select, left_join
 from schemas import imatch
 from models.entities import Match, User
 from crud.user_services import decode_JWT, encrypt_password
@@ -61,3 +61,33 @@ def read_match(id_match: int):
         except Exception as e:
             return str(e)
         return result
+
+
+@db_session
+def read_match_players(id_match: int):
+    result = select(m.users for m in Match if m.id == id_match)
+    return result
+
+
+@db_session
+def add_player(id_match: int, name_user: str):
+    try:
+        result = ""
+        match = Match[id_match]
+        user = User[name_user]
+        print(user.username)
+        print(match.users)
+        for i in match.users:
+            if user.username in i.username:
+                result = "El usuario ya está en la partida"
+            else:
+                result = "El usuario fue agregado a la partida"
+        match.users.add(user)
+    except Exception as e:
+        error = ""
+        if "Match" in str(e):
+            error = "La partida no existe"
+        elif "User" in str(e):
+            error = "El usuario no existe"
+        return error
+    return result
