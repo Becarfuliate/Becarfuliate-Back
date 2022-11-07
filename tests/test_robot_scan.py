@@ -1,4 +1,4 @@
-from routers.robot.robot import robot
+from routers.robot.robot_class import Robot
 
 
 def test_1():
@@ -6,11 +6,11 @@ def test_1():
     Test 1: Los robots están en el mismo eje x,
             pero r2, está a 10m más arriba de r1.
     """
-    r1 = robot((500, 490), 90)
-    r2 = robot((500, 500), 90)
+    r1 = Robot((500, 490), 90)
+    r2 = Robot((500, 500), 90)
     r1.point_scanner(90, 10)
-    r1.scan(r2.position)
-    assert r1.scanned() == [r2.position]
+    r1._scan(r2.current_position)
+    assert r1.scanned() == [r2.current_position]
 
 
 def test_2():
@@ -18,11 +18,11 @@ def test_2():
     Test 2: Los robots están en el mismo eje y,
             pero r2 está a 100m a la izquierda de r1.
     """
-    r1 = robot((500, 490), 90)
-    r2 = robot((400, 490), 90)
+    r1 = Robot((500, 490), 90)
+    r2 = Robot((400, 490), 90)
     r1.point_scanner(180, 10)
-    r1.scan(r2.position)
-    assert r1.scanned() == [r2.position]
+    r1._scan(r2.current_position)
+    assert r1.scanned() == [r2.current_position]
 
 
 def test_3():
@@ -33,11 +33,11 @@ def test_3():
             r1
                 r2
     """
-    r1 = robot((500, 600), 90)
-    r2 = robot((600, 500), 90)
+    r1 = Robot((500, 600), 90)
+    r2 = Robot((600, 500), 90)
     r1.point_scanner(315, 9)
-    r1.scan(r2.position)
-    assert r1.scanned() == [r2.position]
+    r1._scan(r2.current_position)
+    assert r1.scanned() == [r2.current_position]
 
 
 def test_4():
@@ -47,11 +47,11 @@ def test_4():
                 r2
             r1
     """
-    r1 = robot((500, 500), 90)
-    r2 = robot((600, 600), 90)
+    r1 = Robot((500, 500), 90)
+    r2 = Robot((600, 600), 90)
     r1.point_scanner(45, 9)
-    r1.scan(r2.position)
-    assert r1.scanned() == [r2.position]
+    r1._scan(r2.current_position)
+    assert r1.scanned() == [r2.current_position]
 
 
 def test_5():
@@ -61,11 +61,11 @@ def test_5():
                 r1
             r2
     """
-    r1 = robot((600, 600), 90)
-    r2 = robot((500, 500), 90)
+    r1 = Robot((600, 600), 90)
+    r2 = Robot((500, 500), 90)
     r1.point_scanner(225, 9)
-    r1.scan(r2.position)
-    assert r1.scanned() == [r2.position]
+    r1._scan(r2.current_position)
+    assert r1.scanned() == [r2.current_position]
 
 
 def test_6():
@@ -77,10 +77,10 @@ def test_6():
             r1
                 r2
     """
-    r1 = robot((500, 600), 90)
-    r2 = robot((600, 500), 90)
+    r1 = Robot((500, 600), 90)
+    r2 = Robot((600, 500), 90)
     r1.point_scanner(315, 10)
-    r1.scan(r2.position)
+    r1._scan(r2.current_position)
     assert r1.scanned() == []
 
 
@@ -88,9 +88,9 @@ def test_7():
     """
     Test 7: Trae la distancia mínima aunque dos robots estén en el rango.
     """
-    r1 = robot((500, 600), 90)
-    r2 = robot((600, 500), 90)
-    r3 = robot((610, 500), 90)
+    r1 = Robot((500, 600), 90)
+    r2 = Robot((600, 500), 90)
+    r3 = Robot((610, 500), 90)
     r1.point_scanner(315, 9)
-    r1.scan(r2.position, r3.position)
-    assert r1.scanned() == [r2.position]
+    r1._scan(r2.current_position, r3.current_position)
+    assert r1.scanned() == [r2.current_position]

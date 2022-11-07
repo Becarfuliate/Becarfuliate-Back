@@ -263,14 +263,14 @@ class Robot:
         return distance
 
     # Setter
-    def scan(self, *robots_position):
+    def _scan(self, *robots_position):
         # La máxima distancia desde (0,0) a (1000,1000) es 1414.213562373095.
         # Por eso tomando 1500 como máximo es suficiente.
         min_distance = 1500
         # Coordenada del robot más cercano
         coor_r_min_d = 0
         for r_position in robots_position:
-            distance_b2_points = get_distance(self.position, r_position)
+            distance_b2_points = get_distance(self.current_position, r_position)
             if distance_b2_points <= self.scanner_range:
                 # Ya sé que está en el rango, ahora quiero ver
                 # si está en la dirección
@@ -280,39 +280,39 @@ class Robot:
                 slope = 0.0
 
                 # x_1 != x_0
-                if self.position[0] != r_position[0]:
+                if self.current_position[0] != r_position[0]:
                     # Calculamos la pendiente
-                    slope = (self.position[1] - r_position[1]) / (
-                        self.position[0] - r_position[0]
+                    slope = (self.current_position[1] - r_position[1]) / (
+                        self.current_position[0] - r_position[0]
                     )
 
                 # Los puntos están en la misma coordenada x,
                 # entonces calculamos los ángulos sin pendiente
 
                 # y_1 <= y_0
-                elif self.position[1] <= r_position[1]:
+                elif self.current_position[1] <= r_position[1]:
                     theta_s_r = 90
                 # y_1 > y_0
-                elif self.position[1] > r_position[1]:
+                elif self.current_position[1] > r_position[1]:
                     theta_s_r = 270
 
                 # x_0 <= x_1 and y_1 >= y_0
                 if (
-                    self.position[0] < r_position[0]
-                    and self.position[1] >= r_position[1]
+                    self.current_position[0] < r_position[0]
+                    and self.current_position[1] >= r_position[1]
                 ):
                     # ángulo desde mí robot al otro robot
                     theta_s_r = 360 + degrees(atan(slope))
                 # x_0 <= x1 and y_1 < y_0
                 if (
-                    self.position[0] < r_position[0]
-                    and self.position[1] < r_position[1]
+                    self.current_position[0] < r_position[0]
+                    and self.current_position[1] < r_position[1]
                 ):
                     # ángulo desde mí robot al otro robot
                     theta_s_r = degrees(atan(slope))
 
                 # x_0 > x_1
-                if self.position[0] > r_position[0]:
+                if self.current_position[0] > r_position[0]:
                     # La suma acá la introduje yo, la formula original es resta.
                     theta_s_r = 180 + degrees(atan(slope))
 
