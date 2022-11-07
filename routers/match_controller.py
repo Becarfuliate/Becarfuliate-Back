@@ -63,6 +63,12 @@ async def join_match(id_match: int, name_user: str):
     return {"Status": msg}
 
 
+@match_end_points.delete("/match/leave")
+async def join_match(id_match: int, name_user: str):
+    msg = match_service.remove_player(id_match, name_user)
+    return {"Status": msg}
+
+
 @match_end_points.get("/matchs")
 async def read_matchs(token: str):
     msg = match_service.read_matchs(token)
