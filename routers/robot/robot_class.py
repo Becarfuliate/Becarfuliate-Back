@@ -190,6 +190,7 @@ class Robot:
         else:
             self.cannon_ammo = 1
         self.misil_position = misil_target
+        return misil_target
 
     def block_direction(self, current_direction, current_velocity, required_direction):
         new_direction = required_direction % 360
@@ -270,6 +271,7 @@ class Robot:
             aux = distance(self.current_position,pos)
             if aux < min:
                 min = aux
+        self.scanned_list_OK = []
         return min
 
     # Setter

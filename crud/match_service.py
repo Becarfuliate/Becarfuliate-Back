@@ -1,5 +1,5 @@
 from datetime import datetime
-from types import NoneType
+# from types import NoneType
 from pony.orm import db_session, commit, select, left_join
 from schemas import imatch
 from models.entities import Match, User
