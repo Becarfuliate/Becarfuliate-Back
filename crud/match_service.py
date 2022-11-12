@@ -3,7 +3,7 @@ from datetime import datetime
 # from types import NoneType
 from pony.orm import db_session, commit, select, left_join
 from schemas import imatch
-from models.entities import Match, User
+from models.entities import Match, User, Robot
 from crud.user_services import decode_JWT, encrypt_password, search_user_by_email
 import re
 
@@ -117,7 +117,7 @@ def read_player_in_game(username: str, id_match: int):
 
 
 @db_session
-def add_player(id_match: int, name_user: str):
+def add_player(id_match: int, name_user: str, id_robot: int):
     try:
         result = ""
         match = Match[id_match]
@@ -128,6 +128,14 @@ def add_player(id_match: int, name_user: str):
         else:
             match.users.add(user)
             result = "El usuario fue agregado a la partida"
+            try:
+                robot = Robot[id_robot]
+                list_robots = match.robots_in_match
+                list_robots.append(id_robot)
+                match.robots_in_match = list_robots
+            except Exception as e:
+                error = "El robot no existe"
+                return error
     except Exception as e:
         error = ""
         if "Match" in str(e):

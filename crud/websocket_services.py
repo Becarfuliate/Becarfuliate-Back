@@ -10,7 +10,8 @@ class ConnectionManager:
     def __init__(self):
         self.active_connections: Dict[int, Dict[str, WebSocket]] = {}
 
-    async def connect(self, websocket: WebSocket, id_game: int, user_name: str):
+    async def connect(self, websocket: WebSocket, id_game: int, user_name: str, id_robot:int):
+        id_robot = id_robot
         await websocket.accept()
         if id_game in self.active_connections:  # Exist game in active_connections
             self.active_connections[id_game].update({user_name: websocket})
@@ -18,7 +19,6 @@ class ConnectionManager:
         else:
             self.active_connections[id_game] = {user_name: websocket}
             # return self.active_connections
-        await websocket.send_json({"msg": str(self.active_connections)})
 
     async def disconnect(self, id_game: int, name_player: int):
         await self.active_connections[id_game].get(name_player).close()

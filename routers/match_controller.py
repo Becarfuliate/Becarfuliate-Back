@@ -18,15 +18,11 @@ async def create_match(match: imatch.MatchCreate):
     return {"Status": "Match added succesfully"}
 
 
-@match_end_points.websocket("/ws/match/join/{id_game}/{user_name}")
-async def join_match(websocket: WebSocket, id_game: int, user_name: str):
-    msg = match_service.add_player(id_game, user_name)
-    await manager.connect(websocket, id_game, user_name)
-    return {"Status": msg}
-
-    # while True:
-    #     data = await connections[id_match][name_user].receive_text()
-    #     print(data)
+@match_end_points.websocket("/ws/match/join/{id_game}/{user_name}/{id_robot}")
+async def join_match(websocket: WebSocket, id_game: int, user_name: str, id_robot: int):
+    await manager.connect(websocket, id_game, user_name, id_robot)
+    await manager.broadcast_json(id_game,{"msg": user_name + " has joined the game"})
+    msg = match_service.add_player(id_game, user_name, id_robot)
 
 
 @match_end_points.delete("/match/leave")
