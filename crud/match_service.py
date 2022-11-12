@@ -1,5 +1,5 @@
 from datetime import datetime
-from types import NoneType
+#from types import NoneType
 from pony.orm import db_session, commit, select, left_join
 from schemas import imatch
 from models.entities import Match, User
@@ -107,6 +107,11 @@ def read_match_players(id_match: int):
     result = select(m.users for m in Match if m.id == id_match)
     return result
 
+@db_session
+def read_player_in_game(username: str, id_match: int):
+    result = select(m.users for m in Match if m.id == id_match)
+
+    return username in result
 
 @db_session
 def add_player(id_match: int, name_user: str):
