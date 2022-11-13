@@ -1,5 +1,6 @@
 from typing import Dict
 from fastapi import WebSocket
+from crud.match_service import add_player
 
 
 class ConnectionManager:
@@ -11,16 +12,32 @@ class ConnectionManager:
         self.active_connections: Dict[int, Dict[str, WebSocket]] = {}
 
     async def connect(self, websocket: WebSocket, id_game: int, user_name: str, id_robot:int):
-        id_robot = id_robot
-        await websocket.accept()
-        if id_game in self.active_connections:  # Exist game in active_connections
-            self.active_connections[id_game].update({user_name: websocket})
-            # return self.active_connections
-        else:
-            self.active_connections[id_game] = {user_name: websocket}
-            # return self.active_connections
+        msg = add_player(id_game, user_name, id_robot)
+        try:
+            await websocket.accept()
+            if "agregado" not in msg:
+                raise (msg)
+            if id_game in self.active_connections:  # Exist game in active_connections
+                self.active_connections[id_game].update({user_name: websocket})
+            else:
+                self.active_connections[id_game] = {user_name: websocket}
+            await self.broadcast_json(id_game,{"msg": user_name + " has joined the game"})
+            # await for messages and send messages
+            while True:
+                data = await websocket.receive_json()
+                if data == {"connection": "close"}:
+                    await self.disconnect(id_game, user_name, id_robot)
+                    await self.broadcast_json(id_game, {"msg": user_name + " has left the game"})
+                    break
+                else:
+                    print(f'CLIENT says - {data}')
+        except Exception:
+            print(msg)
+            await websocket.send_json({"status": "Cerrada - " + msg})
+            await websocket.close()
 
-    async def disconnect(self, id_game: int, name_player: int):
+
+    async def disconnect(self, id_game: int, name_player: int, id_robot: int):
         await self.active_connections[id_game].get(name_player).close()
         self.active_connections[id_game].pop(name_player)
         if self.active_connections[id_game] == {}:  # Empty game
