@@ -21,6 +21,6 @@ from fastapi.testclient import TestClient
 
 def test_websocket():
     client = TestClient(match_end_points)
-    with client.websocket_connect("/ws/match/join/2/Lichi/1") as websocket:
+    with client.websocket_connect("/ws/match/2/Lichi/1") as websocket:
         data = websocket.receive_json()
         assert data == {'msg': 'Lichi has joined the game'}
