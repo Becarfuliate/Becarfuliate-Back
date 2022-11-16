@@ -1,4 +1,4 @@
-from fastapi import APIRouter, HTTPException, File, UploadFile
+from fastapi import APIRouter, HTTPException, File, UploadFile, Response
 from crud import robot_service
 from crud.robot_service import add_robot
 from pathlib import Path
@@ -65,3 +65,9 @@ async def robot_upload(
 def read_robots(token: str):
     msg = robot_service.read_robots(token)
     return msg
+
+@robot_end_points.get("/image",responses = {200: {"content": {"image/png": {}}}}, response_class=Response)
+def get_image():
+    image_bytes: bytes = generate_cat_picture()
+    # media_type here sets the media type of the actual response sent to the client.
+    return Response(content=image_bytes, media_type="image/png")

@@ -129,6 +129,12 @@ def add_player(id_match: int, tkn: str, id_robot: int):
             match = Match[id_match]
             user = User[username]
             robot = Robot[id_robot]
+            if len(match.users) > 3:
+                error = "La partida esta llena"
+            elif str(robot.name).split("_")[1] != username:
+                error = "El robot no pertenece al usuario"
+            elif user in match.users:
+                error = "El usuario ya esta en la partida"
         except Exception as e:
             if "Match" in str(e):
                 error = "La partida no existe"
@@ -136,10 +142,7 @@ def add_player(id_match: int, tkn: str, id_robot: int):
                 error = "El usuario no existe"
             elif "Robot" in str(e):
                 error = "El robot no existe"
-        if len(match.users) > 3:
-            error = "La partida esta llena"
-        elif str(robot.name).split("_")[1] != username:
-            error = "El robot no pertenece al usuario"
+            return error
         if error == "":
             match.users.add(user)
             list_robots = match.robots_in_match
