@@ -18,9 +18,9 @@ async def create_match(match: imatch.MatchCreate):
     return {"Status": "Match added succesfully"}
 
 
-@match_end_points.websocket("/ws/match/{id_game}/{user_name}/{id_robot}")
-async def join_match(websocket: WebSocket, id_game: int, user_name: str, id_robot: int):
-    await manager.connect(websocket, id_game, user_name, id_robot)
+@match_end_points.websocket("/ws/match/{id_game}/{tkn}/{id_robot}")
+async def join_match(websocket: WebSocket, id_game: int, tkn: str, id_robot: int):
+    await manager.connect(websocket, id_game, tkn, id_robot)
 
 
 @match_end_points.get("/matchs")

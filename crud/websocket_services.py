@@ -11,23 +11,24 @@ class ConnectionManager:
     def __init__(self):
         self.active_connections: Dict[int, Dict[str, WebSocket]] = {}
 
-    async def connect(self, websocket: WebSocket, id_game: int, user_name: str, id_robot:int):
-        msg = add_player(id_game, user_name, id_robot)
+    async def connect(self, websocket: WebSocket, id_game: int, tkn: str, id_robot:int):
+        msg = add_player(id_game, tkn, id_robot)
+        user_name = msg.split(":")[0]
         try:
             await websocket.accept()
-            if "agregado" not in msg:
+            if ":" not in msg:
                 raise (msg)
             if id_game in self.active_connections:  # Exist game in active_connections
                 self.active_connections[id_game].update({user_name: websocket})
             else:
                 self.active_connections[id_game] = {user_name: websocket}
-            await self.broadcast_json(id_game,{"msg": user_name + " has joined the game"})
+            await self.broadcast_json(id_game,{"join": msg })
             # await for messages and send messages
             while True:
                 data = await websocket.receive_json()
                 if data == {"connection": "close"}:
                     await self.disconnect(id_game, user_name, id_robot)
-                    await self.broadcast_json(id_game, {"msg": user_name + " has left the game"})
+                    await self.broadcast_json(id_game, {"leave": msg})
                     break
                 else:
                     print(f'CLIENT says - {data}')

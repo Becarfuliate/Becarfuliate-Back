@@ -117,32 +117,37 @@ def read_player_in_game(username: str, id_match: int):
 
 
 @db_session
-def add_player(id_match: int, name_user: str, id_robot: int):
-    try:
-        result = ""
-        match = Match[id_match]
-        user = User[name_user]
-        count = len(match.users)
-        if count >= 4:
-            result = "La partida esta llena"
-        else:
-            match.users.add(user)
-            result = "El usuario fue agregado a la partida"
-            try:
-                robot = Robot[id_robot]
-                list_robots = match.robots_in_match
-                list_robots.append(id_robot)
-                match.robots_in_match = list_robots
-            except Exception as e:
-                error = "El robot no existe"
-                return error
-    except Exception as e:
+def add_player(id_match: int, tkn: str, id_robot: int):
+    result = ""
+    with db_session:
+        decode_token = decode_JWT(tkn)
         error = ""
-        if "Match" in str(e):
-            error = "La partida no existe"
-        elif "User" in str(e):
-            error = "El usuario no existe"
-        return error
+        username = decode_token['userID']
+        if (str(decode_token["expiry"]) < str(datetime.now())):
+            return "Token no valido"
+        try:
+            match = Match[id_match]
+            user = User[username]
+            robot = Robot[id_robot]
+        except Exception as e:
+            if "Match" in str(e):
+                error = "La partida no existe"
+            elif "User" in str(e):
+                error = "El usuario no existe"
+            elif "Robot" in str(e):
+                error = "El robot no existe"
+        if len(match.users) > 3:
+            error = "La partida esta llena"
+        elif str(robot.name).split("_")[1] != username:
+            error = "El robot no pertenece al usuario"
+        if error == "":
+            match.users.add(user)
+            list_robots = match.robots_in_match
+            list_robots.append(id_robot)
+            match.robots_in_match = list_robots
+            result = str(username) + ":" + str(robot.name).split("_")[0]
+        else:
+            result = error
     return result
 
 
