@@ -129,7 +129,7 @@ def add_player(id_match: int, tkn: str, id_robot: int):
             match = Match[id_match]
             user = User[username]
             robot = Robot[id_robot]
-            if len(match.users) > 3:
+            if len(match.users) == match.max_players:
                 error = "La partida esta llena"
             elif str(robot.name).split("_")[1] != username:
                 error = "El robot no pertenece al usuario"
