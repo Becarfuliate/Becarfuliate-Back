@@ -104,6 +104,22 @@ def get_match_id(match_name: str):
 
 
 @db_session
+def get_match_rounds(match_id: int):
+    query = select(m.n_rounds_matchs for m in Match if m.id == match_id)
+    for i in query:
+        result = i
+    return result
+
+
+@db_session
+def get_match_games(match_id: int):
+    query = select(m.n_matchs for m in Match if m.id == match_id)
+    for i in query:
+        result = i
+    return result
+
+
+@db_session
 def read_match_players(id_match: int):
     result = select(m.users for m in Match if m.id == id_match)
     return result
@@ -122,8 +138,8 @@ def add_player(id_match: int, tkn: str, id_robot: int):
     with db_session:
         decode_token = decode_JWT(tkn)
         error = ""
-        username = decode_token['userID']
-        if (str(decode_token["expiry"]) < str(datetime.now())):
+        username = decode_token["userID"]
+        if str(decode_token["expiry"]) < str(datetime.now()):
             return "Token no valido"
         try:
             match = Match[id_match]
@@ -174,3 +190,21 @@ def remove_player(id_match: int, name_user: str):
             error = "El usuario no existe"
         return error
     return result
+
+
+@db_session
+def start_game(id_match: int, name_user: str):
+    try:
+        msg = ""
+        match = Match[id_match]
+        user = User[name_user]
+        if not user.username == match.user_creator.username:
+            msg = {"Status": "No es el creador de la partida"}
+            return msg
+        match_robots = match.robots_in_match
+        if len(match_robots) < 2:
+            msg = {"Status": "La partida no tiene suficientes jugadores"}
+            return msg
+    except Exception as e:
+        return str(e)
+    return list(match_robots)
