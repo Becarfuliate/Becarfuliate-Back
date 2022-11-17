@@ -1,5 +1,6 @@
 from routers.match_controller import match_end_points
 from fastapi.testclient import TestClient
+from pony.orm import db_session
 
 # "match/join?id_match=" + str(id_match) + "&name_user=" + "Capogrossi"
 
@@ -18,7 +19,34 @@ from fastapi.testclient import TestClient
 #         data3 = websocket3.receive_json()
 #         assert data3 == {'msg': 'jesus has joined the game'}
 
+# Preparando la BD para el test
+def client_post_register(username, password, email):
+    return client.post(
+        "/register",
+        json={
+            "username": username,
+            "password": password,
+            "email": email
+            }
+    )
 
+@db_session
+def elim_user(username: str):
+    with db_session:
+        User[username].delete()
+
+
+def delete_db():
+    elim_user("anonymous")
+
+def load_bd():
+    client_post_register(
+        "anonymous",
+        "Asd23asdasdasdasd@",
+        "anonymous@hotmail.com"
+    )
+
+# Test en si
 def test_websocket():
     client = TestClient(match_end_points)
     with client.websocket_connect("/ws/match/2/Lichi/1") as websocket:
