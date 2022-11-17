@@ -1,0 +1,896 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="es" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>tests package &mdash; documentación de Becarefuliate - 0.1</title>
+      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script src="_static/translations.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Índice" href="genindex.html" />
+    <link rel="search" title="Búsqueda" href="search.html" />
+    <link rel="prev" title="schemas package" href="schemas.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="index.html" class="icon icon-home"> Becarefuliate
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Buscar documentos" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="modules.html">Becarfuliate-Back</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="crud.html">crud package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="db.html">db package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="main.html">main module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="models.html">models package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="routers.html">routers package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="schemas.html">schemas package</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">tests package</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#submodules">Submodules</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#module-tests.test_confirmation">tests.test_confirmation module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#module-tests.test_game">tests.test_game module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#module-tests.test_load_robot">tests.test_load_robot module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#module-tests.test_loggin">tests.test_loggin module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#module-tests.test_match">tests.test_match module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#module-tests.test_move">tests.test_move module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#module-tests.test_register">tests.test_register module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#module-tests.test_robot_drive">tests.test_robot_drive module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#module-tests.test_robot_scan">tests.test_robot_scan module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#module-tests.test_shoot">tests.test_shoot module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#module-tests.test_simulation">tests.test_simulation module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#module-tests">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">Becarefuliate</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home"></a></li>
+          <li class="breadcrumb-item"><a href="modules.html">Becarfuliate-Back</a></li>
+      <li class="breadcrumb-item active">tests package</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/tests.rst.txt" rel="nofollow"> Ver código fuente de la página</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="tests-package">
+<h1>tests package<a class="headerlink" href="#tests-package" title="Enlazar permanentemente con este título"></a></h1>
+<section id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Enlazar permanentemente con este título"></a></h2>
+</section>
+<section id="module-tests.test_confirmation">
+<span id="tests-test-confirmation-module"></span><h2>tests.test_confirmation module<a class="headerlink" href="#module-tests.test_confirmation" title="Enlazar permanentemente con este título"></a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="tests.test_confirmation.client_get_verify">
+<span class="sig-prename descclassname"><span class="pre">tests.test_confirmation.</span></span><span class="sig-name descname"><span class="pre">client_get_verify</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">username_to_ver</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">user_code</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/tests/test_confirmation.html#client_get_verify"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#tests.test_confirmation.client_get_verify" title="Enlazar permanentemente con esta definición"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="tests.test_confirmation.client_post_register">
+<span class="sig-prename descclassname"><span class="pre">tests.test_confirmation.</span></span><span class="sig-name descname"><span class="pre">client_post_register</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">username</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">password</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">email</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/tests/test_confirmation.html#client_post_register"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#tests.test_confirmation.client_post_register" title="Enlazar permanentemente con esta definición"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="tests.test_confirmation.delete_db">
+<span class="sig-prename descclassname"><span class="pre">tests.test_confirmation.</span></span><span class="sig-name descname"><span class="pre">delete_db</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/tests/test_confirmation.html#delete_db"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#tests.test_confirmation.delete_db" title="Enlazar permanentemente con esta definición"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="tests.test_confirmation.elim_user">
+<span class="sig-prename descclassname"><span class="pre">tests.test_confirmation.</span></span><span class="sig-name descname"><span class="pre">elim_user</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">username</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/tests/test_confirmation.html#elim_user"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#tests.test_confirmation.elim_user" title="Enlazar permanentemente con esta definición"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="tests.test_confirmation.test_confirmation_code_wrong">
+<span class="sig-prename descclassname"><span class="pre">tests.test_confirmation.</span></span><span class="sig-name descname"><span class="pre">test_confirmation_code_wrong</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/tests/test_confirmation.html#test_confirmation_code_wrong"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#tests.test_confirmation.test_confirmation_code_wrong" title="Enlazar permanentemente con esta definición"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="tests.test_confirmation.test_confirmation_success">
+<span class="sig-prename descclassname"><span class="pre">tests.test_confirmation.</span></span><span class="sig-name descname"><span class="pre">test_confirmation_success</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/tests/test_confirmation.html#test_confirmation_success"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#tests.test_confirmation.test_confirmation_success" title="Enlazar permanentemente con esta definición"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="tests.test_confirmation.test_confirmation_user_wrong">
+<span class="sig-prename descclassname"><span class="pre">tests.test_confirmation.</span></span><span class="sig-name descname"><span class="pre">test_confirmation_user_wrong</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/tests/test_confirmation.html#test_confirmation_user_wrong"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#tests.test_confirmation.test_confirmation_user_wrong" title="Enlazar permanentemente con esta definición"></a></dt>
+<dd></dd></dl>
+
+</section>
+<section id="module-tests.test_game">
+<span id="tests-test-game-module"></span><h2>tests.test_game module<a class="headerlink" href="#module-tests.test_game" title="Enlazar permanentemente con este título"></a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="tests.test_game.test_avanzar_ronda">
+<span class="sig-prename descclassname"><span class="pre">tests.test_game.</span></span><span class="sig-name descname"><span class="pre">test_avanzar_ronda</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/tests/test_game.html#test_avanzar_ronda"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#tests.test_game.test_avanzar_ronda" title="Enlazar permanentemente con esta definición"></a></dt>
+<dd></dd></dl>
+
+</section>
+<section id="module-tests.test_load_robot">
+<span id="tests-test-load-robot-module"></span><h2>tests.test_load_robot module<a class="headerlink" href="#module-tests.test_load_robot" title="Enlazar permanentemente con este título"></a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="tests.test_load_robot.client_fast_confirmation">
+<span class="sig-prename descclassname"><span class="pre">tests.test_load_robot.</span></span><span class="sig-name descname"><span class="pre">client_fast_confirmation</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">username</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/tests/test_load_robot.html#client_fast_confirmation"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#tests.test_load_robot.client_fast_confirmation" title="Enlazar permanentemente con esta definición"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="tests.test_load_robot.client_post_register">
+<span class="sig-prename descclassname"><span class="pre">tests.test_load_robot.</span></span><span class="sig-name descname"><span class="pre">client_post_register</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">username</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">password</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">email</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/tests/test_load_robot.html#client_post_register"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#tests.test_load_robot.client_post_register" title="Enlazar permanentemente con esta definición"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="tests.test_load_robot.delete_db">
+<span class="sig-prename descclassname"><span class="pre">tests.test_load_robot.</span></span><span class="sig-name descname"><span class="pre">delete_db</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/tests/test_load_robot.html#delete_db"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#tests.test_load_robot.delete_db" title="Enlazar permanentemente con esta definición"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="tests.test_load_robot.elim_bot">
+<span class="sig-prename descclassname"><span class="pre">tests.test_load_robot.</span></span><span class="sig-name descname"><span class="pre">elim_bot</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/tests/test_load_robot.html#elim_bot"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#tests.test_load_robot.elim_bot" title="Enlazar permanentemente con esta definición"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="tests.test_load_robot.elim_user">
+<span class="sig-prename descclassname"><span class="pre">tests.test_load_robot.</span></span><span class="sig-name descname"><span class="pre">elim_user</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">username</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/tests/test_load_robot.html#elim_user"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#tests.test_load_robot.elim_user" title="Enlazar permanentemente con esta definición"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="tests.test_load_robot.test_load_bad_format">
+<span class="sig-prename descclassname"><span class="pre">tests.test_load_robot.</span></span><span class="sig-name descname"><span class="pre">test_load_bad_format</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/tests/test_load_robot.html#test_load_bad_format"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#tests.test_load_robot.test_load_bad_format" title="Enlazar permanentemente con esta definición"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="tests.test_load_robot.test_load_bad_tkn">
+<span class="sig-prename descclassname"><span class="pre">tests.test_load_robot.</span></span><span class="sig-name descname"><span class="pre">test_load_bad_tkn</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/tests/test_load_robot.html#test_load_bad_tkn"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#tests.test_load_robot.test_load_bad_tkn" title="Enlazar permanentemente con esta definición"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="tests.test_load_robot.test_load_robot">
+<span class="sig-prename descclassname"><span class="pre">tests.test_load_robot.</span></span><span class="sig-name descname"><span class="pre">test_load_robot</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/tests/test_load_robot.html#test_load_robot"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#tests.test_load_robot.test_load_robot" title="Enlazar permanentemente con esta definición"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="tests.test_load_robot.test_load_user_not_exist">
+<span class="sig-prename descclassname"><span class="pre">tests.test_load_robot.</span></span><span class="sig-name descname"><span class="pre">test_load_user_not_exist</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/tests/test_load_robot.html#test_load_user_not_exist"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#tests.test_load_robot.test_load_user_not_exist" title="Enlazar permanentemente con esta definición"></a></dt>
+<dd></dd></dl>
+
+</section>
+<section id="module-tests.test_loggin">
+<span id="tests-test-loggin-module"></span><h2>tests.test_loggin module<a class="headerlink" href="#module-tests.test_loggin" title="Enlazar permanentemente con este título"></a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="tests.test_loggin.client_post_register_l">
+<span class="sig-prename descclassname"><span class="pre">tests.test_loggin.</span></span><span class="sig-name descname"><span class="pre">client_post_register_l</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">username</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">password</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">email</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/tests/test_loggin.html#client_post_register_l"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#tests.test_loggin.client_post_register_l" title="Enlazar permanentemente con esta definición"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="tests.test_loggin.delete_db">
+<span class="sig-prename descclassname"><span class="pre">tests.test_loggin.</span></span><span class="sig-name descname"><span class="pre">delete_db</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/tests/test_loggin.html#delete_db"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#tests.test_loggin.delete_db" title="Enlazar permanentemente con esta definición"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="tests.test_loggin.elim_user">
+<span class="sig-prename descclassname"><span class="pre">tests.test_loggin.</span></span><span class="sig-name descname"><span class="pre">elim_user</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">username</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/tests/test_loggin.html#elim_user"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#tests.test_loggin.elim_user" title="Enlazar permanentemente con esta definición"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="tests.test_loggin.set_confirmation_true">
+<span class="sig-prename descclassname"><span class="pre">tests.test_loggin.</span></span><span class="sig-name descname"><span class="pre">set_confirmation_true</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">username</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/tests/test_loggin.html#set_confirmation_true"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#tests.test_loggin.set_confirmation_true" title="Enlazar permanentemente con esta definición"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="tests.test_loggin.test_email_login_email_not_verificated">
+<span class="sig-prename descclassname"><span class="pre">tests.test_loggin.</span></span><span class="sig-name descname"><span class="pre">test_email_login_email_not_verificated</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/tests/test_loggin.html#test_email_login_email_not_verificated"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#tests.test_loggin.test_email_login_email_not_verificated" title="Enlazar permanentemente con esta definición"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="tests.test_loggin.test_email_login_invalid_password">
+<span class="sig-prename descclassname"><span class="pre">tests.test_loggin.</span></span><span class="sig-name descname"><span class="pre">test_email_login_invalid_password</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/tests/test_loggin.html#test_email_login_invalid_password"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#tests.test_loggin.test_email_login_invalid_password" title="Enlazar permanentemente con esta definición"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="tests.test_loggin.test_email_login_invalid_user">
+<span class="sig-prename descclassname"><span class="pre">tests.test_loggin.</span></span><span class="sig-name descname"><span class="pre">test_email_login_invalid_user</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/tests/test_loggin.html#test_email_login_invalid_user"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#tests.test_loggin.test_email_login_invalid_user" title="Enlazar permanentemente con esta definición"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="tests.test_loggin.test_email_login_success">
+<span class="sig-prename descclassname"><span class="pre">tests.test_loggin.</span></span><span class="sig-name descname"><span class="pre">test_email_login_success</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/tests/test_loggin.html#test_email_login_success"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#tests.test_loggin.test_email_login_success" title="Enlazar permanentemente con esta definición"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="tests.test_loggin.test_get_payload">
+<span class="sig-prename descclassname"><span class="pre">tests.test_loggin.</span></span><span class="sig-name descname"><span class="pre">test_get_payload</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">userID=&lt;generator</span> <span class="pre">object</span> <span class="pre">&lt;genexpr&gt;&gt;</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/tests/test_loggin.html#test_get_payload"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#tests.test_loggin.test_get_payload" title="Enlazar permanentemente con esta definición"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="tests.test_loggin.test_register_username1_success">
+<span class="sig-prename descclassname"><span class="pre">tests.test_loggin.</span></span><span class="sig-name descname"><span class="pre">test_register_username1_success</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/tests/test_loggin.html#test_register_username1_success"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#tests.test_loggin.test_register_username1_success" title="Enlazar permanentemente con esta definición"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="tests.test_loggin.test_register_username2_success">
+<span class="sig-prename descclassname"><span class="pre">tests.test_loggin.</span></span><span class="sig-name descname"><span class="pre">test_register_username2_success</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/tests/test_loggin.html#test_register_username2_success"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#tests.test_loggin.test_register_username2_success" title="Enlazar permanentemente con esta definición"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="tests.test_loggin.test_set_confirmation_true">
+<span class="sig-prename descclassname"><span class="pre">tests.test_loggin.</span></span><span class="sig-name descname"><span class="pre">test_set_confirmation_true</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/tests/test_loggin.html#test_set_confirmation_true"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#tests.test_loggin.test_set_confirmation_true" title="Enlazar permanentemente con esta definición"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="tests.test_loggin.test_sign_and_decode_JWT">
+<span class="sig-prename descclassname"><span class="pre">tests.test_loggin.</span></span><span class="sig-name descname"><span class="pre">test_sign_and_decode_JWT</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">r</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'BUi1mhtN'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/tests/test_loggin.html#test_sign_and_decode_JWT"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#tests.test_loggin.test_sign_and_decode_JWT" title="Enlazar permanentemente con esta definición"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="tests.test_loggin.test_user_login_email_not_verificated">
+<span class="sig-prename descclassname"><span class="pre">tests.test_loggin.</span></span><span class="sig-name descname"><span class="pre">test_user_login_email_not_verificated</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/tests/test_loggin.html#test_user_login_email_not_verificated"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#tests.test_loggin.test_user_login_email_not_verificated" title="Enlazar permanentemente con esta definición"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="tests.test_loggin.test_user_login_invalid_password">
+<span class="sig-prename descclassname"><span class="pre">tests.test_loggin.</span></span><span class="sig-name descname"><span class="pre">test_user_login_invalid_password</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/tests/test_loggin.html#test_user_login_invalid_password"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#tests.test_loggin.test_user_login_invalid_password" title="Enlazar permanentemente con esta definición"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="tests.test_loggin.test_user_login_success">
+<span class="sig-prename descclassname"><span class="pre">tests.test_loggin.</span></span><span class="sig-name descname"><span class="pre">test_user_login_success</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/tests/test_loggin.html#test_user_login_success"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#tests.test_loggin.test_user_login_success" title="Enlazar permanentemente con esta definición"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="tests.test_loggin.test_username_login_invalid_user">
+<span class="sig-prename descclassname"><span class="pre">tests.test_loggin.</span></span><span class="sig-name descname"><span class="pre">test_username_login_invalid_user</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/tests/test_loggin.html#test_username_login_invalid_user"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#tests.test_loggin.test_username_login_invalid_user" title="Enlazar permanentemente con esta definición"></a></dt>
+<dd></dd></dl>
+
+</section>
+<section id="module-tests.test_match">
+<span id="tests-test-match-module"></span><h2>tests.test_match module<a class="headerlink" href="#module-tests.test_match" title="Enlazar permanentemente con este título"></a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="tests.test_match.client_fast_confirmation">
+<span class="sig-prename descclassname"><span class="pre">tests.test_match.</span></span><span class="sig-name descname"><span class="pre">client_fast_confirmation</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">username</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/tests/test_match.html#client_fast_confirmation"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#tests.test_match.client_fast_confirmation" title="Enlazar permanentemente con esta definición"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="tests.test_match.client_post_register">
+<span class="sig-prename descclassname"><span class="pre">tests.test_match.</span></span><span class="sig-name descname"><span class="pre">client_post_register</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">username</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">password</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">email</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/tests/test_match.html#client_post_register"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#tests.test_match.client_post_register" title="Enlazar permanentemente con esta definición"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="tests.test_match.delete_db">
+<span class="sig-prename descclassname"><span class="pre">tests.test_match.</span></span><span class="sig-name descname"><span class="pre">delete_db</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/tests/test_match.html#delete_db"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#tests.test_match.delete_db" title="Enlazar permanentemente con esta definición"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="tests.test_match.delete_db_v2">
+<span class="sig-prename descclassname"><span class="pre">tests.test_match.</span></span><span class="sig-name descname"><span class="pre">delete_db_v2</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/tests/test_match.html#delete_db_v2"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#tests.test_match.delete_db_v2" title="Enlazar permanentemente con esta definición"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="tests.test_match.elim_user">
+<span class="sig-prename descclassname"><span class="pre">tests.test_match.</span></span><span class="sig-name descname"><span class="pre">elim_user</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">username</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/tests/test_match.html#elim_user"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#tests.test_match.elim_user" title="Enlazar permanentemente con esta definición"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="tests.test_match.test_match_add_bad_max_players">
+<span class="sig-prename descclassname"><span class="pre">tests.test_match.</span></span><span class="sig-name descname"><span class="pre">test_match_add_bad_max_players</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/tests/test_match.html#test_match_add_bad_max_players"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#tests.test_match.test_match_add_bad_max_players" title="Enlazar permanentemente con esta definición"></a></dt>
+<dd><p>TEST_1: Agregar partida incorrectamente,
+sobrepasando el número máximo de jugadores
+devuelve un error de 422.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="tests.test_match.test_match_add_bad_min_players">
+<span class="sig-prename descclassname"><span class="pre">tests.test_match.</span></span><span class="sig-name descname"><span class="pre">test_match_add_bad_min_players</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/tests/test_match.html#test_match_add_bad_min_players"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#tests.test_match.test_match_add_bad_min_players" title="Enlazar permanentemente con esta definición"></a></dt>
+<dd><p>TEST_2: Agregar partida incorrectamente,
+sobrepasando el número min de jugadores
+devuelve un error de 422.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="tests.test_match.test_match_add_bad_name">
+<span class="sig-prename descclassname"><span class="pre">tests.test_match.</span></span><span class="sig-name descname"><span class="pre">test_match_add_bad_name</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/tests/test_match.html#test_match_add_bad_name"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#tests.test_match.test_match_add_bad_name" title="Enlazar permanentemente con esta definición"></a></dt>
+<dd><dl class="simple">
+<dt>TEST_5: Agregar partida incorrectamente, colocando un nombre vacío</dt><dd><p>devuelve un error de 422.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="tests.test_match.test_match_add_bad_name_long">
+<span class="sig-prename descclassname"><span class="pre">tests.test_match.</span></span><span class="sig-name descname"><span class="pre">test_match_add_bad_name_long</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/tests/test_match.html#test_match_add_bad_name_long"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#tests.test_match.test_match_add_bad_name_long" title="Enlazar permanentemente con esta definición"></a></dt>
+<dd><dl class="simple">
+<dt>TEST_6: Agregar partida incorrectamente, colocando un nombre vacío</dt><dd><p>devuelve un error de 422.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="tests.test_match.test_match_add_bad_name_long_v1">
+<span class="sig-prename descclassname"><span class="pre">tests.test_match.</span></span><span class="sig-name descname"><span class="pre">test_match_add_bad_name_long_v1</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/tests/test_match.html#test_match_add_bad_name_long_v1"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#tests.test_match.test_match_add_bad_name_long_v1" title="Enlazar permanentemente con esta definición"></a></dt>
+<dd><p>TEST_7: Agregar partida incorrectamente,
+colocando un nombre (caracter + vacío)
+devuelve un error de 422.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="tests.test_match.test_match_add_bad_name_long_v2">
+<span class="sig-prename descclassname"><span class="pre">tests.test_match.</span></span><span class="sig-name descname"><span class="pre">test_match_add_bad_name_long_v2</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/tests/test_match.html#test_match_add_bad_name_long_v2"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#tests.test_match.test_match_add_bad_name_long_v2" title="Enlazar permanentemente con esta definición"></a></dt>
+<dd><p>TEST_8: Agregar partida incorrectamente,
+colocando un nombre (vacío + caracter)
+devuelve un error de 422.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="tests.test_match.test_match_add_bad_number_matchs">
+<span class="sig-prename descclassname"><span class="pre">tests.test_match.</span></span><span class="sig-name descname"><span class="pre">test_match_add_bad_number_matchs</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/tests/test_match.html#test_match_add_bad_number_matchs"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#tests.test_match.test_match_add_bad_number_matchs" title="Enlazar permanentemente con esta definición"></a></dt>
+<dd><dl class="simple">
+<dt>TEST_3: Agregar partida incorrectamente, sobrepasando el número de juegos</dt><dd><p>devuelve un error de 422.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="tests.test_match.test_match_add_bad_number_rounds">
+<span class="sig-prename descclassname"><span class="pre">tests.test_match.</span></span><span class="sig-name descname"><span class="pre">test_match_add_bad_number_rounds</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/tests/test_match.html#test_match_add_bad_number_rounds"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#tests.test_match.test_match_add_bad_number_rounds" title="Enlazar permanentemente con esta definición"></a></dt>
+<dd><dl class="simple">
+<dt>TEST_4: Agregar partida incorrectamente, sobrepasando el número de rondas</dt><dd><p>devuelve un error de 422.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="tests.test_match.test_match_add_bad_type_insert_v0">
+<span class="sig-prename descclassname"><span class="pre">tests.test_match.</span></span><span class="sig-name descname"><span class="pre">test_match_add_bad_type_insert_v0</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/tests/test_match.html#test_match_add_bad_type_insert_v0"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#tests.test_match.test_match_add_bad_type_insert_v0" title="Enlazar permanentemente con esta definición"></a></dt>
+<dd><dl class="simple">
+<dt>TEST_9: Agregar partida incorrectamente, un caracter en campos numéricos.</dt><dd><p>devuelve un error de 422.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="tests.test_match.test_match_add_success">
+<span class="sig-prename descclassname"><span class="pre">tests.test_match.</span></span><span class="sig-name descname"><span class="pre">test_match_add_success</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/tests/test_match.html#test_match_add_success"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#tests.test_match.test_match_add_success" title="Enlazar permanentemente con esta definición"></a></dt>
+<dd><dl class="simple">
+<dt>TEST_0: Agregar partida correctamente.</dt><dd><p>PRE: Que la partida no haya sido creada.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="tests.test_match.test_match_join">
+<span class="sig-prename descclassname"><span class="pre">tests.test_match.</span></span><span class="sig-name descname"><span class="pre">test_match_join</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/tests/test_match.html#test_match_join"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#tests.test_match.test_match_join" title="Enlazar permanentemente con esta definición"></a></dt>
+<dd><p>TEST_10: Unirse a la partida.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="tests.test_match.test_match_join_user_in_game">
+<span class="sig-prename descclassname"><span class="pre">tests.test_match.</span></span><span class="sig-name descname"><span class="pre">test_match_join_user_in_game</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/tests/test_match.html#test_match_join_user_in_game"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#tests.test_match.test_match_join_user_in_game" title="Enlazar permanentemente con esta definición"></a></dt>
+<dd><p>TEST_12: Unirse a la partida.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="tests.test_match.test_match_leave">
+<span class="sig-prename descclassname"><span class="pre">tests.test_match.</span></span><span class="sig-name descname"><span class="pre">test_match_leave</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/tests/test_match.html#test_match_leave"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#tests.test_match.test_match_leave" title="Enlazar permanentemente con esta definición"></a></dt>
+<dd><p>TEST_13: Salir de la partida.</p>
+</dd></dl>
+
+</section>
+<section id="module-tests.test_move">
+<span id="tests-test-move-module"></span><h2>tests.test_move module<a class="headerlink" href="#module-tests.test_move" title="Enlazar permanentemente con este título"></a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="tests.test_move.test_blockdrirection1">
+<span class="sig-prename descclassname"><span class="pre">tests.test_move.</span></span><span class="sig-name descname"><span class="pre">test_blockdrirection1</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/tests/test_move.html#test_blockdrirection1"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#tests.test_move.test_blockdrirection1" title="Enlazar permanentemente con esta definición"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="tests.test_move.test_blockdrirection2">
+<span class="sig-prename descclassname"><span class="pre">tests.test_move.</span></span><span class="sig-name descname"><span class="pre">test_blockdrirection2</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/tests/test_move.html#test_blockdrirection2"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#tests.test_move.test_blockdrirection2" title="Enlazar permanentemente con esta definición"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="tests.test_move.test_blockdrirection3">
+<span class="sig-prename descclassname"><span class="pre">tests.test_move.</span></span><span class="sig-name descname"><span class="pre">test_blockdrirection3</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/tests/test_move.html#test_blockdrirection3"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#tests.test_move.test_blockdrirection3" title="Enlazar permanentemente con esta definición"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="tests.test_move.test_blockdrirection4">
+<span class="sig-prename descclassname"><span class="pre">tests.test_move.</span></span><span class="sig-name descname"><span class="pre">test_blockdrirection4</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/tests/test_move.html#test_blockdrirection4"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#tests.test_move.test_blockdrirection4" title="Enlazar permanentemente con esta definición"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="tests.test_move.test_calc_velocity1">
+<span class="sig-prename descclassname"><span class="pre">tests.test_move.</span></span><span class="sig-name descname"><span class="pre">test_calc_velocity1</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/tests/test_move.html#test_calc_velocity1"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#tests.test_move.test_calc_velocity1" title="Enlazar permanentemente con esta definición"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="tests.test_move.test_calc_velocity2">
+<span class="sig-prename descclassname"><span class="pre">tests.test_move.</span></span><span class="sig-name descname"><span class="pre">test_calc_velocity2</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/tests/test_move.html#test_calc_velocity2"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#tests.test_move.test_calc_velocity2" title="Enlazar permanentemente con esta definición"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="tests.test_move.test_calc_velocity3">
+<span class="sig-prename descclassname"><span class="pre">tests.test_move.</span></span><span class="sig-name descname"><span class="pre">test_calc_velocity3</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/tests/test_move.html#test_calc_velocity3"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#tests.test_move.test_calc_velocity3" title="Enlazar permanentemente con esta definición"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="tests.test_move.test_calc_velocity4">
+<span class="sig-prename descclassname"><span class="pre">tests.test_move.</span></span><span class="sig-name descname"><span class="pre">test_calc_velocity4</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/tests/test_move.html#test_calc_velocity4"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#tests.test_move.test_calc_velocity4" title="Enlazar permanentemente con esta definición"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="tests.test_move.test_calc_velocity5">
+<span class="sig-prename descclassname"><span class="pre">tests.test_move.</span></span><span class="sig-name descname"><span class="pre">test_calc_velocity5</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/tests/test_move.html#test_calc_velocity5"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#tests.test_move.test_calc_velocity5" title="Enlazar permanentemente con esta definición"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="tests.test_move.test_move1">
+<span class="sig-prename descclassname"><span class="pre">tests.test_move.</span></span><span class="sig-name descname"><span class="pre">test_move1</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/tests/test_move.html#test_move1"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#tests.test_move.test_move1" title="Enlazar permanentemente con esta definición"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="tests.test_move.test_polartorect1">
+<span class="sig-prename descclassname"><span class="pre">tests.test_move.</span></span><span class="sig-name descname"><span class="pre">test_polartorect1</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/tests/test_move.html#test_polartorect1"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#tests.test_move.test_polartorect1" title="Enlazar permanentemente con esta definición"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="tests.test_move.test_polartorect2">
+<span class="sig-prename descclassname"><span class="pre">tests.test_move.</span></span><span class="sig-name descname"><span class="pre">test_polartorect2</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/tests/test_move.html#test_polartorect2"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#tests.test_move.test_polartorect2" title="Enlazar permanentemente con esta definición"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="tests.test_move.test_polartorect3">
+<span class="sig-prename descclassname"><span class="pre">tests.test_move.</span></span><span class="sig-name descname"><span class="pre">test_polartorect3</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/tests/test_move.html#test_polartorect3"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#tests.test_move.test_polartorect3" title="Enlazar permanentemente con esta definición"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="tests.test_move.test_polartorect4">
+<span class="sig-prename descclassname"><span class="pre">tests.test_move.</span></span><span class="sig-name descname"><span class="pre">test_polartorect4</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/tests/test_move.html#test_polartorect4"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#tests.test_move.test_polartorect4" title="Enlazar permanentemente con esta definición"></a></dt>
+<dd></dd></dl>
+
+</section>
+<section id="module-tests.test_register">
+<span id="tests-test-register-module"></span><h2>tests.test_register module<a class="headerlink" href="#module-tests.test_register" title="Enlazar permanentemente con este título"></a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="tests.test_register.client_post_register">
+<span class="sig-prename descclassname"><span class="pre">tests.test_register.</span></span><span class="sig-name descname"><span class="pre">client_post_register</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">username</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">password</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">email</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/tests/test_register.html#client_post_register"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#tests.test_register.client_post_register" title="Enlazar permanentemente con esta definición"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="tests.test_register.delete_db">
+<span class="sig-prename descclassname"><span class="pre">tests.test_register.</span></span><span class="sig-name descname"><span class="pre">delete_db</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/tests/test_register.html#delete_db"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#tests.test_register.delete_db" title="Enlazar permanentemente con esta definición"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="tests.test_register.elim_user">
+<span class="sig-prename descclassname"><span class="pre">tests.test_register.</span></span><span class="sig-name descname"><span class="pre">elim_user</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">username</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/tests/test_register.html#elim_user"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#tests.test_register.elim_user" title="Enlazar permanentemente con esta definición"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="tests.test_register.test_register_email_error">
+<span class="sig-prename descclassname"><span class="pre">tests.test_register.</span></span><span class="sig-name descname"><span class="pre">test_register_email_error</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/tests/test_register.html#test_register_email_error"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#tests.test_register.test_register_email_error" title="Enlazar permanentemente con esta definición"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="tests.test_register.test_register_email_repeat">
+<span class="sig-prename descclassname"><span class="pre">tests.test_register.</span></span><span class="sig-name descname"><span class="pre">test_register_email_repeat</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/tests/test_register.html#test_register_email_repeat"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#tests.test_register.test_register_email_repeat" title="Enlazar permanentemente con esta definición"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="tests.test_register.test_register_email_success">
+<span class="sig-prename descclassname"><span class="pre">tests.test_register.</span></span><span class="sig-name descname"><span class="pre">test_register_email_success</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/tests/test_register.html#test_register_email_success"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#tests.test_register.test_register_email_success" title="Enlazar permanentemente con esta definición"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="tests.test_register.test_register_password_long">
+<span class="sig-prename descclassname"><span class="pre">tests.test_register.</span></span><span class="sig-name descname"><span class="pre">test_register_password_long</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/tests/test_register.html#test_register_password_long"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#tests.test_register.test_register_password_long" title="Enlazar permanentemente con esta definición"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="tests.test_register.test_register_password_no_lower">
+<span class="sig-prename descclassname"><span class="pre">tests.test_register.</span></span><span class="sig-name descname"><span class="pre">test_register_password_no_lower</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/tests/test_register.html#test_register_password_no_lower"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#tests.test_register.test_register_password_no_lower" title="Enlazar permanentemente con esta definición"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="tests.test_register.test_register_password_no_num">
+<span class="sig-prename descclassname"><span class="pre">tests.test_register.</span></span><span class="sig-name descname"><span class="pre">test_register_password_no_num</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/tests/test_register.html#test_register_password_no_num"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#tests.test_register.test_register_password_no_num" title="Enlazar permanentemente con esta definición"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="tests.test_register.test_register_password_no_special">
+<span class="sig-prename descclassname"><span class="pre">tests.test_register.</span></span><span class="sig-name descname"><span class="pre">test_register_password_no_special</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/tests/test_register.html#test_register_password_no_special"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#tests.test_register.test_register_password_no_special" title="Enlazar permanentemente con esta definición"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="tests.test_register.test_register_password_no_upper">
+<span class="sig-prename descclassname"><span class="pre">tests.test_register.</span></span><span class="sig-name descname"><span class="pre">test_register_password_no_upper</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/tests/test_register.html#test_register_password_no_upper"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#tests.test_register.test_register_password_no_upper" title="Enlazar permanentemente con esta definición"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="tests.test_register.test_register_password_short">
+<span class="sig-prename descclassname"><span class="pre">tests.test_register.</span></span><span class="sig-name descname"><span class="pre">test_register_password_short</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/tests/test_register.html#test_register_password_short"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#tests.test_register.test_register_password_short" title="Enlazar permanentemente con esta definición"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="tests.test_register.test_register_password_success">
+<span class="sig-prename descclassname"><span class="pre">tests.test_register.</span></span><span class="sig-name descname"><span class="pre">test_register_password_success</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/tests/test_register.html#test_register_password_success"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#tests.test_register.test_register_password_success" title="Enlazar permanentemente con esta definición"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="tests.test_register.test_register_username_empty">
+<span class="sig-prename descclassname"><span class="pre">tests.test_register.</span></span><span class="sig-name descname"><span class="pre">test_register_username_empty</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/tests/test_register.html#test_register_username_empty"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#tests.test_register.test_register_username_empty" title="Enlazar permanentemente con esta definición"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="tests.test_register.test_register_username_full_spaces">
+<span class="sig-prename descclassname"><span class="pre">tests.test_register.</span></span><span class="sig-name descname"><span class="pre">test_register_username_full_spaces</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/tests/test_register.html#test_register_username_full_spaces"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#tests.test_register.test_register_username_full_spaces" title="Enlazar permanentemente con esta definición"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="tests.test_register.test_register_username_long">
+<span class="sig-prename descclassname"><span class="pre">tests.test_register.</span></span><span class="sig-name descname"><span class="pre">test_register_username_long</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/tests/test_register.html#test_register_username_long"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#tests.test_register.test_register_username_long" title="Enlazar permanentemente con esta definición"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="tests.test_register.test_register_username_repeat">
+<span class="sig-prename descclassname"><span class="pre">tests.test_register.</span></span><span class="sig-name descname"><span class="pre">test_register_username_repeat</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/tests/test_register.html#test_register_username_repeat"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#tests.test_register.test_register_username_repeat" title="Enlazar permanentemente con esta definición"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="tests.test_register.test_register_username_success">
+<span class="sig-prename descclassname"><span class="pre">tests.test_register.</span></span><span class="sig-name descname"><span class="pre">test_register_username_success</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/tests/test_register.html#test_register_username_success"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#tests.test_register.test_register_username_success" title="Enlazar permanentemente con esta definición"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="tests.test_register.test_register_username_with_spaces">
+<span class="sig-prename descclassname"><span class="pre">tests.test_register.</span></span><span class="sig-name descname"><span class="pre">test_register_username_with_spaces</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/tests/test_register.html#test_register_username_with_spaces"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#tests.test_register.test_register_username_with_spaces" title="Enlazar permanentemente con esta definición"></a></dt>
+<dd></dd></dl>
+
+</section>
+<section id="module-tests.test_robot_drive">
+<span id="tests-test-robot-drive-module"></span><h2>tests.test_robot_drive module<a class="headerlink" href="#module-tests.test_robot_drive" title="Enlazar permanentemente con este título"></a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="tests.test_robot_drive.test1">
+<span class="sig-prename descclassname"><span class="pre">tests.test_robot_drive.</span></span><span class="sig-name descname"><span class="pre">test1</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/tests/test_robot_drive.html#test1"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#tests.test_robot_drive.test1" title="Enlazar permanentemente con esta definición"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="tests.test_robot_drive.test2">
+<span class="sig-prename descclassname"><span class="pre">tests.test_robot_drive.</span></span><span class="sig-name descname"><span class="pre">test2</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/tests/test_robot_drive.html#test2"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#tests.test_robot_drive.test2" title="Enlazar permanentemente con esta definición"></a></dt>
+<dd></dd></dl>
+
+</section>
+<section id="module-tests.test_robot_scan">
+<span id="tests-test-robot-scan-module"></span><h2>tests.test_robot_scan module<a class="headerlink" href="#module-tests.test_robot_scan" title="Enlazar permanentemente con este título"></a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="tests.test_robot_scan.test_1">
+<span class="sig-prename descclassname"><span class="pre">tests.test_robot_scan.</span></span><span class="sig-name descname"><span class="pre">test_1</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/tests/test_robot_scan.html#test_1"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#tests.test_robot_scan.test_1" title="Enlazar permanentemente con esta definición"></a></dt>
+<dd><dl class="simple">
+<dt>Test 1: Los robots están en el mismo eje x,</dt><dd><p>pero r2, está a 10m más arriba de r1.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="tests.test_robot_scan.test_2">
+<span class="sig-prename descclassname"><span class="pre">tests.test_robot_scan.</span></span><span class="sig-name descname"><span class="pre">test_2</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/tests/test_robot_scan.html#test_2"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#tests.test_robot_scan.test_2" title="Enlazar permanentemente con esta definición"></a></dt>
+<dd><dl class="simple">
+<dt>Test 2: Los robots están en el mismo eje y,</dt><dd><p>pero r2 está a 100m a la izquierda de r1.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="tests.test_robot_scan.test_3">
+<span class="sig-prename descclassname"><span class="pre">tests.test_robot_scan.</span></span><span class="sig-name descname"><span class="pre">test_3</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/tests/test_robot_scan.html#test_3"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#tests.test_robot_scan.test_3" title="Enlazar permanentemente con esta definición"></a></dt>
+<dd><dl>
+<dt>Test 3: r2 está a 100m de distancia de r1, en el</dt><dd><blockquote>
+<div><p>eje x e y, y en el margen inf der.</p>
+</div></blockquote>
+<dl class="simple">
+<dt>Ejemplo:</dt><dd><dl class="simple">
+<dt>r1</dt><dd><p>r2</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="tests.test_robot_scan.test_4">
+<span class="sig-prename descclassname"><span class="pre">tests.test_robot_scan.</span></span><span class="sig-name descname"><span class="pre">test_4</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/tests/test_robot_scan.html#test_4"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#tests.test_robot_scan.test_4" title="Enlazar permanentemente con esta definición"></a></dt>
+<dd><dl>
+<dt>Test 4: r2 está a 100m de las posiciones x e y.</dt><dd><dl>
+<dt>Ejemplo:</dt><dd><blockquote>
+<div><p>r2</p>
+</div></blockquote>
+<p>r1</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="tests.test_robot_scan.test_5">
+<span class="sig-prename descclassname"><span class="pre">tests.test_robot_scan.</span></span><span class="sig-name descname"><span class="pre">test_5</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/tests/test_robot_scan.html#test_5"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#tests.test_robot_scan.test_5" title="Enlazar permanentemente con esta definición"></a></dt>
+<dd><dl>
+<dt>Test 5: r2 está  a 100m de las posiciones x e y.</dt><dd><dl>
+<dt>Ejemplo:</dt><dd><blockquote>
+<div><p>r1</p>
+</div></blockquote>
+<p>r2</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="tests.test_robot_scan.test_6">
+<span class="sig-prename descclassname"><span class="pre">tests.test_robot_scan.</span></span><span class="sig-name descname"><span class="pre">test_6</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/tests/test_robot_scan.html#test_6"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#tests.test_robot_scan.test_6" title="Enlazar permanentemente con esta definición"></a></dt>
+<dd><dl>
+<dt>Test 6: r2 está a más de 100m de distancia de r1, en el</dt><dd><blockquote>
+<div><p>eje x e y, y en el margen inf der, por lo que con
+un rango de 10 en el escáner no llega a detectarlo.</p>
+</div></blockquote>
+<dl class="simple">
+<dt>Ejemplo:</dt><dd><dl class="simple">
+<dt>r1</dt><dd><p>r2</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="tests.test_robot_scan.test_7">
+<span class="sig-prename descclassname"><span class="pre">tests.test_robot_scan.</span></span><span class="sig-name descname"><span class="pre">test_7</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/tests/test_robot_scan.html#test_7"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#tests.test_robot_scan.test_7" title="Enlazar permanentemente con esta definición"></a></dt>
+<dd><p>Test 7: Trae la distancia mínima aunque dos robots estén en el rango.</p>
+</dd></dl>
+
+</section>
+<section id="module-tests.test_shoot">
+<span id="tests-test-shoot-module"></span><h2>tests.test_shoot module<a class="headerlink" href="#module-tests.test_shoot" title="Enlazar permanentemente con este título"></a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="tests.test_shoot.test_random_in_range_1">
+<span class="sig-prename descclassname"><span class="pre">tests.test_shoot.</span></span><span class="sig-name descname"><span class="pre">test_random_in_range_1</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/tests/test_shoot.html#test_random_in_range_1"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#tests.test_shoot.test_random_in_range_1" title="Enlazar permanentemente con esta definición"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="tests.test_shoot.test_random_in_range_10">
+<span class="sig-prename descclassname"><span class="pre">tests.test_shoot.</span></span><span class="sig-name descname"><span class="pre">test_random_in_range_10</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/tests/test_shoot.html#test_random_in_range_10"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#tests.test_shoot.test_random_in_range_10" title="Enlazar permanentemente con esta definición"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="tests.test_shoot.test_random_in_range_11">
+<span class="sig-prename descclassname"><span class="pre">tests.test_shoot.</span></span><span class="sig-name descname"><span class="pre">test_random_in_range_11</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/tests/test_shoot.html#test_random_in_range_11"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#tests.test_shoot.test_random_in_range_11" title="Enlazar permanentemente con esta definición"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="tests.test_shoot.test_random_in_range_12">
+<span class="sig-prename descclassname"><span class="pre">tests.test_shoot.</span></span><span class="sig-name descname"><span class="pre">test_random_in_range_12</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/tests/test_shoot.html#test_random_in_range_12"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#tests.test_shoot.test_random_in_range_12" title="Enlazar permanentemente con esta definición"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="tests.test_shoot.test_random_in_range_2">
+<span class="sig-prename descclassname"><span class="pre">tests.test_shoot.</span></span><span class="sig-name descname"><span class="pre">test_random_in_range_2</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/tests/test_shoot.html#test_random_in_range_2"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#tests.test_shoot.test_random_in_range_2" title="Enlazar permanentemente con esta definición"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="tests.test_shoot.test_random_in_range_3">
+<span class="sig-prename descclassname"><span class="pre">tests.test_shoot.</span></span><span class="sig-name descname"><span class="pre">test_random_in_range_3</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/tests/test_shoot.html#test_random_in_range_3"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#tests.test_shoot.test_random_in_range_3" title="Enlazar permanentemente con esta definición"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="tests.test_shoot.test_random_in_range_4">
+<span class="sig-prename descclassname"><span class="pre">tests.test_shoot.</span></span><span class="sig-name descname"><span class="pre">test_random_in_range_4</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/tests/test_shoot.html#test_random_in_range_4"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#tests.test_shoot.test_random_in_range_4" title="Enlazar permanentemente con esta definición"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="tests.test_shoot.test_random_in_range_5">
+<span class="sig-prename descclassname"><span class="pre">tests.test_shoot.</span></span><span class="sig-name descname"><span class="pre">test_random_in_range_5</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/tests/test_shoot.html#test_random_in_range_5"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#tests.test_shoot.test_random_in_range_5" title="Enlazar permanentemente con esta definición"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="tests.test_shoot.test_random_in_range_6">
+<span class="sig-prename descclassname"><span class="pre">tests.test_shoot.</span></span><span class="sig-name descname"><span class="pre">test_random_in_range_6</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/tests/test_shoot.html#test_random_in_range_6"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#tests.test_shoot.test_random_in_range_6" title="Enlazar permanentemente con esta definición"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="tests.test_shoot.test_random_in_range_7">
+<span class="sig-prename descclassname"><span class="pre">tests.test_shoot.</span></span><span class="sig-name descname"><span class="pre">test_random_in_range_7</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/tests/test_shoot.html#test_random_in_range_7"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#tests.test_shoot.test_random_in_range_7" title="Enlazar permanentemente con esta definición"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="tests.test_shoot.test_random_in_range_8">
+<span class="sig-prename descclassname"><span class="pre">tests.test_shoot.</span></span><span class="sig-name descname"><span class="pre">test_random_in_range_8</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/tests/test_shoot.html#test_random_in_range_8"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#tests.test_shoot.test_random_in_range_8" title="Enlazar permanentemente con esta definición"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="tests.test_shoot.test_random_in_range_9">
+<span class="sig-prename descclassname"><span class="pre">tests.test_shoot.</span></span><span class="sig-name descname"><span class="pre">test_random_in_range_9</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/tests/test_shoot.html#test_random_in_range_9"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#tests.test_shoot.test_random_in_range_9" title="Enlazar permanentemente con esta definición"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="tests.test_shoot.test_random_out_of_range_1">
+<span class="sig-prename descclassname"><span class="pre">tests.test_shoot.</span></span><span class="sig-name descname"><span class="pre">test_random_out_of_range_1</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/tests/test_shoot.html#test_random_out_of_range_1"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#tests.test_shoot.test_random_out_of_range_1" title="Enlazar permanentemente con esta definición"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="tests.test_shoot.test_random_out_of_range_2">
+<span class="sig-prename descclassname"><span class="pre">tests.test_shoot.</span></span><span class="sig-name descname"><span class="pre">test_random_out_of_range_2</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/tests/test_shoot.html#test_random_out_of_range_2"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#tests.test_shoot.test_random_out_of_range_2" title="Enlazar permanentemente con esta definición"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="tests.test_shoot.test_random_out_of_range_3">
+<span class="sig-prename descclassname"><span class="pre">tests.test_shoot.</span></span><span class="sig-name descname"><span class="pre">test_random_out_of_range_3</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/tests/test_shoot.html#test_random_out_of_range_3"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#tests.test_shoot.test_random_out_of_range_3" title="Enlazar permanentemente con esta definición"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="tests.test_shoot.test_shoot_false">
+<span class="sig-prename descclassname"><span class="pre">tests.test_shoot.</span></span><span class="sig-name descname"><span class="pre">test_shoot_false</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/tests/test_shoot.html#test_shoot_false"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#tests.test_shoot.test_shoot_false" title="Enlazar permanentemente con esta definición"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="tests.test_shoot.test_shoot_in_table">
+<span class="sig-prename descclassname"><span class="pre">tests.test_shoot.</span></span><span class="sig-name descname"><span class="pre">test_shoot_in_table</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/tests/test_shoot.html#test_shoot_in_table"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#tests.test_shoot.test_shoot_in_table" title="Enlazar permanentemente con esta definición"></a></dt>
+<dd></dd></dl>
+
+</section>
+<section id="module-tests.test_simulation">
+<span id="tests-test-simulation-module"></span><h2>tests.test_simulation module<a class="headerlink" href="#module-tests.test_simulation" title="Enlazar permanentemente con este título"></a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="tests.test_simulation.client_add_robots">
+<span class="sig-prename descclassname"><span class="pre">tests.test_simulation.</span></span><span class="sig-name descname"><span class="pre">client_add_robots</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">username</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/tests/test_simulation.html#client_add_robots"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#tests.test_simulation.client_add_robots" title="Enlazar permanentemente con esta definición"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="tests.test_simulation.client_fast_confirmation">
+<span class="sig-prename descclassname"><span class="pre">tests.test_simulation.</span></span><span class="sig-name descname"><span class="pre">client_fast_confirmation</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">username</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/tests/test_simulation.html#client_fast_confirmation"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#tests.test_simulation.client_fast_confirmation" title="Enlazar permanentemente con esta definición"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="tests.test_simulation.client_post_register">
+<span class="sig-prename descclassname"><span class="pre">tests.test_simulation.</span></span><span class="sig-name descname"><span class="pre">client_post_register</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">username</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">password</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">email</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/tests/test_simulation.html#client_post_register"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#tests.test_simulation.client_post_register" title="Enlazar permanentemente con esta definición"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="tests.test_simulation.delete_db">
+<span class="sig-prename descclassname"><span class="pre">tests.test_simulation.</span></span><span class="sig-name descname"><span class="pre">delete_db</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/tests/test_simulation.html#delete_db"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#tests.test_simulation.delete_db" title="Enlazar permanentemente con esta definición"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="tests.test_simulation.delete_db_v2">
+<span class="sig-prename descclassname"><span class="pre">tests.test_simulation.</span></span><span class="sig-name descname"><span class="pre">delete_db_v2</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/tests/test_simulation.html#delete_db_v2"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#tests.test_simulation.delete_db_v2" title="Enlazar permanentemente con esta definición"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="tests.test_simulation.elim_robots">
+<span class="sig-prename descclassname"><span class="pre">tests.test_simulation.</span></span><span class="sig-name descname"><span class="pre">elim_robots</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/tests/test_simulation.html#elim_robots"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#tests.test_simulation.elim_robots" title="Enlazar permanentemente con esta definición"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="tests.test_simulation.elim_user">
+<span class="sig-prename descclassname"><span class="pre">tests.test_simulation.</span></span><span class="sig-name descname"><span class="pre">elim_user</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">username</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/tests/test_simulation.html#elim_user"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#tests.test_simulation.elim_user" title="Enlazar permanentemente con esta definición"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="tests.test_simulation.test_simulation_add_bad_robot">
+<span class="sig-prename descclassname"><span class="pre">tests.test_simulation.</span></span><span class="sig-name descname"><span class="pre">test_simulation_add_bad_robot</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/tests/test_simulation.html#test_simulation_add_bad_robot"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#tests.test_simulation.test_simulation_add_bad_robot" title="Enlazar permanentemente con esta definición"></a></dt>
+<dd><p>TEST_1: Agregar partida incorrectamente,
+sobrepasando el número máximo de robots
+devuelve un error de 422.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="tests.test_simulation.test_simulation_add_bad_robot_v2">
+<span class="sig-prename descclassname"><span class="pre">tests.test_simulation.</span></span><span class="sig-name descname"><span class="pre">test_simulation_add_bad_robot_v2</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/tests/test_simulation.html#test_simulation_add_bad_robot_v2"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#tests.test_simulation.test_simulation_add_bad_robot_v2" title="Enlazar permanentemente con esta definición"></a></dt>
+<dd><p>TEST_2: Agregar partida incorrectamente,
+sobrepasando el número mínimo de robots
+devuelve un error de 422.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="tests.test_simulation.test_simulation_empty_robot">
+<span class="sig-prename descclassname"><span class="pre">tests.test_simulation.</span></span><span class="sig-name descname"><span class="pre">test_simulation_empty_robot</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/tests/test_simulation.html#test_simulation_empty_robot"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#tests.test_simulation.test_simulation_empty_robot" title="Enlazar permanentemente con esta definición"></a></dt>
+<dd><p>TEST_3: Agregar partida incorrectamente,
+pasando lista vacía de robots.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="tests.test_simulation.test_simulation_wrong_format">
+<span class="sig-prename descclassname"><span class="pre">tests.test_simulation.</span></span><span class="sig-name descname"><span class="pre">test_simulation_wrong_format</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/tests/test_simulation.html#test_simulation_wrong_format"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#tests.test_simulation.test_simulation_wrong_format" title="Enlazar permanentemente con esta definición"></a></dt>
+<dd><p>TEST_4: Agregar partida incorrectamente,
+pasando la lista de robots con formato incorrecto.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="tests.test_simulation.test_simulation_wrong_rounds">
+<span class="sig-prename descclassname"><span class="pre">tests.test_simulation.</span></span><span class="sig-name descname"><span class="pre">test_simulation_wrong_rounds</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/tests/test_simulation.html#test_simulation_wrong_rounds"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#tests.test_simulation.test_simulation_wrong_rounds" title="Enlazar permanentemente con esta definición"></a></dt>
+<dd><p>TEST_5: Crear una simulacion con mas rondas de las posibles
+devuelve un error de 422.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="tests.test_simulation.test_simulation_wrong_rounds_v2">
+<span class="sig-prename descclassname"><span class="pre">tests.test_simulation.</span></span><span class="sig-name descname"><span class="pre">test_simulation_wrong_rounds_v2</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/tests/test_simulation.html#test_simulation_wrong_rounds_v2"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#tests.test_simulation.test_simulation_wrong_rounds_v2" title="Enlazar permanentemente con esta definición"></a></dt>
+<dd><p>TEST_5: Crear una simulacion con menos rondas de las posibles
+devuelve un error de 422.</p>
+</dd></dl>
+
+</section>
+<section id="module-tests">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-tests" title="Enlazar permanentemente con este título"></a></h2>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Pie de página">
+        <a href="schemas.html" class="btn btn-neutral float-left" title="schemas package" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Anterior</a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Derechos de autor 2022, Capogrossi, Centeno, Kersul, Martinez, Ochoa, Pereyra, Yornet.</p>
+  </div>
+
+  Compilado con <a href="https://www.sphinx-doc.org/">Sphinx</a> usando un
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">tema</a>
+    proporcionado por <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="es" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>tests.test_load_robot &mdash; documentación de Becarefuliate - 0.1</title>
+      <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+        <script src="../../_static/jquery.js"></script>
+        <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/doctools.js"></script>
+        <script src="../../_static/translations.js"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Índice" href="../../genindex.html" />
+    <link rel="search" title="Búsqueda" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../../index.html" class="icon icon-home"> Becarefuliate
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Buscar documentos" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../modules.html">Becarfuliate-Back</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">Becarefuliate</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Código de módulo</a></li>
+      <li class="breadcrumb-item active">tests.test_load_robot</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Código fuente para tests.test_load_robot</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">pytest</span>
+<span class="kn">from</span> <span class="nn">fastapi.testclient</span> <span class="kn">import</span> <span class="n">TestClient</span>
+<span class="kn">import</span> <span class="nn">main</span>
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">from</span> <span class="nn">crud.robot_service</span> <span class="kn">import</span> <span class="o">*</span>
+
+
+<span class="n">client</span> <span class="o">=</span> <span class="n">TestClient</span><span class="p">(</span><span class="n">main</span><span class="o">.</span><span class="n">app</span><span class="p">)</span>
+
+<div class="viewcode-block" id="elim_user"><a class="viewcode-back" href="../../tests.html#tests.test_load_robot.elim_user">[documentos]</a><span class="nd">@db_session</span>
+<span class="k">def</span> <span class="nf">elim_user</span><span class="p">(</span><span class="n">username</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+    <span class="k">with</span> <span class="n">db_session</span><span class="p">:</span>
+        <span class="n">User</span><span class="p">[</span><span class="n">username</span><span class="p">]</span><span class="o">.</span><span class="n">delete</span><span class="p">()</span></div>
+
+
+<div class="viewcode-block" id="elim_bot"><a class="viewcode-back" href="../../tests.html#tests.test_load_robot.elim_bot">[documentos]</a><span class="nd">@db_session</span>
+<span class="k">def</span> <span class="nf">elim_bot</span><span class="p">(</span><span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+    <span class="k">with</span> <span class="n">db_session</span><span class="p">:</span>
+        <span class="nb">id</span> <span class="o">=</span> <span class="n">Robot</span><span class="p">[</span><span class="n">name</span><span class="p">]</span><span class="o">.</span><span class="n">id</span>
+        <span class="n">Robot</span><span class="p">[</span><span class="nb">id</span><span class="p">]</span><span class="o">.</span><span class="n">delete</span><span class="p">()</span></div>
+
+
+<div class="viewcode-block" id="delete_db"><a class="viewcode-back" href="../../tests.html#tests.test_load_robot.delete_db">[documentos]</a><span class="k">def</span> <span class="nf">delete_db</span><span class="p">():</span>
+    <span class="n">elim_user</span><span class="p">(</span><span class="s2">&quot;anonymous&quot;</span><span class="p">)</span>
+    <span class="n">file_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s1">&#39;routers/robots/&#39;</span><span class="p">,</span> <span class="s1">&#39;robot1_anonymous.py&#39;</span><span class="p">)</span>
+    <span class="n">os</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">file_path</span><span class="p">)</span>
+    <span class="n">file_path2</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s1">&#39;routers/robots/avatars/&#39;</span><span class="p">,</span> <span class="s1">&#39;tortuga_anonymous.jpg&#39;</span><span class="p">)</span>
+    <span class="n">os</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">file_path2</span><span class="p">)</span></div>
+
+<span class="c1"># Funciones auxiliares para los test</span>
+<div class="viewcode-block" id="client_post_register"><a class="viewcode-back" href="../../tests.html#tests.test_load_robot.client_post_register">[documentos]</a><span class="k">def</span> <span class="nf">client_post_register</span><span class="p">(</span><span class="n">username</span><span class="p">,</span> <span class="n">password</span><span class="p">,</span> <span class="n">email</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">client</span><span class="o">.</span><span class="n">post</span><span class="p">(</span>
+        <span class="s2">&quot;/register&quot;</span><span class="p">,</span>
+        <span class="n">json</span><span class="o">=</span><span class="p">{</span>
+            <span class="s2">&quot;username&quot;</span><span class="p">:</span> <span class="n">username</span><span class="p">,</span>
+            <span class="s2">&quot;password&quot;</span><span class="p">:</span> <span class="n">password</span><span class="p">,</span>
+            <span class="s2">&quot;email&quot;</span><span class="p">:</span> <span class="n">email</span>
+            <span class="p">}</span>
+    <span class="p">)</span></div>
+
+<div class="viewcode-block" id="client_fast_confirmation"><a class="viewcode-back" href="../../tests.html#tests.test_load_robot.client_fast_confirmation">[documentos]</a><span class="nd">@db_session</span>
+<span class="k">def</span> <span class="nf">client_fast_confirmation</span><span class="p">(</span><span class="n">username</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+    <span class="k">with</span> <span class="n">db_session</span><span class="p">:</span>
+        <span class="n">User</span><span class="p">[</span><span class="n">username</span><span class="p">]</span><span class="o">.</span><span class="n">confirmation_mail</span> <span class="o">=</span> <span class="kc">True</span></div>
+
+
+<div class="viewcode-block" id="test_load_robot"><a class="viewcode-back" href="../../tests.html#tests.test_load_robot.test_load_robot">[documentos]</a><span class="k">def</span> <span class="nf">test_load_robot</span><span class="p">():</span>
+    <span class="n">client_post_register</span><span class="p">(</span>
+        <span class="s2">&quot;anonymous&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;Asd23asdasdasdasd@&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;anonymous@hotmail.com&quot;</span>
+        <span class="p">)</span>
+    <span class="n">client_fast_confirmation</span><span class="p">(</span><span class="s2">&quot;anonymous&quot;</span><span class="p">)</span>
+    <span class="n">response</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">post</span><span class="p">(</span>
+        <span class="s2">&quot;/login&quot;</span><span class="p">,</span>
+        <span class="n">json</span><span class="o">=</span><span class="p">{</span>
+            <span class="s2">&quot;username&quot;</span><span class="p">:</span> <span class="s2">&quot;anonymous&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;email&quot;</span><span class="p">:</span> <span class="s2">&quot;anonymous@hotmail.com&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;password&quot;</span><span class="p">:</span> <span class="s2">&quot;Asd23asdasdasdasd@&quot;</span>
+        <span class="p">},</span>
+    <span class="p">)</span>
+    <span class="n">usr_tkn</span> <span class="o">=</span> <span class="n">response</span><span class="o">.</span><span class="n">json</span><span class="p">()[</span><span class="s1">&#39;token&#39;</span><span class="p">]</span>
+    <span class="n">files_up</span> <span class="o">=</span> <span class="p">[(</span><span class="s2">&quot;config&quot;</span><span class="p">,</span> <span class="nb">open</span><span class="p">(</span><span class="s2">&quot;tests/test_files/robot1.py&quot;</span><span class="p">,</span> <span class="s2">&quot;rb&quot;</span><span class="p">)),</span>
+             <span class="p">(</span><span class="s2">&quot;avatar&quot;</span><span class="p">,</span> <span class="nb">open</span><span class="p">(</span><span class="s2">&quot;tests/test_files/tortuga.jpg&quot;</span><span class="p">,</span> <span class="s2">&quot;rb&quot;</span><span class="p">))]</span>
+    <span class="n">response</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">post</span><span class="p">(</span>
+        <span class="s2">&quot;/upload/robot&quot;</span><span class="p">,</span>
+        <span class="n">params</span><span class="o">=</span><span class="p">{</span>
+            <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;robot1&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;tkn&quot;</span><span class="p">:</span> <span class="n">usr_tkn</span><span class="p">,</span>
+            <span class="s2">&quot;username&quot;</span><span class="p">:</span> <span class="s2">&quot;anonymous&quot;</span>
+        <span class="p">},</span>
+        <span class="n">files</span><span class="o">=</span><span class="n">files_up</span>
+    <span class="p">)</span>
+    <span class="k">assert</span> <span class="n">response</span><span class="o">.</span><span class="n">json</span><span class="p">()[</span><span class="s2">&quot;msg&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;Robot agregado con exito&quot;</span></div>
+
+
+<div class="viewcode-block" id="test_load_user_not_exist"><a class="viewcode-back" href="../../tests.html#tests.test_load_robot.test_load_user_not_exist">[documentos]</a><span class="k">def</span> <span class="nf">test_load_user_not_exist</span><span class="p">():</span>
+    <span class="n">response</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">post</span><span class="p">(</span>
+        <span class="s2">&quot;/login&quot;</span><span class="p">,</span>
+        <span class="n">json</span><span class="o">=</span><span class="p">{</span>
+            <span class="s2">&quot;username&quot;</span><span class="p">:</span> <span class="s2">&quot;anonymous&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;email&quot;</span><span class="p">:</span> <span class="s2">&quot;anonymous@hotmail.com&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;password&quot;</span><span class="p">:</span> <span class="s2">&quot;Asd23asdasdasdasd@&quot;</span>
+        <span class="p">},</span>
+    <span class="p">)</span>
+    <span class="n">usr_tkn</span> <span class="o">=</span> <span class="n">response</span><span class="o">.</span><span class="n">json</span><span class="p">()[</span><span class="s1">&#39;token&#39;</span><span class="p">]</span>
+    <span class="n">files_up</span> <span class="o">=</span> <span class="p">[(</span><span class="s2">&quot;config&quot;</span><span class="p">,</span> <span class="nb">open</span><span class="p">(</span><span class="s2">&quot;tests/test_files/robot1.py&quot;</span><span class="p">,</span> <span class="s2">&quot;rb&quot;</span><span class="p">)),</span>
+             <span class="p">(</span><span class="s2">&quot;avatar&quot;</span><span class="p">,</span> <span class="nb">open</span><span class="p">(</span><span class="s2">&quot;tests/test_files/tortuga.jpg&quot;</span><span class="p">,</span> <span class="s2">&quot;rb&quot;</span><span class="p">))]</span>
+    <span class="n">response</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">post</span><span class="p">(</span>
+        <span class="s2">&quot;/upload/robot&quot;</span><span class="p">,</span>
+        <span class="n">params</span><span class="o">=</span><span class="p">{</span>
+            <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;robot1&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;tkn&quot;</span><span class="p">:</span> <span class="n">usr_tkn</span><span class="p">,</span>
+            <span class="s2">&quot;username&quot;</span><span class="p">:</span> <span class="s2">&quot;anonmous&quot;</span>
+        <span class="p">},</span>
+        <span class="n">files</span><span class="o">=</span><span class="n">files_up</span>
+    <span class="p">)</span>
+    <span class="k">assert</span> <span class="n">response</span><span class="o">.</span><span class="n">json</span><span class="p">()[</span><span class="s2">&quot;detail&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;El usuario anonmous no existe&quot;</span></div>
+
+<div class="viewcode-block" id="test_load_bad_tkn"><a class="viewcode-back" href="../../tests.html#tests.test_load_robot.test_load_bad_tkn">[documentos]</a><span class="k">def</span> <span class="nf">test_load_bad_tkn</span><span class="p">():</span>
+    <span class="n">response</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">post</span><span class="p">(</span>
+        <span class="s2">&quot;/login&quot;</span><span class="p">,</span>
+        <span class="n">json</span><span class="o">=</span><span class="p">{</span>
+            <span class="s2">&quot;username&quot;</span><span class="p">:</span> <span class="s2">&quot;anonymous&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;email&quot;</span><span class="p">:</span> <span class="s2">&quot;anonymous@hotmail.com&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;password&quot;</span><span class="p">:</span> <span class="s2">&quot;Asd23asdasdasdasd@&quot;</span>
+        <span class="p">},</span>
+    <span class="p">)</span>
+    <span class="n">usr_tkn</span> <span class="o">=</span> <span class="n">response</span><span class="o">.</span><span class="n">json</span><span class="p">()[</span><span class="s1">&#39;token&#39;</span><span class="p">]</span>
+    <span class="n">files_up</span> <span class="o">=</span> <span class="p">[(</span><span class="s2">&quot;config&quot;</span><span class="p">,</span> <span class="nb">open</span><span class="p">(</span><span class="s2">&quot;tests/test_files/robot1.py&quot;</span><span class="p">,</span> <span class="s2">&quot;rb&quot;</span><span class="p">)),</span>
+             <span class="p">(</span><span class="s2">&quot;avatar&quot;</span><span class="p">,</span> <span class="nb">open</span><span class="p">(</span><span class="s2">&quot;tests/test_files/tortuga.jpg&quot;</span><span class="p">,</span> <span class="s2">&quot;rb&quot;</span><span class="p">))]</span>
+    <span class="n">response</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">post</span><span class="p">(</span>
+        <span class="s2">&quot;/upload/robot&quot;</span><span class="p">,</span>
+        <span class="n">params</span><span class="o">=</span><span class="p">{</span>
+            <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;robot1&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;tkn&quot;</span><span class="p">:</span> <span class="n">usr_tkn</span><span class="o">+</span><span class="s2">&quot;____&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;username&quot;</span><span class="p">:</span> <span class="s2">&quot;anonymous&quot;</span>
+        <span class="p">},</span>
+        <span class="n">files</span><span class="o">=</span><span class="n">files_up</span>
+    <span class="p">)</span>
+    <span class="k">assert</span> <span class="n">response</span><span class="o">.</span><span class="n">json</span><span class="p">()[</span><span class="s2">&quot;detail&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;Sesión expirada&quot;</span></div>
+
+<div class="viewcode-block" id="test_load_bad_format"><a class="viewcode-back" href="../../tests.html#tests.test_load_robot.test_load_bad_format">[documentos]</a><span class="k">def</span> <span class="nf">test_load_bad_format</span><span class="p">():</span>
+    <span class="n">response</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">post</span><span class="p">(</span>
+        <span class="s2">&quot;/login&quot;</span><span class="p">,</span>
+        <span class="n">json</span><span class="o">=</span><span class="p">{</span>
+            <span class="s2">&quot;username&quot;</span><span class="p">:</span> <span class="s2">&quot;anonymous&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;email&quot;</span><span class="p">:</span> <span class="s2">&quot;anonymous@hotmail.com&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;password&quot;</span><span class="p">:</span> <span class="s2">&quot;Asd23asdasdasdasd@&quot;</span>
+        <span class="p">},</span>
+    <span class="p">)</span>
+    <span class="n">usr_tkn</span> <span class="o">=</span> <span class="n">response</span><span class="o">.</span><span class="n">json</span><span class="p">()[</span><span class="s1">&#39;token&#39;</span><span class="p">]</span>
+    <span class="n">files_up</span> <span class="o">=</span> <span class="p">[(</span><span class="s2">&quot;config&quot;</span><span class="p">,</span> <span class="nb">open</span><span class="p">(</span><span class="s2">&quot;tests/test_files/robot1.py&quot;</span><span class="p">,</span> <span class="s2">&quot;rb&quot;</span><span class="p">)),</span>
+             <span class="p">(</span><span class="s2">&quot;avatar&quot;</span><span class="p">,</span> <span class="nb">open</span><span class="p">(</span><span class="s2">&quot;tests/test_files/tortuga.jpg&quot;</span><span class="p">,</span> <span class="s2">&quot;rb&quot;</span><span class="p">))]</span>
+    <span class="n">response</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">post</span><span class="p">(</span>
+        <span class="s2">&quot;/upload/robot&quot;</span><span class="p">,</span>
+        <span class="n">params</span><span class="o">=</span><span class="p">{</span>
+            <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;robot&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;tkn&quot;</span><span class="p">:</span> <span class="n">usr_tkn</span><span class="p">,</span>
+            <span class="s2">&quot;username&quot;</span><span class="p">:</span> <span class="s2">&quot;anonymous&quot;</span>
+        <span class="p">},</span>
+        <span class="n">files</span><span class="o">=</span><span class="n">files_up</span>
+    <span class="p">)</span>
+    <span class="n">delete_db</span><span class="p">()</span>
+    <span class="k">assert</span> <span class="n">response</span><span class="o">.</span><span class="n">json</span><span class="p">()[</span><span class="s2">&quot;detail&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;El archivo no cumple los requisitos&quot;</span></div>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Derechos de autor 2022, Capogrossi, Centeno, Kersul, Martinez, Ochoa, Pereyra, Yornet.</p>
+  </div>
+
+  Compilado con <a href="https://www.sphinx-doc.org/">Sphinx</a> usando un
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">tema</a>
+    proporcionado por <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

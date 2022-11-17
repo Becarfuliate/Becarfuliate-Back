@@ -5,11 +5,27 @@ from models.entities import Match, User, Robot
 
 @db_session
 def check_robot(id):
+    """Chequea que un robot exista en la base de datos.
+
+    Args:
+        id (Any): id del robot a chequear.
+
+    Returns:
+        Any: ??
+    """
     return Robot.exists(id=id)
 
 
 @db_session
 def check_user(username):
+    """Chequea que un usuario exista en la bd.
+
+    Args:
+        username (Any): Nombre del usuario a chequear en la bd.
+
+    Returns:
+        Any: ??
+    """
     return User.exists(username=username)
 
 

@@ -39,3 +39,5 @@ tomli==2.0.1
 typing_extensions==4.4.0
 urllib3==1.26.12
 uvicorn==0.19.0
+python3-sphinx==4.3.2
+sphinx-rtd-theme=1.1.1
