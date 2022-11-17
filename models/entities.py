@@ -10,7 +10,7 @@ class User(db.Entity):
     confirmation_mail = Required(bool)
     email = Required(str, unique=True)
     robots = Set("Robot")
-    matchs = Set("MatchUser")
+    matchs = Set("Match", reverse="users")
     # RECOMENDACION DE NOMBRE: users -> users_in_game
     match_creates = Set("Match", reverse="user_creator")
     # RECOMENTDACION DE NOMBRE: match_creates -> match_owner
@@ -37,14 +37,7 @@ class Match(db.Entity):
     password = Optional(str)
     n_matchs = Optional(int)
     n_rounds_matchs = Optional(int)
-    users = Set("MatchUser")
+    users = Set("User", reverse="matchs")
     # robot_winner -> instancia de la class robot_in_match (no disponible)
     user_creator = Required(User, reverse="match_creates")
     # robots_players -> instancia de la class robot_in_match (no disponible)
-
-
-class MatchUser(db.Entity):
-    user = Required(User)
-    match = Required(Match)
-    PrimaryKey(user, match)
-    robot = Required(int)

@@ -104,6 +104,22 @@ def get_match_id(match_name: str):
 
 
 @db_session
+def get_match_rounds(match_id: int):
+    query = select(m.n_rounds_matchs for m in Match if m.id == match_id)
+    for i in query:
+        result = i
+    return result
+
+
+@db_session
+def get_match_games(match_id: int):
+    query = select(m.n_matchs for m in Match if m.id == match_id)
+    for i in query:
+        result = i
+    return result
+
+
+@db_session
 def read_match_players(id_match: int):
     result = select(m.users for m in Match if m.id == id_match)
     return result
@@ -158,3 +174,18 @@ def remove_player(id_match: int, name_user: str):
             error = "El usuario no existe"
         return error
     return result
+
+
+@db_session
+def start_game(id_match: int, name_user: str):
+    try:
+        msg = ""
+        match = Match[id_match]
+        user = User[name_user]
+        match_players = match.users
+        if len(match_players) < 2:
+            msg = "La partida no tiene suficientes jugadores"
+    except Exception as e:
+        return str(e)
+    print(match_players)
+    return list(match_players)
