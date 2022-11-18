@@ -86,7 +86,10 @@ def avanzar_ronda(robots:list):
     #respond
     for robot in robots:
         if robot.current_damage > 0:
-            robot.respond()
+            try:
+                robot.respond()
+            except:
+                pass
     #scan
     for robot in robots:
        if robot.current_damage > 0:

@@ -432,121 +432,9 @@ def test_match_add_bad_type_insert_v0():
     }
 
 
-def test_match_join():
+def test_start_match_not_enough_players():
     """
-    TEST_10: Unirse a la partida.
-    """
-    response = client.post(
-        "/login",
-        json={
-            "username": "Alexis",
-            "email": "ale@gmail.com",
-            "password": "Asd23asdasdasdasd@",
-        },
-    )
-    toq_var = response.json()["token"]
-    num_partida = randint(0, 200)
-    nombre_partida = "NombrePartida" + str(num_partida)
-    response = client.post(
-        "/match/add",
-        json={
-            "name": nombre_partida,
-            "max_players": 4,
-            "min_players": 2,
-            "password": "Asd23asdasdasdasd@",
-            "n_matchs": 2,
-            "n_rounds_matchs": 2,
-            "user_creator": "Alexis",
-            "token": toq_var,
-        },
-    )
-
-    client_post_register("Capogrossi", "Asdjjkhkasd-3sd@", "capo@gmail.com")
-    client_fast_confirmation("Capogrossi")
-
-    response = client.post(
-        "/login",
-        json={
-            "username": "Capogrossi",
-            "email": "capo@gmail.com",
-            "password": "Asdjjkhkasd-3sd@",
-        },
-    )
-
-    id_match = get_match_id(nombre_partida)
-    response = client.post(
-        "match/join?id_match=" + str(id_match) + "&name_user=" + "Capogrossi"
-    )
-
-    assert response.json() == {"Status": "El usuario fue agregado a la partida"}
-
-
-def test_match_join_user_in_game():
-    """
-    TEST_12: Unirse a la partida.
-    """
-    response = client.post(
-        "/login",
-        json={
-            "username": "Alexis",
-            "email": "ale@gmail.com",
-            "password": "Asd23asdasdasdasd@",
-        },
-    )
-    toq_var = response.json()["token"]
-    num_partida = randint(0, 200)
-    nombre_partida = "NombrePartida" + str(num_partida)
-    response = client.post(
-        "/match/add",
-        json={
-            "name": nombre_partida,
-            "max_players": 4,
-            "min_players": 2,
-            "password": "Asd23asdasdasdasd@",
-            "n_matchs": 2,
-            "n_rounds_matchs": 2,
-            "user_creator": "Alexis",
-            "token": toq_var,
-        },
-    )
-
-    response = client.post(
-        "/login",
-        json={
-            "username": "Capogrossi",
-            "email": "capo@gmail.com",
-            "password": "Asdjjkhkasd3-sd@",
-        },
-    )
-
-    client_post_register("Capogrossi2", "Asdjjkhkasd-3sd@2", "capo2@gmail.com")
-    client_fast_confirmation("Capogrossi2")
-
-    client_post_register("Capogrossi3", "Asdjjkhkasd-3sd@3", "capo3@gmail.com")
-    client_fast_confirmation("Capogrossi3")
-
-    client_post_register("Capogrossi4", "Asdjjkhkasd-3sd@4", "capo4@gmail.com")
-    client_fast_confirmation("Capogrossi4")
-
-    id_match = get_match_id(nombre_partida)
-    response = client.post(
-        "match/join?id_match=" + str(id_match) + "&name_user=" + "Capogrossi"
-    )
-    response = client.post(
-        "match/join?id_match=" + str(id_match) + "&name_user=" + "Capogrossi2"
-    )
-    response = client.post(
-        "match/join?id_match=" + str(id_match) + "&name_user=" + "Capogrossi3"
-    )
-    response = client.post(
-        "match/join?id_match=" + str(id_match) + "&name_user=" + "Capogrossi4"
-    )
-    assert response.json() == {"Status": "La partida esta llena"}
-
-
-def test_match_leave():
-    """
-    TEST_13: Salir de la partida.
+    TEST_10: La partida no tiene suficientes jugadores.
     """
     response = client.post(
         "/login",
@@ -572,16 +460,11 @@ def test_match_leave():
             "token": toq_var,
         },
     )
-
     id_match = get_match_id(nombre_partida)
-
-    response = client.delete(
-        "match/leave?id_match=" + str(id_match) + "&name_user=" + "Alexis"
+    response = client.post(
+        "match/run?id_match=" + str(id_match) + "&name_user=" + "Alexis"
     )
-
-    assert response.json() == {"Status": "El usuario fue removido de la partida"}
-    delete_db()
-    delete_db_v2()
+    assert response.json() == {"Status": "La partida no tiene suficientes jugadores"}
 
 
 def test_match_get_success():
