@@ -215,6 +215,17 @@ def start_game(id_match: int, name_user: str):
 
 
 def parse_robots(robot_list: list):
+    """Dado un arreglo de id de robots devuelve el comportamiento
+    correspondiente a ese id segun el archivo .py
+
+    Args:
+        robot_list (list): Lista de valores enteros que se corresponden con
+        los id de los robots en la partida
+
+    Returns:
+        robots (list): Lista de objetos cuyas clases están definidas en
+        un archivo .py.
+    """
     robots = []
     for x in robot_list:
         file = get_file_by_id(x)
@@ -239,6 +250,18 @@ def parse_robots(robot_list: list):
 def add_robot_attributes(
     n_games: int, n_rounds: int, robots: list, robot_id_list: list
 ):
+    """Dada una lista de objetos de robots, ejecuta n_games cantidad de juegos
+    con n_rounds rondas cada una, y los devuelve en un arreglo de arreglos
+
+    Args:
+        n_games (int): Cantidad de juegos a jugar en la partida
+        n_rounds (int): Cantidad de rondas que cada juego va a tener
+        robots (list): Lista de objetos que contiene comportamiento de los robots
+        robot_id_list (list): Lista de los id de cada robot en partida
+
+    Returns:
+        outer_response (list): Arreglo de arreglos de arrreglos de objetos JSON
+    """
     outer_response = []
     for i in range(n_games):
         outer_response.append(game(robots, n_rounds))
@@ -254,6 +277,17 @@ def add_robot_attributes(
 
 
 def games_last_round(outer_response: list):
+    """Dado un arreglo de arreglos de arreglos de objetos JSON que representan
+    la ejecucion de una partida devuelve el ultimo arreglo de objetos JSON de cada
+    partida que representan la última ronda de la misma
+
+    Args:
+        outer_response (list): Arreglo de arreglos de arreglos de objetos JSON
+
+    Returns:
+        juego (list): Diccionario de valores que contiene la ultima ronda de
+        cada juego.
+    """
     final_round = []
     juego = {}
     contador = 0
@@ -268,6 +302,17 @@ def games_last_round(outer_response: list):
 
 
 def get_winners(juego: list):
+    """Dado un diccionario de valores que contiene la ultima ronda de cada
+    juego devuelve aquellos robots que aun estén vivos en la última ronda
+
+    Args:
+        juego (list): Diccionario de valores que contiene la ultima ronda de
+        cada juego
+
+    Returns:
+        resultado: Diccionario que contiene los robots vivos al final de la
+        ejecucion de cada juego
+    """
     robots_sobrevivientes = []
     resultado = {}
     contador2 = 0

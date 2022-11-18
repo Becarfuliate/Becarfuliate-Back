@@ -2,10 +2,7 @@ from fastapi import APIRouter, HTTPException, WebSocket, WebSocketDisconnect
 from fastapi.responses import HTMLResponse
 from schemas import imatch
 from crud import match_service, websocket_services
-from routers.simulation_controller import game
-from crud import simulation_service as sc
-from crud.robot_service import get_file_by_id
-from random import randint
+
 
 match_end_points = APIRouter()
 
