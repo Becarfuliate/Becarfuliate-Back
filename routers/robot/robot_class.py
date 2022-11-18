@@ -13,6 +13,8 @@ SPIN_FACTOR = int(config("spinFactor"))
 
 
 class Robot:
+    """Crea un robot.
+    """
     def __init__(
         self,
         position: tuple = None,
@@ -50,7 +52,12 @@ class Robot:
     def cannon(self, degree, distance):
         """Cuando se llama a este método, se prepara el cañón para disparar.
         Si se llama a este método dos veces seguidas, sólo la última tiene
-        efecto. Recién se ejecuta el disparo al finalizar la ronda."""
+        efecto. Recién se ejecuta el disparo al finalizar la ronda.
+
+        Args:
+            degree (Any): Grados a lo que voy a disparar.
+            distance (Any): Distancia a la que voy a disparar.
+        """
         if distance > 700:
             distance = 700
         if distance < 0:
@@ -245,9 +252,13 @@ class Robot:
     # Escáner
     # Setter
     def point_scanner(self, direction, resolution_in_degrees):
-        """con este método se puede apuntar el escáner en cualquier dirección.
+        """Con este método se puede apuntar el escáner en cualquier dirección.
         Pero el resultado del escaneo estará disponible en la siguiente ronda,
         a través del siguiente método.
+
+        Args:
+            direction (Any): Dirección a la que se desea apuntar el scanner.
+            resolution_in_degrees (Any): Amplitud del scanner.
         """
         # Set scan direction
         self.scanned_list_OK = self.scanned_list.copy()
@@ -262,9 +273,11 @@ class Robot:
 
     # Getter
     def scanned(self):
-        """
-        devuelve el resultado del escaneo de la ronda previo. Devuelve la
+        """Devuelve el resultado del escaneo de la ronda previo. Devuelve la
         distancia al robot más cercano en la dirección apuntada.
+
+        Returns:
+            int: Distancia al robot más cercano.
         """
         min = 1500
         for pos in self.scanned_list_OK:
@@ -339,12 +352,17 @@ class Robot:
 
 
 def amplitude_to_depth(degre):
-    """
-    Toma una apertura de 1 a 10 y
+    """Toma una apertura de 1 a 10 y
     retorna la profundidad en metros que se van a escanear.
     degre = 1 --> 1000m
     ...
     degre = 10 --> 100m
+
+    Args:
+        degre (Any): amplitud del scanner.
+
+    Returns:
+        Any: profundidad del scanner.
     """
     result = -100 * degre + 1100
     return result
@@ -356,9 +374,16 @@ def get_distance(tuple1, tuple2):
 
 
 def in_direction(theta, alpha, min_plus):
-    """
-    Chequea que el ángulo theta esté en el rango
+    """Chequea que el ángulo theta esté en el rango
         { alpha - min_plus, alpha + min_plus }
+
+    Args:
+        theta (_type_): Ángulo que quiero ver si está en mi dirección y rango
+        alpha (_type_): dirección del scanner.
+        min_plus (_type_): apertura del scanner.
+
+    Returns:
+        bool: True en caso de que el theta esté en la dirección y rango.
     """
     is_direction = False
 

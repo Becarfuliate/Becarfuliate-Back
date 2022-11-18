@@ -11,6 +11,15 @@ simulation_end_points = APIRouter()
 
 
 def game(robots:list, rounds):
+    """Ejecuta un juego
+
+    Args:
+        robots (list): Lista de robots de la simulación
+        rounds (int): Cantidad de rondas del juego
+
+    Returns:
+        List[Any]: Lista de Rondas, un juego.
+    """
     results_by_robots = []
     for robot in robots:
         if robot != None:
@@ -22,6 +31,14 @@ def game(robots:list, rounds):
 
 @simulation_end_points.post("/simulation/add")
 async def create_simulation(simulation: isim.SimulationCreate):
+    """Crea una simulación.
+
+    Args:
+        simulation (isim.SimulationCreate): Simulación con todos sus campos.
+
+    Returns:
+        List[Any]: Lista con rondas.
+    """
     id_robot_parsed = simulation.id_robot.split(",")
     outer_response = []
     robots = []

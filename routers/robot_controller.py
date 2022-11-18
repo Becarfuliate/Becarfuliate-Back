@@ -30,6 +30,24 @@ async def robot_upload(
     tkn: str,
     username: str
 ):
+    """Cargar Robot
+
+    Args:
+        config (UploadFile): archivo del robot.
+        avatar (UploadFile): imagen del robot.
+        name (str): nombre del robot.
+        tkn (str): token.
+        username (str): nombre de usuario.
+
+    Raises:
+        HTTPException: 409: El robot ya existe.
+        HTTPException: 400: El usuario no existe.
+        HTTPException: 422: El nombre del Robot con el archivo no se corresponden.
+        HTTPException: 440: El token no es correcto o está expirado.
+
+    Returns:
+        _type_: _description_
+    """
     msg = add_robot(config, avatar.filename, name, tkn, username)
     # El robot ya existe
     if ("ya existe" in msg):
@@ -63,6 +81,15 @@ async def robot_upload(
 
 @robot_end_points.get("/robots")
 def read_robots(token: str):
+    """Listar Robots
+
+    Args:
+        token (str): token
+
+    Returns:
+        str: Error
+        List[Robots]: Lista de robots.
+    """
     msg = robot_service.read_robots(token)
     return msg
 

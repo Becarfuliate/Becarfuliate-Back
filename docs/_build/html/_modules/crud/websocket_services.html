@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="es" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>crud.websocket_services &mdash; documentación de Becarefuliate - 0.1</title>
+      <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+        <script src="../../_static/jquery.js"></script>
+        <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/doctools.js"></script>
+        <script src="../../_static/translations.js"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Índice" href="../../genindex.html" />
+    <link rel="search" title="Búsqueda" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../../index.html" class="icon icon-home"> Becarefuliate
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Buscar documentos" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../modules.html">Becarfuliate-Back</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">Becarefuliate</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Código de módulo</a></li>
+      <li class="breadcrumb-item active">crud.websocket_services</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Código fuente para crud.websocket_services</h1><div class="highlight"><pre>
+<span></span><span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Dict</span>
+<span class="kn">from</span> <span class="nn">fastapi</span> <span class="kn">import</span> <span class="n">WebSocket</span>
+
+
+<div class="viewcode-block" id="ConnectionManager"><a class="viewcode-back" href="../../crud.html#crud.websocket_services.ConnectionManager">[documentos]</a><span class="k">class</span> <span class="nc">ConnectionManager</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Handler of socket connections</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">active_connections</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="n">WebSocket</span><span class="p">]]</span> <span class="o">=</span> <span class="p">{}</span>
+
+<div class="viewcode-block" id="ConnectionManager.connect"><a class="viewcode-back" href="../../crud.html#crud.websocket_services.ConnectionManager.connect">[documentos]</a>    <span class="k">async</span> <span class="k">def</span> <span class="nf">connect</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">websocket</span><span class="p">:</span> <span class="n">WebSocket</span><span class="p">,</span> <span class="n">id_game</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">id_player</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
+        <span class="k">await</span> <span class="n">websocket</span><span class="o">.</span><span class="n">accept</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">id_game</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">active_connections</span><span class="p">:</span>  <span class="c1"># Exist game in active_connections</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">active_connections</span><span class="p">[</span><span class="n">id_game</span><span class="p">]</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="n">id_player</span><span class="p">:</span> <span class="n">websocket</span><span class="p">})</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">active_connections</span><span class="p">[</span><span class="n">id_game</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="n">id_player</span><span class="p">:</span> <span class="n">websocket</span><span class="p">}</span></div>
+
+<div class="viewcode-block" id="ConnectionManager.disconnect"><a class="viewcode-back" href="../../crud.html#crud.websocket_services.ConnectionManager.disconnect">[documentos]</a>    <span class="k">async</span> <span class="k">def</span> <span class="nf">disconnect</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">id_game</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">id_player</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
+        <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">active_connections</span><span class="p">[</span><span class="n">id_game</span><span class="p">]</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">id_player</span><span class="p">)</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">active_connections</span><span class="p">[</span><span class="n">id_game</span><span class="p">]</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="n">id_player</span><span class="p">)</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">active_connections</span><span class="p">[</span><span class="n">id_game</span><span class="p">]</span> <span class="o">==</span> <span class="p">{}:</span>  <span class="c1"># Empty game</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">active_connections</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="n">id_game</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="ConnectionManager.send_personal_json"><a class="viewcode-back" href="../../crud.html#crud.websocket_services.ConnectionManager.send_personal_json">[documentos]</a>    <span class="k">async</span> <span class="k">def</span> <span class="nf">send_personal_json</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">message</span><span class="p">,</span> <span class="n">websocket</span><span class="p">:</span> <span class="n">WebSocket</span><span class="p">):</span>
+        <span class="k">await</span> <span class="n">websocket</span><span class="o">.</span><span class="n">send_json</span><span class="p">(</span><span class="n">message</span><span class="p">)</span>
+        <span class="k">return</span></div>
+
+<div class="viewcode-block" id="ConnectionManager.broadcast_text"><a class="viewcode-back" href="../../crud.html#crud.websocket_services.ConnectionManager.broadcast_text">[documentos]</a>    <span class="k">async</span> <span class="k">def</span> <span class="nf">broadcast_text</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">id_game</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">message</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+        <span class="n">game</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">active_connections</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">id_game</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">game</span> <span class="o">!=</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">connection</span> <span class="ow">in</span> <span class="n">game</span><span class="o">.</span><span class="n">values</span><span class="p">():</span>
+                <span class="k">await</span> <span class="n">connection</span><span class="o">.</span><span class="n">send_text</span><span class="p">(</span><span class="n">message</span><span class="p">)</span>
+        <span class="k">return</span></div>
+
+<div class="viewcode-block" id="ConnectionManager.broadcast_json"><a class="viewcode-back" href="../../crud.html#crud.websocket_services.ConnectionManager.broadcast_json">[documentos]</a>    <span class="k">async</span> <span class="k">def</span> <span class="nf">broadcast_json</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">id_game</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">message</span><span class="p">):</span>
+        <span class="n">game</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">active_connections</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">id_game</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">game</span> <span class="o">!=</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">connection</span> <span class="ow">in</span> <span class="n">game</span><span class="o">.</span><span class="n">values</span><span class="p">():</span>
+                <span class="k">await</span> <span class="n">connection</span><span class="o">.</span><span class="n">send_json</span><span class="p">(</span><span class="n">message</span><span class="p">)</span>
+        <span class="k">return</span></div>
+
+<div class="viewcode-block" id="ConnectionManager.exist_socket_of_player"><a class="viewcode-back" href="../../crud.html#crud.websocket_services.ConnectionManager.exist_socket_of_player">[documentos]</a>    <span class="k">def</span> <span class="nf">exist_socket_of_player</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">id_game</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">id_player</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+        <span class="n">game</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">active_connections</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">id_game</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">game</span> <span class="o">!=</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">True</span>
+        <span class="k">return</span> <span class="kc">False</span></div>
+
+<div class="viewcode-block" id="ConnectionManager.get_all_connections"><a class="viewcode-back" href="../../crud.html#crud.websocket_services.ConnectionManager.get_all_connections">[documentos]</a>    <span class="k">def</span> <span class="nf">get_all_connections</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">active_connections</span></div>
+
+<div class="viewcode-block" id="ConnectionManager.get_socket_player"><a class="viewcode-back" href="../../crud.html#crud.websocket_services.ConnectionManager.get_socket_player">[documentos]</a>    <span class="k">def</span> <span class="nf">get_socket_player</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">id_game</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">id_player</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">WebSocket</span><span class="p">:</span>
+        <span class="n">game</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">active_connections</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">id_game</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">game</span> <span class="o">!=</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">player</span> <span class="o">=</span> <span class="n">id_player</span>
+            <span class="k">return</span> <span class="n">id_player</span></div></div>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Derechos de autor 2022, Capogrossi, Centeno, Kersul, Martinez, Ochoa, Pereyra, Yornet.</p>
+  </div>
+
+  Compilado con <a href="https://www.sphinx-doc.org/">Sphinx</a> usando un
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">tema</a>
+    proporcionado por <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
