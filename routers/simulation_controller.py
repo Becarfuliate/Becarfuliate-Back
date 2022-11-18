@@ -23,7 +23,10 @@ def game(robots:list, rounds):
     results_by_robots = []
     for robot in robots:
         if robot != None:
-            robot.initialize()
+            try:
+                robot.initialize()
+            except:
+                pass
     for i in range(rounds):
         results_by_robots.append(avanzar_ronda(robots))
     return results_by_robots
@@ -53,16 +56,21 @@ async def create_simulation(simulation: isim.SimulationCreate):
             "routers/robots/"
             + file
         )
-        exec(
-            open(filename).read(),
-            globals(),
-        )
-        file = file.strip(".py")
-        file = file.split("_")[0]
-        klass = globals()[file]
-        r = klass((randint(100, 800), randint(100, 800)), randint(0, 360))
-        robots.append(r)
-    
+        try:
+            exec(
+                open(filename).read(),
+                globals(),
+            )
+            file = file.strip(".py")
+            file = file.split("_")[0]
+            klass = globals()[file]
+            r = klass((randint(100, 800), randint(100, 800)), randint(0, 360))
+            robots.append(r)
+        except:
+            r = Robot((randint(100, 800), randint(100, 800)), randint(0, 360))
+            r.current_damage = 0
+            robots.append(r)
+
     # for i in range(simulation.n_rounds_simulations):
     outer_response = game(robots,simulation.n_rounds_simulations)
     for i in outer_response:
