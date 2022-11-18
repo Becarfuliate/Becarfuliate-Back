@@ -31,7 +31,7 @@ class Robot(db.Entity):
 
 class Match(db.Entity):
     id = PrimaryKey(int, auto=True)
-    name = Optional(str, unique=True)
+    name = Required(str, unique=True)
     max_players = Optional(int)
     min_players = Optional(int)
     password = Optional(str)
@@ -39,6 +39,6 @@ class Match(db.Entity):
     n_rounds_matchs = Optional(int)
     users = Set("User", reverse="matchs")
     # robot_winner -> instancia de la class robot_in_match (no disponible)
-    user_creator = Required(User, reverse="match_creates")
+    user_creator = Optional(User, reverse="match_creates")
     # robots_players -> instancia de la class robot_in_match (no disponible)
     robots_in_match = Optional(IntArray)

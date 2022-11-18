@@ -44,10 +44,6 @@ def create_match(match: imatch.MatchCreate):
         decode_token = decode_JWT(match.token)
         if decode_token["expiry"] > str(datetime.now()):
             try:
-                creator_aux = find_by_username_or_email(match.user_creator)
-            except Exception as e:
-                return "ObjectNotFound"
-            try:
                 Match(
                     name=match.name,
                     max_players=abs(match.max_players),
@@ -55,10 +51,6 @@ def create_match(match: imatch.MatchCreate):
                     password=encrypt_password(match.password),
                     n_matchs=min(abs(match.n_matchs), 200),
                     n_rounds_matchs=min(abs(match.n_rounds_matchs), 10000),
-                    users={
-                        creator_aux,
-                    },
-                    user_creator=creator_aux,
                 )
                 commit()
             except Exception as e:

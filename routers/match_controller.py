@@ -13,8 +13,6 @@ async def create_match(match: imatch.MatchCreate):
     msg = match_service.create_match(match)
     if "IntegrityError" in msg and "name" in msg:
         raise HTTPException(status_code=409, detail="El nombre de la partida ya existe")
-    if "ObjectNotFound" in msg:
-        raise HTTPException(status_code=400, detail="El usuario o email no existe")
     return {"Status": "Match added succesfully"}
 
 
