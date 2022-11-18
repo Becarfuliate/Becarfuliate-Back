@@ -23,7 +23,7 @@ def test_polartorect3():
 def test_polartorect4():
     robot1 = Robot((0, 0), 0)
     res = robot1.polar_to_rect(30, 999, (100, 500))
-    assert res == (965, 999)
+    assert res == (963, 999)
 
 
 def test_blockdrirection1():
@@ -86,4 +86,4 @@ def test_move1():
     robot1.current_damage = 0
     robot1.drive(90, 100)
     robot1.move()
-    assert robot1.current_position == (0, 50)
+    assert robot1.current_position == (0, 100)
