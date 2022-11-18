@@ -17,6 +17,19 @@ user_end_points = APIRouter()
 
 @user_end_points.post("/login")
 async def user_login(credentials: User_login_schema):
+    """Iniciar Sesión.
+
+    Args:
+        credentials (User_login_schema): credenciales, username o email, y contraseña.
+
+    Raises:
+        HTTPException: 400: el usuario no existe.
+        HTTPException: 400: contraseña incorrecta.
+        HTTPException: 400: email no verificado.
+
+    Returns:
+        dict[str:str]: {"token": response}
+    """
     if credentials.username == "":
         data = search_user_by_email(credentials.email)
     else:
@@ -43,6 +56,19 @@ async def user_login(credentials: User_login_schema):
 
 @user_end_points.post("/register")
 async def user_register(user_to_add: User_base):
+    """Registrar usuario
+
+    Args:
+        user_to_add (User_base): usuario a registrar
+
+    Raises:
+        HTTPException: IntegrityError:409, el usuario ya existe.
+        HTTPException: IntegrityError:409, el email ya existe.
+        HTTPException: 400: el usuario no existe.
+
+    Returns:
+        dict[str, str]: {"Status": msg}
+    """
     msg = add_user(new_user=user_to_add)
     if ('IntegrityError' in msg and 'username' in msg):
         raise HTTPException(
@@ -70,6 +96,19 @@ async def user_register(user_to_add: User_base):
 
 @user_end_points.get("/verify")
 def user_verification(username: str, code: str):
+    """Verificación de usuario
+
+    Args:
+        username (str): username
+        code (str): token
+
+    Raises:
+        HTTPException: 400: el usuario no existe
+        HTTPException: 400 el token no es válido
+
+    Returns:
+        dict[str, str]: {"Status": msg}
+    """
     msg = update_confirmation(username, code)
     if "no existe" in msg:
         raise HTTPException(
@@ -96,6 +135,13 @@ async def send_confirmation_mail(
         code_validation: str,
         username: str
         ):
+    """Envía mail de confirmación.
+
+    Args:
+        email (str): email al que enviar la confirmación.
+        code_validation (str): código a enviar.
+        username (str): usuario al que enviar.
+    """
     conf = ConnectionConfig(
         MAIL_USERNAME=MAIL_USERNAME_S,
         MAIL_PASSWORD=MAIL_PASSWORD_S,

@@ -1,4 +1,4 @@
-from fastapi import APIRouter, HTTPException, File, UploadFile
+from fastapi import APIRouter, HTTPException, File, UploadFile, Response
 from crud import robot_service
 from crud.robot_service import add_robot
 from pathlib import Path
@@ -30,6 +30,24 @@ async def robot_upload(
     tkn: str,
     username: str
 ):
+    """Cargar Robot
+
+    Args:
+        config (UploadFile): archivo del robot.
+        avatar (UploadFile): imagen del robot.
+        name (str): nombre del robot.
+        tkn (str): token.
+        username (str): nombre de usuario.
+
+    Raises:
+        HTTPException: 409: El robot ya existe.
+        HTTPException: 400: El usuario no existe.
+        HTTPException: 422: El nombre del Robot con el archivo no se corresponden.
+        HTTPException: 440: El token no es correcto o está expirado.
+
+    Returns:
+        _type_: _description_
+    """
     msg = add_robot(config, avatar.filename, name, tkn, username)
     # El robot ya existe
     if ("ya existe" in msg):
@@ -63,5 +81,20 @@ async def robot_upload(
 
 @robot_end_points.get("/robots")
 def read_robots(token: str):
+    """Listar Robots
+
+    Args:
+        token (str): token
+
+    Returns:
+        str: Error
+        List[Robots]: Lista de robots.
+    """
     msg = robot_service.read_robots(token)
     return msg
+
+@robot_end_points.get("/image",responses = {200: {"content": {"image/png": {}}}}, response_class=Response)
+def get_image():
+    image_bytes: bytes = generate_cat_picture()
+    # media_type here sets the media type of the actual response sent to the client.
+    return Response(content=image_bytes, media_type="image/png")

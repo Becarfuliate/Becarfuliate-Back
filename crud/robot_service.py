@@ -9,6 +9,15 @@ def validate_file(
     filename: str,
     file: UploadFile
 ):
+    """Validación de un archivo, i.e chequea extención '.py' y que el nombre del archivo sea usado dentro.
+
+    Args:
+        filename (str): Nombre de archivo a validar
+        file (UploadFile): Archivo a validar
+
+    Returns:
+        bool: True en caso de que sea válido.
+    """
     content = file.file.read().decode()
     is_valid = True
     if (filename+".py" != file.filename):
@@ -26,6 +35,18 @@ def add_robot(
     user_token: str,
     username: str
 ):
+    """Agregar robot a la base de datos.
+
+    Args:
+        config_file (UploadFile): Archivo '.py' del robot.
+        avatar_file (str): Imagen del robot.
+        robot_name (str): Nombre del robot.
+        user_token (str): Token.
+        username (str): Nombre de usuario o email.
+
+    Returns:
+        str: Mensaje de retorno.
+    """
     with db_session:
         decode_token = decode_JWT(user_token)
         vto = decode_token["expiry"]
@@ -55,6 +76,15 @@ def add_robot(
 
 @db_session
 def read_robots(token: str):
+    """Listar robots, consulta a la base de datos.
+
+    Args:
+        token (str): token.
+
+    Returns:
+        str: En caso de error.
+        List[Robot]: Lista de robots.
+    """
     with db_session:
         decode_token = decode_JWT(token)
         result = []
@@ -72,6 +102,14 @@ def read_robots(token: str):
 
 @db_session
 def get_file_by_id(rob_id: int):
+    """Obtener un archivo por su id
+
+    Args:
+        rob_id (int): id del archivo
+
+    Returns:
+        Any: Nombre del archivo del robot.
+    """
     with db_session:
         robot = Robot[rob_id]
         filename = robot.name+".py"
@@ -79,6 +117,11 @@ def get_file_by_id(rob_id: int):
 
 @db_session
 def add_default_robot(username:str):
+    """Agregar robot por defecto.
+
+    Args:
+        username (str): Usuario al que agregar robot por defecto.
+    """
     with db_session:
         Robot(
                     name="default1"+"_"+username,

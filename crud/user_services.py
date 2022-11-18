@@ -17,15 +17,15 @@ KEY_CRYPT = config("KEY")
 
 @db_session()
 def add_user(new_user: User_create):
-    '''
-    Agrega un usuario a la base de datos, devolviendo un
+    """Agrega un usuario a la base de datos, devolviendo un
     mensaje representativo del estado de la salida
+
     Args:
-        new_user: Usuario a persistir
+        new_user (User_create): Usuario a persistir
 
     Returns:
-        String representativa del estado de la salida
-    '''
+        str: representativa del estado de la salida
+    """
     password_encrypted = encrypt_password(new_user.password)
     # Generamos un codigo de privacidad para la verificacion de mail
     code_for_validation = ''.join(
@@ -48,14 +48,15 @@ def add_user(new_user: User_create):
 
 @db_session
 def update_confirmation(username: str, code: str):
-    """
-    Actualiza el valor del atributo que representa que
+    """Actualiza el valor del atributo que representa que
     el la cuenta fue confirmada
+
     Args:
-        username: Usuario confirmado
-        code: Codigo de privacidad para la validacion
+        username (str): Usuario confirmado
+        code (str): Codigo de privacidad para la validacion
+
     Returns:
-        String representativa del estado de la salida
+        str: String representativa del estado de la salida
     """
     try:
         user_for_validate = User[username]
@@ -69,14 +70,15 @@ def update_confirmation(username: str, code: str):
 
 @db_session
 def get_code_for_user(username: str):
-    """
-    Trae el codigo de privacidad de la validacion
+    """Trae el codigo de privacidad de la validacion
     de la base de datos
+
     Args:
-        username: Usuario del cual queremos el codigo
+        username (str): Usuario del cual queremos el codigo
+
     Returns:
-        Error: String representativa del estado de la salida
-        Exito: Codigo de privacidad
+        str: Codigo de privacidad
+        Any: Error
     """
     try:
         code = User[username].validation_code
@@ -85,23 +87,46 @@ def get_code_for_user(username: str):
     return code
 
 
-# busca un usuario en la base de datos por su nombre
+
 @db_session()
 def search_user(name):
+    """Busca un usuario en la base de datos por su nombre.
+
+    Args:
+        name (Any): nombre del usuario a buscar.
+
+    Returns:
+        Any: ??
+    """
     data = User.get(username=name)
     return data
 
 
 @db_session
 def search_user_by_email(input_email):
+    """Busca un usuario en la base de datos por su email.
+
+    Args:
+        input_email (Any): email del usuario a buscar.
+
+    Returns:
+        Any: ??
+    """
     data = User.select(lambda p: p.email == input_email).get()
     return data
 
 
 # FUNCIONES AUXILIARES
 
-# esta funcion encodea el token
 def get_payload(userID: str):
+    """Encodea el token.
+
+    Args:
+        userID (str): id del usuario.
+
+    Returns:
+        Dict[str,str]: {"id_usuario":"fecha de expiración"}
+    """
     payload = {"userID": userID, "expiry": str(datetime.now() + JWT_EXPIRES)}
     return payload
 
@@ -114,6 +139,14 @@ def sign_JWT(userID: str):
 
 # esta funcion decodea el token
 def decode_JWT(token: str):
+    """Decodea el token
+
+    Args:
+        token (str): token
+
+    Returns:
+        Dict[str, Any]: {"userID": "", "expiry": 0}
+    """
     try:
         decode_token = jwt.decode(token, JWT_SECRET, algorithms=JWT_ALGORITHM)
         return decode_token
@@ -121,8 +154,15 @@ def decode_JWT(token: str):
         return {"userID": "", "expiry": 0}
 
 
-# esta funcion desencripta una password
 def decrypt_password(password: str):
+    """Desencripta una contraseña
+
+    Args:
+        password (str): contraseña a desencriptar
+
+    Returns:
+        str: contraseña desencriptada
+    """
     f = Fernet(KEY_CRYPT)
     encoded_pasword = password.encode()
     decripted_password = f.decrypt(encoded_pasword)
@@ -131,13 +171,13 @@ def decrypt_password(password: str):
 
 
 def encrypt_password(password: str):
-    """
-    Realiza un encriptado simetrico a un string
-    haciendo uso de Fernet
+    """Realiza un encriptado simetrico a un string haciendo uso de Fernet
+
     Args:
-        password: String a encriptar
+        password (str): String a encriptar
+
     Returns:
-        String encriptada
+        _type_: String encriptada
     """
     f = Fernet(KEY_CRYPT)
     encoded_pasword = password.encode()
