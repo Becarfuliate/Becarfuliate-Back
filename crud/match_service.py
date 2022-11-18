@@ -5,6 +5,10 @@ from pony.orm import db_session, commit, select, left_join
 from schemas import imatch
 from models.entities import Match, User, Robot
 from crud.user_services import decode_JWT, encrypt_password, search_user_by_email
+from routers.simulation_controller import game
+from crud import simulation_service as sc
+from crud.robot_service import get_file_by_id
+from random import randint
 import re
 
 
@@ -208,3 +212,70 @@ def start_game(id_match: int, name_user: str):
     except Exception as e:
         return str(e)
     return list(match_robots)
+
+
+def parse_robots(robot_list: list):
+    robots = []
+    for x in robot_list:
+        file = get_file_by_id(x)
+        if "default1" in file:
+            file = "default1.py"
+        elif "default2" in file:
+            file = "default2.py"
+
+        filename = "routers/robots/" + file
+        exec(
+            open(filename).read(),
+            globals(),
+        )
+        file = file.strip(".py")
+        file = file.split("_")[0]
+        klass = globals()[file]
+        r = klass((randint(100, 800), randint(100, 800)), randint(0, 360))
+        robots.append(r)
+    return robots
+
+
+def add_robot_attributes(
+    n_games: int, n_rounds: int, robots: list, robot_id_list: list
+):
+    outer_response = []
+    for i in range(n_games):
+        outer_response.append(game(robots, n_rounds))
+        for j in outer_response:
+            for i in j:
+                k = 0
+                for j in i:
+                    j["id"] = robot_id_list[k]
+                    j["nombre"] = sc.get_robot_name(robot_id_list[k])
+                    j["imagen"] = sc.get_robot_avatar(robot_id_list[k])
+                    k += 1
+    return outer_response
+
+
+def games_last_round(outer_response: list):
+    final_round = []
+    juego = {}
+    contador = 0
+    # Para cada partida
+    for i in outer_response:
+        contador += 1
+        # Para rondas de partida
+        for j in i:
+            final_round.append(j)
+        juego["Juego: " + str(contador)] = final_round[-1]
+    return juego
+
+
+def get_winners(juego: list):
+    robots_sobrevivientes = []
+    resultado = {}
+    contador2 = 0
+    for i in juego:
+        contador2 += 1
+        for j in juego[i]:
+            if j["vida"] > 0:
+                robots_sobrevivientes.append(j)
+        resultado["Ganador/es juego: " + str(contador2)] = robots_sobrevivientes
+        robots_sobrevivientes = []
+    return resultado
