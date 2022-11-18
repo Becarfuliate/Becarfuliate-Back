@@ -1,4 +1,5 @@
 from random import randint
+from fastapi import UploadFile
 from fastapi.testclient import TestClient
 import main
 from crud.user_services import *
@@ -23,6 +24,12 @@ def elim_user(username: str):
 
 
 @db_session
+def elim_match(id: str):
+    with db_session:
+        Match[id].delete()
+
+
+@db_session
 def client_fast_confirmation(username: str):
     with db_session:
         User[username].confirmation_mail = True
@@ -37,6 +44,11 @@ def delete_db_v2():
     elim_user("Capogrossi2")
     elim_user("Capogrossi3")
     elim_user("Capogrossi4")
+
+
+def delete_db_get_match(id_match):
+    elim_match(id_match)
+    delete_db()
 
 
 # Tests de partidas
@@ -570,3 +582,107 @@ def test_match_leave():
     assert response.json() == {"Status": "El usuario fue removido de la partida"}
     delete_db()
     delete_db_v2()
+
+
+def test_match_get_success():
+    """
+    TEST_13: Listar una partida.
+        PRE: Estar logeado.
+    """
+    client_post_register("Alexis", "Asd23asdasdasdasd@", "ale@gmail.com")
+    client_fast_confirmation("Alexis")
+    response = client.post(
+        "/login",
+        json={
+            "username": "Alexis",
+            "email": "ale@gmail.com",
+            "password": "Asd23asdasdasdasd@",
+        },
+    )
+    toq_var = response.json()["token"]
+    num_partida = randint(0, 200)
+    nombre_partida = "NombrePartida" + str(num_partida) + str(randint(0, 99999))
+    response = client.post(
+        "/match/add",
+        json={
+            "name": nombre_partida,
+            "max_players": 4,
+            "min_players": 2,
+            "password": "Asd23asdasdasdasd@",
+            "n_matchs": 2,
+            "n_rounds_matchs": 2,
+            "user_creator": "Alexis",
+            "token": toq_var,
+        },
+    )
+    id_match = get_match_id(nombre_partida)
+
+    response = client.get(
+        "/matchs",
+        params={
+            "token": toq_var,
+        },
+    )
+    assert len(response.json()) == 1
+    delete_db_get_match(id_match)
+
+
+def test_match_get_success_v2():
+    """
+    TEST_14: Listar dos partidas.
+        PRE: Estar logeado.
+    """
+    client_post_register("Alexis", "Asd23asdasdasdasd@", "ale@gmail.com")
+    client_fast_confirmation("Alexis")
+    response = client.post(
+        "/login",
+        json={
+            "username": "Alexis",
+            "email": "ale@gmail.com",
+            "password": "Asd23asdasdasdasd@",
+        },
+    )
+    toq_var = response.json()["token"]
+    num_partida_1 = randint(0, 200)
+    nombre_partida_1 = "NombrePartida" + str(num_partida_1) + str(randint(0, 99999))
+    response = client.post(
+        "/match/add",
+        json={
+            "name": nombre_partida_1,
+            "max_players": 4,
+            "min_players": 2,
+            "password": "Asd23asdasdasdasd@",
+            "n_matchs": 2,
+            "n_rounds_matchs": 2,
+            "user_creator": "Alexis",
+            "token": toq_var,
+        },
+    )
+    id_match_1 = get_match_id(nombre_partida_1)
+
+    num_partida_2 = randint(0, 200)
+    nombre_partida_2 = "NombrePartida" + str(num_partida_2) + str(randint(0, 99999))
+    response = client.post(
+        "/match/add",
+        json={
+            "name": nombre_partida_2,
+            "max_players": 4,
+            "min_players": 2,
+            "password": "Asd23asdasdasdasd@",
+            "n_matchs": 2,
+            "n_rounds_matchs": 2,
+            "user_creator": "Alexis",
+            "token": toq_var,
+        },
+    )
+    id_match_2 = get_match_id(nombre_partida_2)
+
+    response = client.get(
+        "/matchs",
+        params={
+            "token": toq_var,
+        },
+    )
+    assert len(response.json()) == 2
+    delete_db_get_match(id_match_1)
+    delete_db_get_match(id_match_2)
