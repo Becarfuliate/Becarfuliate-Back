@@ -83,7 +83,6 @@ def avanzar_ronda(robots:list):
            other_robots.remove(robot)
            scan_list = [r.current_position for r in other_robots]
            robot._scan(scan_list)
-           print(robot.scanned_list,"despues de hacer scan")
     #atack
     for robot in robots:
         if robot.current_damage > 0:

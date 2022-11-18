@@ -1,4 +1,4 @@
-from math import sin, cos, pi, sqrt, degrees, atan
+from math import sin, cos, pi, sqrt, degrees, atan2
 from typing import Tuple
 from decouple import config
 
@@ -32,9 +32,8 @@ class Robot:
         self.misil_position = (None, None)
         self.direction_scanner = 0
         self.resolution_in_degrees = 10
-        self.scanned_list = []
         self.scanner_range = 100
-        self.scanned_list_OK = []
+        self.scan_result = 1500
 
     # Cañón
     def is_cannon_ready(self):
@@ -250,7 +249,6 @@ class Robot:
         a través del siguiente método.
         """
         # Set scan direction
-        self.scanned_list_OK = self.scanned_list.copy()
         if direction < 0:
             direction = -direction
         elif direction >= 360:
@@ -258,7 +256,6 @@ class Robot:
 
         self.direction_scanner = direction
         self.resolution_in_degrees = resolution_in_degrees
-        self.scanner_range = amplitude_to_depth(resolution_in_degrees)
 
     # Getter
     def scanned(self):
@@ -266,77 +263,26 @@ class Robot:
         devuelve el resultado del escaneo de la ronda previo. Devuelve la
         distancia al robot más cercano en la dirección apuntada.
         """
-        min = 1500
-        for pos in self.scanned_list_OK:
-            aux = distance(self.current_position,pos)
-            if aux < min:
-                min = aux
-        self.scanned_list_OK = []
-        return min
+        return self.scan_result
 
     # Setter
     def _scan(self, robots_position: list):
-        # La máxima distancia desde (0,0) a (1000,1000) es 1414.213562373095.
-        # Por eso tomando 1500 como máximo es suficiente.
-        min_distance = 1500
-        # Coordenada del robot más cercano
-        coor_r_min_d = 0
-        for r_position in robots_position:
-            distance_b2_points = get_distance(self.current_position, r_position)
-            if distance_b2_points <= self.scanner_range:
-                # Ya sé que está en el rango, ahora quiero ver
-                # si está en la dirección
-                theta_s_r = 0
-
-                # Pendiente
-                slope = 0.0
-
-                # x_1 != x_0
-                if self.current_position[0] != r_position[0]:
-                    # Calculamos la pendiente
-                    slope = (self.current_position[1] - r_position[1]) / (
-                        self.current_position[0] - r_position[0]
-                    )
-
-                # Los puntos están en la misma coordenada x,
-                # entonces calculamos los ángulos sin pendiente
-
-                # y_1 <= y_0
-                elif self.current_position[1] <= r_position[1]:
-                    theta_s_r = 90
-                # y_1 > y_0
-                elif self.current_position[1] > r_position[1]:
-                    theta_s_r = 270
-
-                # x_0 <= x_1 and y_1 >= y_0
-                if (
-                    self.current_position[0] < r_position[0]
-                    and self.current_position[1] >= r_position[1]
-                ):
-                    # ángulo desde mí robot al otro robot
-                    theta_s_r = 360 + degrees(atan(slope))
-                # x_0 <= x1 and y_1 < y_0
-                if (
-                    self.current_position[0] < r_position[0]
-                    and self.current_position[1] < r_position[1]
-                ):
-                    # ángulo desde mí robot al otro robot
-                    theta_s_r = degrees(atan(slope))
-
-                # x_0 > x_1
-                if self.current_position[0] > r_position[0]:
-                    # La suma acá la introduje yo, la formula original es resta.
-                    theta_s_r = 180 + degrees(atan(slope))
-
-                if in_direction(
-                    theta_s_r, self.direction_scanner, self.resolution_in_degrees
-                ):
-                    min_distance = min(min_distance, distance_b2_points)
-                    if min_distance == distance_b2_points:
-                        coor_r_min_d = r_position
-        if coor_r_min_d != 0:
-            self.scanned_list.append(coor_r_min_d)
-
+        # centrar el origen a la de main_pos
+        main_pos = self.current_position
+        robots_c = [(r[0]-main_pos[0],r[1]-main_pos[1]) for r in robots_position]
+        # calcular cordenadas polares 
+        robots_p = [(degrees(atan2(r[1],r[0])) % 360 , sqrt(r[0]**2+r[1]**2)) for r in robots_c]
+        #filtrar segun distancia y angulo correcto
+        amplitude = self.resolution_in_degrees*5
+        max_distance = amplitude_to_depth(self.resolution_in_degrees)
+        robots_f = [1500]
+        for robot in robots_p:
+            angleDiff = (self.direction_scanner - robot[0] + 180 + 360) % 360 - 180
+            if(angleDiff>=-amplitude and angleDiff <= amplitude and robot[1]<max_distance):
+                robots_f.append(robot[1])
+        #calcular el minimo
+        res = min(robots_f)
+        self.scan_result = res 
 
 def amplitude_to_depth(degre):
     """
@@ -346,23 +292,5 @@ def amplitude_to_depth(degre):
     ...
     degre = 10 --> 100m
     """
-    result = -100 * degre + 1100
-    return result
-
-
-def get_distance(tuple1, tuple2):
-    distance = sqrt((tuple2[0] - tuple1[0]) ** 2 + (tuple2[1] - tuple1[1]) ** 2)
-    return distance
-
-
-def in_direction(theta, alpha, min_plus):
-    """
-    Chequea que el ángulo theta esté en el rango
-        { alpha - min_plus, alpha + min_plus }
-    """
-    is_direction = False
-
-    if theta in range(alpha - min_plus, alpha + min_plus):
-        is_direction = True
-
-    return is_direction
+    result = -7.5 * (degre*9) + 867 
+    return round(result)
