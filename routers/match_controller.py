@@ -45,5 +45,16 @@ async def join_match(websocket: WebSocket, id_game: int, tkn: str, id_robot: int
 
 @match_end_points.get("/matchs")
 async def read_matchs(token: str):
+    """Lista las partidas
+
+    Args:
+        token (str): recibe el token
+
+    Returns:
+        str: Error.
+        List[Match]: Lista de partidas.
+    """
     msg = match_service.read_matchs(token)
+    if "'>' not supported between instances of 'int' and 'str'" in msg:
+        raise HTTPException(status_code=401, detail="No autorizado, debe logearse")
     return msg

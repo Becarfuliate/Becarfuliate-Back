@@ -74,17 +74,39 @@ def create_match(match: imatch.MatchCreate):
 
 @db_session
 def read_matchs(token: str):
+    """Listar Partidas
+
+    Args:
+        token (str): token
+
+    Returns:
+        str: En caso de error
+        List[Match]: Lista de partidas.
+    """
     with db_session:
         decode_token = decode_JWT(token)
-        if decode_token["expiry"] > str(datetime.now()):
-            try:
-                matchs = Match.select()
-                result = [imatch.Match.from_orm(p) for p in matchs]
+        try:
+            if decode_token["expiry"] > str(datetime.now()):
+                matchs = select(x for x in Match)[:]
+                result = [
+                    {
+                        "id": p.id,
+                        "name": p.name,
+                        "max_players": p.max_players,
+                        "min_players": p.min_players,
+                        "n_matchs": p.n_matchs,
+                        "n_rounds_matchs": p.n_rounds_matchs,
+                        "user_creator": p.user_creator.username
+                        + ":"
+                        + p.user_creator.email,
+                    }
+                    for p in matchs
+                ]
                 commit()
-            except Exception as e:
-                return str(e)
-        else:
-            result = "Token no válido"
+            else:
+                result = "Token no válido"
+        except Exception as e:
+            return str(e)
         return result
 
 
