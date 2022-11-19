@@ -35,7 +35,7 @@ def client_post_register(username, password, email):
             }
     )
 
-def client_post_match(name, max, min, password, match, rounds, token):
+def client_post_match(name, max, min, password, match, rounds, token, username):
     client.post(
         "/match/add",
         json={
@@ -45,7 +45,8 @@ def client_post_match(name, max, min, password, match, rounds, token):
             "password": password,
             "n_matchs": match,
             "n_rounds_matchs": rounds,
-            "token": token,
+            "user_creator": username,
+            "token": token
         },
     )
 
@@ -71,6 +72,11 @@ def get_robot(username: str):
     with db_session:
         list_robot = User[username].robots
         return list(list_robot.id)[0], list(list_robot.name)[0].split("_")[0]
+
+@db_session
+def elim_match(id: str):
+    with db_session:
+        Match[id].delete()
 
 @db_session
 def elim_user(username: str):
@@ -157,7 +163,8 @@ def load_bd():
         "contraseña",
         100,
         2000,
-        token_res1
+        token_res1,
+        "anonymous1"
     )
     with db_session:
         match_id = list(select(m.id for m in Match if m.name == "misteriosa")[:])
@@ -172,10 +179,9 @@ def test_websocket_join():
         assert data == {'join': "anonymous1:"+str(name_robot)}
         in_match = get_robots_in_match(match_id)
         assert id_robot in in_match
-        websocket.send_json({"connection":"close"})
+    assert True == True
     elim_user("anonymous1")
     elim_user("anonymous2")
     elim_user("anonymous3")
     elim_user("anonymous4")
     elim_user("anonymous5")
-    

@@ -1,14 +1,12 @@
 from datetime import datetime
-from pony.orm import db_session, commit,select
+from pony.orm import db_session, commit, select
 from models.entities import Robot, User
 from crud.user_services import decode_JWT
 from fastapi import UploadFile
 from schemas import irobot
 
-def validate_file(
-    filename: str,
-    file: UploadFile
-):
+
+def validate_file(filename: str, file: UploadFile):
     """Validación de un archivo, i.e chequea extención '.py' y que el nombre del archivo sea usado dentro.
 
     Args:
@@ -20,7 +18,7 @@ def validate_file(
     """
     content = file.file.read().decode()
     is_valid = True
-    if (filename+".py" != file.filename):
+    if filename + ".py" != file.filename:
         is_valid = False
     if not (filename in content):
         is_valid = False
@@ -33,7 +31,7 @@ def add_robot(
     avatar_file: str,
     robot_name: str,
     user_token: str,
-    username: str
+    username: str,
 ):
     """Agregar robot a la base de datos.
 
@@ -59,12 +57,12 @@ def add_robot(
                 return str(e) + " no existe"
             try:
                 Robot(
-                    name=robot_name+"_"+user_for_validate.username,
-                    avatar=avatar_file+"_"+user_for_validate.username,
+                    name=robot_name + "_" + user_for_validate.username,
+                    avatar=avatar_file + "_" + user_for_validate.username,
                     matchs_pleyed=0,
                     matchs_won=0,
                     avg_life_time=0,
-                    user_owner=user_for_validate.username
+                    user_owner=user_for_validate.username,
                 )
                 commit()
             except Exception as e:
@@ -88,17 +86,18 @@ def read_robots(token: str):
     with db_session:
         decode_token = decode_JWT(token)
         result = []
-        if decode_token["expiry"] > str(datetime.now()):
-            try:
+        try:
+            if decode_token["expiry"] > str(datetime.now()):
                 user = decode_token["userID"]
                 robots = select(x for x in Robot if x.user_owner.username == user)
                 result = [irobot.Robot.from_orm(r) for r in robots]
                 commit()
-            except Exception as e:
-                return str(e)
-        else:
-            result = "Token no válido"
+            else:
+                result = "Token no válido"
+        except Exception as e:
+            return str(e)
         return result
+
 
 @db_session
 def get_file_by_id(rob_id: int):
@@ -112,11 +111,12 @@ def get_file_by_id(rob_id: int):
     """
     with db_session:
         robot = Robot[rob_id]
-        filename = robot.name+".py"
+        filename = robot.name + ".py"
         return filename
 
+
 @db_session
-def add_default_robot(username:str):
+def add_default_robot(username: str):
     """Agregar robot por defecto.
 
     Args:
@@ -124,19 +124,18 @@ def add_default_robot(username:str):
     """
     with db_session:
         Robot(
-                    name="default1"+"_"+username,
-                    matchs_pleyed=0,
-                    matchs_won=0,
-                    avg_life_time=0,
-                    user_owner=username
-                )
+            name="default1" + "_" + username,
+            matchs_pleyed=0,
+            matchs_won=0,
+            avg_life_time=0,
+            user_owner=username,
+        )
         commit()
         Robot(
-                    name="default2"+"_"+username,
-                    matchs_pleyed=0,
-                    matchs_won=0,
-                    avg_life_time=0,
-                    user_owner=username
-                )
+            name="default2" + "_" + username,
+            matchs_pleyed=0,
+            matchs_won=0,
+            avg_life_time=0,
+            user_owner=username,
+        )
         commit()
-        

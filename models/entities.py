@@ -1,4 +1,4 @@
-from pony.orm import PrimaryKey, Required, Optional, Set
+from pony.orm import PrimaryKey, Required, Optional, Set, IntArray
 from db.database import db
 
 
@@ -37,7 +37,7 @@ class Match(db.Entity):
     """Crea la tabla de partidas.
     """
     id = PrimaryKey(int, auto=True)
-    name = Optional(str, unique=True)
+    name = Required(str, unique=True)
     max_players = Optional(int)
     min_players = Optional(int)
     password = Optional(str)
@@ -47,3 +47,4 @@ class Match(db.Entity):
     # robot_winner -> instancia de la class robot_in_match (no disponible)
     user_creator = Required(User, reverse="match_creates")
     # robots_players -> instancia de la class robot_in_match (no disponible)
+    robots_in_match = Optional(IntArray)
