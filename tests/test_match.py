@@ -1,9 +1,10 @@
-from random import randint
+from random import randint, uniform
 from fastapi import UploadFile
 from fastapi.testclient import TestClient
 import main
 from crud.user_services import *
 from crud.match_service import *
+from crud.simulation_service import *
 import pytest
 
 
@@ -37,6 +38,25 @@ def client_fast_confirmation(username: str):
 
 def delete_db():
     elim_user("Alexis")
+
+
+@db_session
+def client_add_robots(username: str):
+    with db_session:
+        try:
+            for i in range(5):
+                Robot(
+                    name="test_robot_" + str(i),
+                    avatar="test_pic_" + str(i),
+                    matchs_pleyed=randint(1, 1000),
+                    matchs_won=1000 - randint(1, 1000),
+                    avg_life_time=uniform(1.1, 100.9),
+                    user_owner=username,
+                )
+                commit()
+        except Exception as e:
+            return str(e)
+        return "added"
 
 
 def delete_db_v2():
@@ -115,7 +135,7 @@ def test_match_add_bad_max_players():
         "detail": [
             {
                 "loc": ["body", "max_players"],
-                "msg": "El valor debe estar entre 2 y 4",
+                "msg": "La cantidad de jugadores debe estar entre 2 y 4",
                 "type": "value_error",
             }
         ]
@@ -154,7 +174,7 @@ def test_match_add_bad_min_players():
         "detail": [
             {
                 "loc": ["body", "min_players"],
-                "msg": "El valor debe estar entre 2 y 4",
+                "msg": "La cantidad de jugadores debe estar entre 2 y 4",
                 "type": "value_error",
             }
         ]
@@ -192,7 +212,7 @@ def test_match_add_bad_number_matchs():
         "detail": [
             {
                 "loc": ["body", "n_matchs"],
-                "msg": "El valor debe estar entre 1 y 200",
+                "msg": "La cantidad de juegos debe estar entre 1 y 200",
                 "type": "value_error",
             }
         ]
@@ -230,7 +250,7 @@ def test_match_add_bad_number_rounds():
         "detail": [
             {
                 "loc": ["body", "n_rounds_matchs"],
-                "msg": "El valor debe estar entre 2 y 10.000",
+                "msg": "La cantidad de rondas debe estar entre 2 y 10.000",
                 "type": "value_error",
             }
         ]
@@ -429,40 +449,56 @@ def test_match_add_bad_type_insert_v0():
     }
 
 
-# def test_start_match_not_enough_players():
-#     """
-#     TEST_10: La partida no tiene suficientes jugadores.
-#     """
-#     response = client.post(
-#         "/login",
-#         json={
-#             "username": "Alexis",
-#             "email": "ale@gmail.com",
-#             "password": "Asd23asdasdasdasd@",
-#         },
-#     )
-#     toq_var = response.json()["token"]
-#     num_partida = 2
-#     nombre_partida = "NombrePartida" + str(num_partida)
-#     response = client.post(
-#         "/match/add",
-#         json={
-#             "name": nombre_partida,
-#             "max_players": 4,
-#             "min_players": 2,
-#             "password": "Asd23asdasdasdasd@",
-#             "n_matchs": 2,
-#             "n_rounds_matchs": 2,
-#             "user_creator": "Alexis",
-#             "token": toq_var,
-#         },
-#     )
-#     id_match = get_match_id(nombre_partida)
-#     response = client.post(
-#         "match/run?id_match=" + str(id_match) + "&name_user=" + "Alexis"
-#     )
-#     assert response.json() == {"Status": "La partida no tiene suficientes jugadores"}
-#     elim_match(id_match)
+def test_start_match_not_enough_players():
+    """
+    TEST_10: La partida no tiene suficientes jugadores.
+    """
+    client_post_register("Alexis", "Asd23asdasdasdasd@", "ale@gmail.com")
+    client_fast_confirmation("Alexis")
+    client_add_robots("Alexis")
+    robots = []
+    for i in range(5):
+        robots.append(get_robot_id("test_robot_" + str(i)))
+    response = client.post(
+        "/login",
+        json={
+            "username": "Alexis",
+            "email": "ale@gmail.com",
+            "password": "Asd23asdasdasdasd@",
+        },
+    )
+    toq_var = response.json()["token"]
+    num_partida = randint(0, 200)
+    nombre_partida = "NombrePartida" + str(num_partida) + str(randint(0, 99999))
+    response = client.post(
+        "/match/add",
+        json={
+            "name": nombre_partida,
+            "max_players": 4,
+            "min_players": 2,
+            "password": "Asd23asdasdasdasd@",
+            "n_matchs": 2,
+            "n_rounds_matchs": 2,
+            "token": toq_var,
+        },
+    )
+    id_match = get_match_id(nombre_partida)
+    with db_session:
+        user = User["Alexis"]
+        match = Match[id_match]
+        match.robots_in_match = [robots[0]]
+        match.user_creator = user
+        match.users.add(user)
+        commit()
+    print(match)
+    response = client.post(
+        "match/run?id_match=" + str(id_match) + "&name_user=" + "Alexis"
+    )
+    elim_match(id_match)
+    delete_db()
+    assert response.json() == {
+        "Status": "La cantidad de jugadores no coincide con los parámetros de la partida"
+    }
 
 
 def test_match_get_success():
