@@ -140,7 +140,7 @@ def test_match_add_bad_max_players():
         "detail": [
             {
                 "loc": ["body", "max_players"],
-                "msg": "El valor debe estar entre 2 y 4",
+                "msg": "La cantidad de jugadores debe estar entre 2 y 4",
                 "type": "value_error",
             }
         ]
@@ -179,7 +179,7 @@ def test_match_add_bad_min_players():
         "detail": [
             {
                 "loc": ["body", "min_players"],
-                "msg": "El valor debe estar entre 2 y 4",
+                "msg": "La cantidad de jugadores debe estar entre 2 y 4",
                 "type": "value_error",
             }
         ]
@@ -217,7 +217,7 @@ def test_match_add_bad_number_matchs():
         "detail": [
             {
                 "loc": ["body", "n_matchs"],
-                "msg": "El valor debe estar entre 1 y 200",
+                "msg": "La cantidad de juegos debe estar entre 1 y 200",
                 "type": "value_error",
             }
         ]
@@ -255,7 +255,7 @@ def test_match_add_bad_number_rounds():
         "detail": [
             {
                 "loc": ["body", "n_rounds_matchs"],
-                "msg": "El valor debe estar entre 2 y 10.000",
+                "msg": "La cantidad de rondas debe estar entre 2 y 10.000",
                 "type": "value_error",
             }
         ]
@@ -501,7 +501,9 @@ def test_start_match_not_enough_players():
     )
     elim_match(id_match)
     delete_db()
-    assert response.json() == {"Status": "La partida no tiene suficientes jugadores"}
+    assert response.json() == {
+        "Status": "La cantidad de jugadores no coincide con los parámetros de la partida"
+    }
 
 
 def test_match_get_success():
