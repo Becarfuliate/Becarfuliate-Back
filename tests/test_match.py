@@ -1,9 +1,10 @@
-from random import randint
+from random import randint, uniform
 from fastapi import UploadFile
 from fastapi.testclient import TestClient
 import main
 from crud.user_services import *
 from crud.match_service import *
+from crud.simulation_service import *
 import pytest
 
 
@@ -39,11 +40,35 @@ def delete_db():
     elim_user("Alexis")
 
 
+@db_session
+def client_add_robots(username: str):
+    with db_session:
+        try:
+            for i in range(5):
+                Robot(
+                    name="test_robot_" + str(i),
+                    avatar="test_pic_" + str(i),
+                    matchs_pleyed=randint(1, 1000),
+                    matchs_won=1000 - randint(1, 1000),
+                    avg_life_time=uniform(1.1, 100.9),
+                    user_owner=username,
+                )
+                commit()
+        except Exception as e:
+            return str(e)
+        return "added"
+
+
 def delete_db_v2():
     elim_user("Capogrossi")
     elim_user("Capogrossi2")
     elim_user("Capogrossi3")
     elim_user("Capogrossi4")
+
+
+def delete_db_get_match(id_match):
+    elim_match(id_match)
+    delete_db()
 
 
 # Tests de partidas
@@ -429,40 +454,54 @@ def test_match_add_bad_type_insert_v0():
     }
 
 
-# def test_start_match_not_enough_players():
-#     """
-#     TEST_10: La partida no tiene suficientes jugadores.
-#     """
-#     response = client.post(
-#         "/login",
-#         json={
-#             "username": "Alexis",
-#             "email": "ale@gmail.com",
-#             "password": "Asd23asdasdasdasd@",
-#         },
-#     )
-#     toq_var = response.json()["token"]
-#     num_partida = 2
-#     nombre_partida = "NombrePartida" + str(num_partida)
-#     response = client.post(
-#         "/match/add",
-#         json={
-#             "name": nombre_partida,
-#             "max_players": 4,
-#             "min_players": 2,
-#             "password": "Asd23asdasdasdasd@",
-#             "n_matchs": 2,
-#             "n_rounds_matchs": 2,
-#             "user_creator": "Alexis",
-#             "token": toq_var,
-#         },
-#     )
-#     id_match = get_match_id(nombre_partida)
-#     response = client.post(
-#         "match/run?id_match=" + str(id_match) + "&name_user=" + "Alexis"
-#     )
-#     assert response.json() == {"Status": "La partida no tiene suficientes jugadores"}
-#     elim_match(id_match)
+def test_start_match_not_enough_players():
+    """
+    TEST_10: La partida no tiene suficientes jugadores.
+    """
+    client_post_register("Alexis", "Asd23asdasdasdasd@", "ale@gmail.com")
+    client_fast_confirmation("Alexis")
+    client_add_robots("Alexis")
+    robots = []
+    for i in range(5):
+        robots.append(get_robot_id("test_robot_" + str(i)))
+    response = client.post(
+        "/login",
+        json={
+            "username": "Alexis",
+            "email": "ale@gmail.com",
+            "password": "Asd23asdasdasdasd@",
+        },
+    )
+    toq_var = response.json()["token"]
+    num_partida = randint(0, 200)
+    nombre_partida = "NombrePartida" + str(num_partida) + str(randint(0, 99999))
+    response = client.post(
+        "/match/add",
+        json={
+            "name": nombre_partida,
+            "max_players": 4,
+            "min_players": 2,
+            "password": "Asd23asdasdasdasd@",
+            "n_matchs": 2,
+            "n_rounds_matchs": 2,
+            "token": toq_var,
+        },
+    )
+    id_match = get_match_id(nombre_partida)
+    with db_session:
+        user = User["Alexis"]
+        match = Match[id_match]
+        match.robots_in_match = [robots[0]]
+        match.user_creator = user
+        match.users.add(user)
+        commit()
+    print(match)
+    response = client.post(
+        "match/run?id_match=" + str(id_match) + "&name_user=" + "Alexis"
+    )
+    elim_match(id_match)
+    delete_db()
+    assert response.json() == {"Status": "La partida no tiene suficientes jugadores"}
 
 
 def test_match_get_success():
@@ -483,6 +522,13 @@ def test_match_get_success():
     toq_var = response.json()["token"]
     num_partida = 3
     nombre_partida = "NombrePartida" + str(num_partida)
+    # Contando partidas previas
+    prev = client.get(
+        "/matchs",
+        params={
+            "token": toq_var,
+        },
+    )
     response = client.post(
         "/match/add",
         json={
@@ -504,7 +550,8 @@ def test_match_get_success():
         },
     )
     elim_match(id_match)
-    assert len(response.json()) == 1
+    assert len(response.json()) == len(prev.json())+1
+
 
 def test_match_get_success_v2():
     """
@@ -522,6 +569,13 @@ def test_match_get_success_v2():
         },
     )
     toq_var = response.json()["token"]
+    # Contando partidas previas
+    prev = client.get(
+        "/matchs",
+        params={
+            "token": toq_var,
+        },
+    )
     num_partida_1 = 4
     nombre_partida_1 = "NombrePartida" + str(num_partida_1)
     response = client.post(
@@ -564,5 +618,4 @@ def test_match_get_success_v2():
     id_match_2 = get_match_id(nombre_partida_2)
     elim_match(id_match_1)
     elim_match(id_match_2)
-    assert len(response.json()) == 2
-
+    assert len(response.json()) == len(prev.json())+2

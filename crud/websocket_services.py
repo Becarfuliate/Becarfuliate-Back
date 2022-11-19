@@ -1,6 +1,6 @@
 from typing import Dict
 from fastapi import WebSocket
-from crud.match_service import add_player
+from crud.match_service import add_player, remove_player
 
 
 class ConnectionManager:
@@ -27,6 +27,7 @@ class ConnectionManager:
             while True:
                 data = await websocket.receive_json()
                 if data == {"connection": "close"}:
+                    remove_player(id_game, id_robot, user_name)
                     await self.disconnect(id_game, user_name, id_robot)
                     await self.broadcast_json(id_game, {"leave": msg})
                     break
