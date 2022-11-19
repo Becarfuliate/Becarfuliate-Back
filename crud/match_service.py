@@ -100,6 +100,22 @@ def get_match_id(match_name: str):
 
 
 @db_session
+def get_match_max_players(match_id: int):
+    query = select(m.max_players for m in Match if m.id == match_id)
+    for i in query:
+        result = i
+    return result
+
+
+@db_session
+def get_match_min_players(match_id: int):
+    query = select(m.min_players for m in Match if m.id == match_id)
+    for i in query:
+        result = i
+    return result
+
+
+@db_session
 def get_match_rounds(match_id: int):
     query = select(m.n_rounds_matchs for m in Match if m.id == match_id)
     for i in query:
@@ -198,11 +214,20 @@ def start_game(id_match: int, name_user: str):
             msg = {"Status": "No es el creador de la partida"}
             return msg
         match_robots = match.robots_in_match
-        if len(match_robots) < 2:
-            msg = {"Status": "La partida no tiene suficientes jugadores"}
+        if (len(match_robots) < get_match_min_players(id_match)) or (
+            len(match_robots) > get_match_max_players(id_match)
+        ):
+            msg = {
+                "Status": "La cantidad de jugadores no coincide con los parámetros de la partida"
+            }
             return msg
     except Exception as e:
-        return str(e)
+        error = ""
+        if "Match" in str(e):
+            error = "La partida no existe"
+        elif "User" in str(e):
+            error = "El usuario no existe"
+        return error
     return list(match_robots)
 
 
