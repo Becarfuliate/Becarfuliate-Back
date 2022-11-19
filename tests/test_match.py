@@ -502,7 +502,7 @@ def test_start_match_not_enough_players():
     )
     elim_match(id_match)
     delete_db()
-    assert response.json() == {"Status": "La partida no tiene suficientes jugadores"}
+    assert response.json() == {"Status": "La cantidad de jugadores no coincide con los parámetros de la partida"}
 
 
 def test_match_get_success():
