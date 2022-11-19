@@ -31,7 +31,8 @@ async def start_match(id_match: int, name_user: str):
     )
     juego = match_service.games_last_round(outer_response)
     resultado = match_service.get_winners(juego)
-
+    await manager.broadcast_json(id_match, "Iniciando Partida")
+    await manager.broadcast_json(id_match, resultado)
     return resultado
 
 

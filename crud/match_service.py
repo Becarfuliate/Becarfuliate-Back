@@ -48,6 +48,10 @@ def create_match(match: imatch.MatchCreate):
         decode_token = decode_JWT(match.token)
         if decode_token["expiry"] > str(datetime.now()):
             try:
+                creator_aux = find_by_username_or_email(match.user_creator)
+            except Exception as e:
+                return "ObjectNotFound"
+            try:
                 Match(
                     name=match.name,
                     max_players=abs(match.max_players),
@@ -55,6 +59,10 @@ def create_match(match: imatch.MatchCreate):
                     password=encrypt_password(match.password),
                     n_matchs=min(abs(match.n_matchs), 200),
                     n_rounds_matchs=min(abs(match.n_rounds_matchs), 10000),
+                    users={
+                        creator_aux,
+                    },
+                    user_creator=creator_aux,
                 )
                 commit()
             except Exception as e:
@@ -131,6 +139,7 @@ def get_match_games(match_id: int):
     return result
 
 
+
 @db_session
 def read_match_players(id_match: int):
     result = select(m.users for m in Match if m.id == id_match)
@@ -157,6 +166,11 @@ def add_player(id_match: int, tkn: str, id_robot: int):
             match = Match[id_match]
             user = User[username]
             robot = Robot[id_robot]
+            if match.user_creator == user:
+                list_robots = match.robots_in_match
+                list_robots.append(id_robot)
+                match.robots_in_match = list_robots
+                return str(username) + ":" + str(robot.name).split("_")[0]
             if len(match.users) == match.max_players:
                 error = "La partida esta llena"
             elif str(robot.name).split("_")[1] != username:
@@ -183,25 +197,24 @@ def add_player(id_match: int, tkn: str, id_robot: int):
 
 
 @db_session
-def remove_player(id_match: int, name_user: str):
-    try:
-        result = ""
-        match = Match[id_match]
-        user = User[name_user]
-        for i in match.users:
-            if user.username not in i.username:
-                result = "El usuario no está en la partida"
-            else:
-                result = "El usuario fue removido de la partida"
-        match.users.remove(user)
-    except Exception as e:
-        error = ""
-        if "Match" in str(e):
-            error = "La partida no existe"
-        elif "User" in str(e):
-            error = "El usuario no existe"
-        return error
-    return result
+def remove_player(id_match: int, id_robot: int, name_user: str):
+    with db_session:
+        try:
+            result = "Dejo la partida"
+            match = Match[id_match]
+            user = User[name_user]
+            in_match = match.robots_in_match
+            in_match.remove(id_robot)
+            match.robots_in_match = in_match
+            match.users.remove(user)
+        except Exception as e:
+            error = ""
+            if "Match" in str(e):
+                error = "La partida no existe"
+            elif "User" in str(e):
+                error = "El usuario no existe"
+            return error
+        return result
 
 
 @db_session

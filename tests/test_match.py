@@ -485,6 +485,7 @@ def test_start_match_not_enough_players():
             "n_matchs": 2,
             "n_rounds_matchs": 2,
             "token": toq_var,
+            "user_creator": "Alexis"
         },
     )
     id_match = get_match_id(nombre_partida)
@@ -501,9 +502,7 @@ def test_start_match_not_enough_players():
     )
     elim_match(id_match)
     delete_db()
-    assert response.json() == {
-        "Status": "La cantidad de jugadores no coincide con los parámetros de la partida"
-    }
+    assert response.json() == {"Status": "La partida no tiene suficientes jugadores"}
 
 
 def test_match_get_success():
@@ -524,6 +523,13 @@ def test_match_get_success():
     toq_var = response.json()["token"]
     num_partida = 3
     nombre_partida = "NombrePartida" + str(num_partida)
+    # Contando partidas previas
+    prev = client.get(
+        "/matchs",
+        params={
+            "token": toq_var,
+        },
+    )
     response = client.post(
         "/match/add",
         json={
@@ -545,7 +551,7 @@ def test_match_get_success():
         },
     )
     elim_match(id_match)
-    assert len(response.json()) == 1
+    assert len(response.json()) == len(prev.json())+1
 
 
 def test_match_get_success_v2():
@@ -564,6 +570,13 @@ def test_match_get_success_v2():
         },
     )
     toq_var = response.json()["token"]
+    # Contando partidas previas
+    prev = client.get(
+        "/matchs",
+        params={
+            "token": toq_var,
+        },
+    )
     num_partida_1 = 4
     nombre_partida_1 = "NombrePartida" + str(num_partida_1)
     response = client.post(
@@ -606,4 +619,4 @@ def test_match_get_success_v2():
     id_match_2 = get_match_id(nombre_partida_2)
     elim_match(id_match_1)
     elim_match(id_match_2)
-    assert len(response.json()) == 2
+    assert len(response.json()) == len(prev.json())+2
