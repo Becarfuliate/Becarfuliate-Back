@@ -45,8 +45,8 @@ def client_post_match(name, max, min, password, match, rounds, token, username):
             "password": password,
             "n_matchs": match,
             "n_rounds_matchs": rounds,
-            "token": token,
-            "user_creator": username
+            "user_creator": username,
+            "token": token
         },
     )
 
@@ -174,17 +174,14 @@ def load_bd():
 def test_websocket_join():
     list_tokens, match_id = load_bd()
     id_robot, name_robot = get_robot("anonymous1")
-    # with client.websocket_connect("/ws/match/"+str(match_id)+"/"+list_tokens[0]+"/"+str(id_robot)) as websocket:
-    #     data = websocket.receive_json()
-    #     assert data == {'join': "anonymous1:"+str(name_robot)}
-    #     in_match = get_robots_in_match(match_id)
-    #     assert id_robot in in_match
-    #     websocket.send_json({"connection":"close"})
+    with client.websocket_connect("/ws/match/"+str(match_id)+"/"+list_tokens[0]+"/"+str(id_robot)) as websocket:
+        data = websocket.receive_json()
+        assert data == {'join': "anonymous1:"+str(name_robot)}
+        in_match = get_robots_in_match(match_id)
+        assert id_robot in in_match
     assert True == True
-    # elim_user("anonymous1")
-    # elim_user("anonymous2")
-    # elim_user("anonymous3")
-    # elim_user("anonymous4")
-    # elim_user("anonymous5")
-    # elim_match(match_id)
-    
+    elim_user("anonymous1")
+    elim_user("anonymous2")
+    elim_user("anonymous3")
+    elim_user("anonymous4")
+    elim_user("anonymous5")

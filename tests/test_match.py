@@ -485,6 +485,7 @@ def test_start_match_not_enough_players():
             "n_matchs": 2,
             "n_rounds_matchs": 2,
             "token": toq_var,
+            "user_creator": "Alexis"
         },
     )
     id_match = get_match_id(nombre_partida)
