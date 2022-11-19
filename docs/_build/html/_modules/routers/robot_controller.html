@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="es" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>routers.robot_controller &mdash; documentación de Becarefuliate - 0.1</title>
+      <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+        <script src="../../_static/jquery.js"></script>
+        <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/doctools.js"></script>
+        <script src="../../_static/translations.js"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Índice" href="../../genindex.html" />
+    <link rel="search" title="Búsqueda" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../../index.html" class="icon icon-home"> Becarefuliate
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Buscar documentos" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../modules.html">Becarfuliate-Back</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">Becarefuliate</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Código de módulo</a></li>
+      <li class="breadcrumb-item active">routers.robot_controller</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Código fuente para routers.robot_controller</h1><div class="highlight"><pre>
+<span></span><span class="kn">from</span> <span class="nn">fastapi</span> <span class="kn">import</span> <span class="n">APIRouter</span><span class="p">,</span> <span class="n">HTTPException</span><span class="p">,</span> <span class="n">File</span><span class="p">,</span> <span class="n">UploadFile</span>
+<span class="kn">from</span> <span class="nn">crud</span> <span class="kn">import</span> <span class="n">robot_service</span>
+<span class="kn">from</span> <span class="nn">crud.robot_service</span> <span class="kn">import</span> <span class="n">add_robot</span>
+<span class="kn">from</span> <span class="nn">pathlib</span> <span class="kn">import</span> <span class="n">Path</span>
+<span class="kn">import</span> <span class="nn">shutil</span>
+<span class="n">robot_end_points</span> <span class="o">=</span> <span class="n">APIRouter</span><span class="p">()</span>
+
+
+<div class="viewcode-block" id="store_config"><a class="viewcode-back" href="../../routers.html#routers.robot_controller.store_config">[documentos]</a><span class="k">def</span> <span class="nf">store_config</span><span class="p">(</span><span class="n">file</span><span class="p">:</span> <span class="n">UploadFile</span><span class="p">,</span> <span class="n">owner</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+    <span class="n">file</span><span class="o">.</span><span class="n">file</span><span class="o">.</span><span class="n">seek</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+    <span class="n">new_filename</span><span class="o">=</span><span class="n">file</span><span class="o">.</span><span class="n">filename</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;.py&quot;</span><span class="p">,</span><span class="s2">&quot;_&quot;</span><span class="o">+</span><span class="n">owner</span><span class="o">+</span><span class="s2">&quot;.py&quot;</span><span class="p">)</span>
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s1">&#39;routers/robots/&#39;</span><span class="o">+</span><span class="n">new_filename</span><span class="p">,</span> <span class="s1">&#39;wb+&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">upload_folder</span><span class="p">:</span>
+        <span class="n">shutil</span><span class="o">.</span><span class="n">copyfileobj</span><span class="p">(</span><span class="n">file</span><span class="o">.</span><span class="n">file</span><span class="p">,</span> <span class="n">upload_folder</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="store_avatar"><a class="viewcode-back" href="../../routers.html#routers.robot_controller.store_avatar">[documentos]</a><span class="k">def</span> <span class="nf">store_avatar</span><span class="p">(</span><span class="n">file</span><span class="p">:</span> <span class="n">UploadFile</span><span class="p">,</span> <span class="n">owner</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+    <span class="n">file</span><span class="o">.</span><span class="n">file</span><span class="o">.</span><span class="n">seek</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+    <span class="n">new_filename</span><span class="o">=</span><span class="n">file</span><span class="o">.</span><span class="n">filename</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;.jpeg&quot;</span><span class="p">,</span><span class="s2">&quot;_&quot;</span><span class="o">+</span><span class="n">owner</span><span class="o">+</span><span class="s2">&quot;.jpeg&quot;</span><span class="p">)</span>
+    <span class="n">new_filename</span><span class="o">=</span><span class="n">file</span><span class="o">.</span><span class="n">filename</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;.peg&quot;</span><span class="p">,</span><span class="s2">&quot;_&quot;</span><span class="o">+</span><span class="n">owner</span><span class="o">+</span><span class="s2">&quot;.peg&quot;</span><span class="p">)</span>
+    <span class="n">new_filename</span><span class="o">=</span><span class="n">file</span><span class="o">.</span><span class="n">filename</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;.jpg&quot;</span><span class="p">,</span><span class="s2">&quot;_&quot;</span><span class="o">+</span><span class="n">owner</span><span class="o">+</span><span class="s2">&quot;.jpg&quot;</span><span class="p">)</span>
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s1">&#39;routers/robots/avatars/&#39;</span><span class="o">+</span><span class="n">new_filename</span><span class="p">,</span> <span class="s1">&#39;wb+&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">upload_folder</span><span class="p">:</span>
+        <span class="n">shutil</span><span class="o">.</span><span class="n">copyfileobj</span><span class="p">(</span><span class="n">file</span><span class="o">.</span><span class="n">file</span><span class="p">,</span> <span class="n">upload_folder</span><span class="p">)</span></div>
+
+
+<span class="nd">@robot_end_points</span><span class="o">.</span><span class="n">post</span><span class="p">(</span><span class="s2">&quot;/upload/robot&quot;</span><span class="p">)</span>
+<span class="k">async</span> <span class="k">def</span> <span class="nf">robot_upload</span><span class="p">(</span>
+    <span class="n">config</span><span class="p">:</span> <span class="n">UploadFile</span><span class="p">,</span>
+    <span class="n">avatar</span><span class="p">:</span> <span class="n">UploadFile</span><span class="p">,</span>
+    <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+    <span class="n">tkn</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+    <span class="n">username</span><span class="p">:</span> <span class="nb">str</span>
+<span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Cargar Robot</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        config (UploadFile): archivo del robot.</span>
+<span class="sd">        avatar (UploadFile): imagen del robot.</span>
+<span class="sd">        name (str): nombre del robot.</span>
+<span class="sd">        tkn (str): token.</span>
+<span class="sd">        username (str): nombre de usuario.</span>
+
+<span class="sd">    Raises:</span>
+<span class="sd">        HTTPException: 409: El robot ya existe.</span>
+<span class="sd">        HTTPException: 400: El usuario no existe.</span>
+<span class="sd">        HTTPException: 422: El nombre del Robot con el archivo no se corresponden.</span>
+<span class="sd">        HTTPException: 440: El token no es correcto o está expirado.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        _type_: _description_</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">msg</span> <span class="o">=</span> <span class="n">add_robot</span><span class="p">(</span><span class="n">config</span><span class="p">,</span> <span class="n">avatar</span><span class="o">.</span><span class="n">filename</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">tkn</span><span class="p">,</span> <span class="n">username</span><span class="p">)</span>
+    <span class="c1"># El robot ya existe</span>
+    <span class="k">if</span> <span class="p">(</span><span class="s2">&quot;ya existe&quot;</span> <span class="ow">in</span> <span class="n">msg</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="n">HTTPException</span><span class="p">(</span>
+            <span class="n">status_code</span><span class="o">=</span><span class="mi">409</span><span class="p">,</span>
+            <span class="n">detail</span><span class="o">=</span><span class="n">msg</span>
+            <span class="p">)</span>
+    <span class="c1"># El usuario no existe</span>
+    <span class="k">if</span> <span class="s2">&quot;no existe&quot;</span> <span class="ow">in</span> <span class="n">msg</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="n">HTTPException</span><span class="p">(</span>
+            <span class="n">status_code</span><span class="o">=</span><span class="mi">400</span><span class="p">,</span>
+            <span class="n">detail</span><span class="o">=</span><span class="s2">&quot;El usuario &quot;</span><span class="o">+</span><span class="n">username</span><span class="o">+</span><span class="s2">&quot; no existe&quot;</span>
+            <span class="p">)</span>
+    <span class="c1"># Los nombres para el robot no se corresponden</span>
+    <span class="k">if</span> <span class="s2">&quot;requisitos&quot;</span> <span class="ow">in</span> <span class="n">msg</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="n">HTTPException</span><span class="p">(</span>
+            <span class="n">status_code</span><span class="o">=</span><span class="mi">422</span><span class="p">,</span>
+            <span class="n">detail</span><span class="o">=</span><span class="n">msg</span>
+            <span class="p">)</span>
+    <span class="c1"># Token invalido o expirado</span>
+    <span class="k">if</span> <span class="s2">&quot;Token&quot;</span> <span class="ow">in</span> <span class="n">msg</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="n">HTTPException</span><span class="p">(</span>
+            <span class="n">status_code</span><span class="o">=</span><span class="mi">440</span><span class="p">,</span>
+            <span class="n">detail</span><span class="o">=</span><span class="s2">&quot;Sesión expirada&quot;</span>
+            <span class="p">)</span>
+    <span class="n">store_config</span><span class="p">(</span><span class="n">config</span><span class="p">,</span> <span class="n">username</span><span class="p">)</span>
+    <span class="n">store_avatar</span><span class="p">(</span><span class="n">avatar</span><span class="p">,</span> <span class="n">username</span><span class="p">)</span>
+    <span class="k">return</span> <span class="p">{</span>
+        <span class="s2">&quot;msg&quot;</span><span class="p">:</span> <span class="n">msg</span>
+    <span class="p">}</span>
+
+<span class="nd">@robot_end_points</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;/robots&quot;</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">read_robots</span><span class="p">(</span><span class="n">token</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Listar Robots</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        token (str): token</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        str: Error</span>
+<span class="sd">        List[Robots]: Lista de robots.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">msg</span> <span class="o">=</span> <span class="n">robot_service</span><span class="o">.</span><span class="n">read_robots</span><span class="p">(</span><span class="n">token</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">msg</span>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Derechos de autor 2022, Capogrossi, Centeno, Kersul, Martinez, Ochoa, Pereyra, Yornet.</p>
+  </div>
+
+  Compilado con <a href="https://www.sphinx-doc.org/">Sphinx</a> usando un
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">tema</a>
+    proporcionado por <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

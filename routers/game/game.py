@@ -37,7 +37,13 @@ def danio_pared(pos_r: tuple):
 
 
 def inflingir_danio(robot,other_robots):
-    
+    """Inflinge daño a robots.
+
+    Args:
+        robot (Any): Robot actual
+        other_robots (Any): Robots a los que dañar.
+    """
+
     if(robot.current_damage>0):
         danio_p = danio_pared(robot.current_position)
         robot.current_damage -= danio_p
@@ -61,6 +67,14 @@ def inflingir_danio(robot,other_robots):
         robot.current_damage = 0
         
 def avanzar_ronda(robots:list):
+    """Avanza de ronda
+
+    Args:
+        robots (list): Lista de robots que participan de la ronda.
+
+    Returns:
+        List[]: Resultado de rondas
+    """
     results_by_robots = []
     
     for robot in robots:
@@ -72,7 +86,10 @@ def avanzar_ronda(robots:list):
     #respond
     for robot in robots:
         if robot.current_damage > 0:
-            robot.respond()
+            try:
+                robot.respond()
+            except:
+                pass
     #scan
     for robot in robots:
        if robot.current_damage > 0:

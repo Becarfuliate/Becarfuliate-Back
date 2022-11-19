@@ -1,5 +1,4 @@
 from random import randint, uniform
-
 from requests import delete
 from fastapi.testclient import TestClient
 import main

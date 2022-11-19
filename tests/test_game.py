@@ -17,4 +17,20 @@ def test_avanzar_ronda():
     carlos = robotjuan((990, 990), 0)
     res = avanzar_ronda([juan, fede, alexis, carlos])
 
-    assert res != {}
+    assert len(res) == 4
+
+def test_avanzar_ronda2():
+    class robotjuan(Robot):
+        def initialize(self):
+            a = a
+
+        def respond(self):
+            self.cannon(20, 300)
+            self.drive(100, 80)
+
+
+    alexis = robotjuan((100, 200), 0)
+    carlos = robotjuan((990, 990), 0)
+    res = avanzar_ronda([alexis, carlos])
+
+    assert len(res) == 2

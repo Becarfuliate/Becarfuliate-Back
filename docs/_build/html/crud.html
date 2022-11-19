@@ -1,0 +1,541 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="es" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>crud package &mdash; documentación de Becarefuliate - 0.1</title>
+      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script src="_static/translations.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Índice" href="genindex.html" />
+    <link rel="search" title="Búsqueda" href="search.html" />
+    <link rel="next" title="db package" href="db.html" />
+    <link rel="prev" title="Becarfuliate-Back" href="modules.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="index.html" class="icon icon-home"> Becarefuliate
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Buscar documentos" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="modules.html">Becarfuliate-Back</a><ul class="current">
+<li class="toctree-l2 current"><a class="current reference internal" href="#">crud package</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#submodules">Submodules</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#module-crud.match_service">crud.match_service module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#module-crud.robot_service">crud.robot_service module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#module-crud.simulation_service">crud.simulation_service module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#module-crud.user_services">crud.user_services module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#module-crud.websocket_services">crud.websocket_services module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#module-crud">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="db.html">db package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="main.html">main module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="models.html">models package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="routers.html">routers package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="schemas.html">schemas package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tests.html">tests package</a></li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">Becarefuliate</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home"></a></li>
+          <li class="breadcrumb-item"><a href="modules.html">Becarfuliate-Back</a></li>
+      <li class="breadcrumb-item active">crud package</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/crud.rst.txt" rel="nofollow"> Ver código fuente de la página</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="crud-package">
+<h1>crud package<a class="headerlink" href="#crud-package" title="Enlazar permanentemente con este título"></a></h1>
+<section id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Enlazar permanentemente con este título"></a></h2>
+</section>
+<section id="module-crud.match_service">
+<span id="crud-match-service-module"></span><h2>crud.match_service module<a class="headerlink" href="#module-crud.match_service" title="Enlazar permanentemente con este título"></a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="crud.match_service.add_player">
+<span class="sig-prename descclassname"><span class="pre">crud.match_service.</span></span><span class="sig-name descname"><span class="pre">add_player</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">id_match</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name_user</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crud/match_service.html#add_player"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#crud.match_service.add_player" title="Enlazar permanentemente con esta definición"></a></dt>
+<dd><p>Agregar un jugador a la partida</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>id_match (int): id de la partida.
+name_user (str): username del jugador a agregar.</p>
+</dd>
+<dt>Returns:</dt><dd><p>str: Mensaje de retorno.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="crud.match_service.create_match">
+<span class="sig-prename descclassname"><span class="pre">crud.match_service.</span></span><span class="sig-name descname"><span class="pre">create_match</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">match</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="schemas.html#schemas.imatch.MatchCreate" title="schemas.imatch.MatchCreate"><span class="pre">schemas.imatch.MatchCreate</span></a></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crud/match_service.html#create_match"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#crud.match_service.create_match" title="Enlazar permanentemente con esta definición"></a></dt>
+<dd><p>Crea una partida</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>match (imatch.MatchCreate): Valores de la partida a crear.</p>
+</dd>
+<dt>Returns:</dt><dd><p>str: retorna un string de error o validando la partida agregada.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="crud.match_service.find_by_username_or_email">
+<span class="sig-prename descclassname"><span class="pre">crud.match_service.</span></span><span class="sig-name descname"><span class="pre">find_by_username_or_email</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">user_creator</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crud/match_service.html#find_by_username_or_email"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#crud.match_service.find_by_username_or_email" title="Enlazar permanentemente con esta definición"></a></dt>
+<dd><p>Busca un usuario por username o email</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>user_creator (str): username o email.</p>
+</dd>
+<dt>Raises:</dt><dd><p>Exception: _description_</p>
+</dd>
+<dt>Returns:</dt><dd><p>Any: Error
+User: Retorna el usuario.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="crud.match_service.get_match_id">
+<span class="sig-prename descclassname"><span class="pre">crud.match_service.</span></span><span class="sig-name descname"><span class="pre">get_match_id</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">match_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crud/match_service.html#get_match_id"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#crud.match_service.get_match_id" title="Enlazar permanentemente con esta definición"></a></dt>
+<dd><p>Devuelve el id de una partida.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>match_name (str): nombre de la partida</p>
+</dd>
+<dt>Returns:</dt><dd><p>Any: 
+None:</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="crud.match_service.is_email">
+<span class="sig-prename descclassname"><span class="pre">crud.match_service.</span></span><span class="sig-name descname"><span class="pre">is_email</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">user_crator</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crud/match_service.html#is_email"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#crud.match_service.is_email" title="Enlazar permanentemente con esta definición"></a></dt>
+<dd><p>Chequea que user_creator sea un email correcto.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>user_crator (str): username o email.</p>
+</dd>
+<dt>Returns:</dt><dd><p>bool: True si user_crator es un email válido.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="crud.match_service.is_username">
+<span class="sig-prename descclassname"><span class="pre">crud.match_service.</span></span><span class="sig-name descname"><span class="pre">is_username</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">user_creator</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crud/match_service.html#is_username"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#crud.match_service.is_username" title="Enlazar permanentemente con esta definición"></a></dt>
+<dd><p>Chequea que user_creator sea un username válido.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>user_creator (str): username o email</p>
+</dd>
+<dt>Returns:</dt><dd><p>bool: True si user_creator es un username válido.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="crud.match_service.read_match">
+<span class="sig-prename descclassname"><span class="pre">crud.match_service.</span></span><span class="sig-name descname"><span class="pre">read_match</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">id_match</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crud/match_service.html#read_match"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#crud.match_service.read_match" title="Enlazar permanentemente con esta definición"></a></dt>
+<dd><p>Lista una partida.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>id_match (int): id de la partida a listar.</p>
+</dd>
+<dt>Returns:</dt><dd><p>str: En caso de error.
+Match: Devuelve la partida.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="crud.match_service.read_match_players">
+<span class="sig-prename descclassname"><span class="pre">crud.match_service.</span></span><span class="sig-name descname"><span class="pre">read_match_players</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">id_match</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crud/match_service.html#read_match_players"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#crud.match_service.read_match_players" title="Enlazar permanentemente con esta definición"></a></dt>
+<dd><p>Lista los jugadores de la partida</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>id_match (int): id de la partida</p>
+</dd>
+<dt>Returns:</dt><dd><p>Query: Consulta con la lista de jugadores de partida.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="crud.match_service.read_matchs">
+<span class="sig-prename descclassname"><span class="pre">crud.match_service.</span></span><span class="sig-name descname"><span class="pre">read_matchs</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">token</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crud/match_service.html#read_matchs"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#crud.match_service.read_matchs" title="Enlazar permanentemente con esta definición"></a></dt>
+<dd><p>Listar Partidas</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>token (str): token</p>
+</dd>
+<dt>Returns:</dt><dd><p>str: En caso de error
+List[Match]: Lista de partidas.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="crud.match_service.remove_player">
+<span class="sig-prename descclassname"><span class="pre">crud.match_service.</span></span><span class="sig-name descname"><span class="pre">remove_player</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">id_match</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name_user</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crud/match_service.html#remove_player"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#crud.match_service.remove_player" title="Enlazar permanentemente con esta definición"></a></dt>
+<dd><p>Quita un jugador de una partida</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>id_match (int): id del jugador a quitar.
+name_user (str): username del jugador a quitar</p>
+</dd>
+<dt>Returns:</dt><dd><p>str: Mensaje de retorno.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="module-crud.robot_service">
+<span id="crud-robot-service-module"></span><h2>crud.robot_service module<a class="headerlink" href="#module-crud.robot_service" title="Enlazar permanentemente con este título"></a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="crud.robot_service.add_default_robot">
+<span class="sig-prename descclassname"><span class="pre">crud.robot_service.</span></span><span class="sig-name descname"><span class="pre">add_default_robot</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">username</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crud/robot_service.html#add_default_robot"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#crud.robot_service.add_default_robot" title="Enlazar permanentemente con esta definición"></a></dt>
+<dd><p>Agregar robot por defecto.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>username (str): Usuario al que agregar robot por defecto.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="crud.robot_service.add_robot">
+<span class="sig-prename descclassname"><span class="pre">crud.robot_service.</span></span><span class="sig-name descname"><span class="pre">add_robot</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">config_file</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">fastapi.datastructures.UploadFile</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">avatar_file</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">robot_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">user_token</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">username</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crud/robot_service.html#add_robot"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#crud.robot_service.add_robot" title="Enlazar permanentemente con esta definición"></a></dt>
+<dd><p>Agregar robot a la base de datos.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>config_file (UploadFile): Archivo “.py” del robot.
+avatar_file (str): Imagen del robot.
+robot_name (str): Nombre del robot.
+user_token (str): Token.
+username (str): Nombre de usuario o email.</p>
+</dd>
+<dt>Returns:</dt><dd><p>str: Mensaje de retorno.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="crud.robot_service.get_file_by_id">
+<span class="sig-prename descclassname"><span class="pre">crud.robot_service.</span></span><span class="sig-name descname"><span class="pre">get_file_by_id</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">rob_id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crud/robot_service.html#get_file_by_id"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#crud.robot_service.get_file_by_id" title="Enlazar permanentemente con esta definición"></a></dt>
+<dd><p>Obtener un archivo por su id</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>rob_id (int): id del archivo</p>
+</dd>
+<dt>Returns:</dt><dd><p>Any: Nombre del archivo del robot.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="crud.robot_service.read_robots">
+<span class="sig-prename descclassname"><span class="pre">crud.robot_service.</span></span><span class="sig-name descname"><span class="pre">read_robots</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">token</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crud/robot_service.html#read_robots"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#crud.robot_service.read_robots" title="Enlazar permanentemente con esta definición"></a></dt>
+<dd><p>Listar robots, consulta a la base de datos.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>token (str): token.</p>
+</dd>
+<dt>Returns:</dt><dd><p>str: En caso de error.
+List[Robot]: Lista de robots.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="crud.robot_service.validate_file">
+<span class="sig-prename descclassname"><span class="pre">crud.robot_service.</span></span><span class="sig-name descname"><span class="pre">validate_file</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filename</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">file</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">fastapi.datastructures.UploadFile</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crud/robot_service.html#validate_file"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#crud.robot_service.validate_file" title="Enlazar permanentemente con esta definición"></a></dt>
+<dd><p>Validación de un archivo, i.e chequea extención “.py” y que el nombre del archivo sea usado dentro.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>filename (str): Nombre de archivo a validar
+file (UploadFile): Archivo a validar</p>
+</dd>
+<dt>Returns:</dt><dd><p>bool: True en caso de que sea válido.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="module-crud.simulation_service">
+<span id="crud-simulation-service-module"></span><h2>crud.simulation_service module<a class="headerlink" href="#module-crud.simulation_service" title="Enlazar permanentemente con este título"></a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="crud.simulation_service.check_robot">
+<span class="sig-prename descclassname"><span class="pre">crud.simulation_service.</span></span><span class="sig-name descname"><span class="pre">check_robot</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">id</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crud/simulation_service.html#check_robot"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#crud.simulation_service.check_robot" title="Enlazar permanentemente con esta definición"></a></dt>
+<dd><p>Chequea que un robot exista en la base de datos.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>id (Any): id del robot a chequear.</p>
+</dd>
+<dt>Returns:</dt><dd><p>Any: ??</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="crud.simulation_service.check_user">
+<span class="sig-prename descclassname"><span class="pre">crud.simulation_service.</span></span><span class="sig-name descname"><span class="pre">check_user</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">username</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crud/simulation_service.html#check_user"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#crud.simulation_service.check_user" title="Enlazar permanentemente con esta definición"></a></dt>
+<dd><p>Chequea que un usuario exista en la bd.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>username (Any): Nombre del usuario a chequear en la bd.</p>
+</dd>
+<dt>Returns:</dt><dd><p>Any: ??</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="crud.simulation_service.get_robot_avatar">
+<span class="sig-prename descclassname"><span class="pre">crud.simulation_service.</span></span><span class="sig-name descname"><span class="pre">get_robot_avatar</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">id_robot</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crud/simulation_service.html#get_robot_avatar"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#crud.simulation_service.get_robot_avatar" title="Enlazar permanentemente con esta definición"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="crud.simulation_service.get_robot_id">
+<span class="sig-prename descclassname"><span class="pre">crud.simulation_service.</span></span><span class="sig-name descname"><span class="pre">get_robot_id</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">robot_name</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crud/simulation_service.html#get_robot_id"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#crud.simulation_service.get_robot_id" title="Enlazar permanentemente con esta definición"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="crud.simulation_service.get_robot_name">
+<span class="sig-prename descclassname"><span class="pre">crud.simulation_service.</span></span><span class="sig-name descname"><span class="pre">get_robot_name</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">id_robot</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crud/simulation_service.html#get_robot_name"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#crud.simulation_service.get_robot_name" title="Enlazar permanentemente con esta definición"></a></dt>
+<dd></dd></dl>
+
+</section>
+<section id="module-crud.user_services">
+<span id="crud-user-services-module"></span><h2>crud.user_services module<a class="headerlink" href="#module-crud.user_services" title="Enlazar permanentemente con este título"></a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="crud.user_services.add_user">
+<span class="sig-prename descclassname"><span class="pre">crud.user_services.</span></span><span class="sig-name descname"><span class="pre">add_user</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">new_user</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="schemas.html#schemas.iuser.User_create" title="schemas.iuser.User_create"><span class="pre">schemas.iuser.User_create</span></a></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crud/user_services.html#add_user"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#crud.user_services.add_user" title="Enlazar permanentemente con esta definición"></a></dt>
+<dd><p>Agrega un usuario a la base de datos, devolviendo un
+mensaje representativo del estado de la salida</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>new_user (User_create): Usuario a persistir</p>
+</dd>
+<dt>Returns:</dt><dd><p>str: representativa del estado de la salida</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="crud.user_services.decode_JWT">
+<span class="sig-prename descclassname"><span class="pre">crud.user_services.</span></span><span class="sig-name descname"><span class="pre">decode_JWT</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">token</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crud/user_services.html#decode_JWT"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#crud.user_services.decode_JWT" title="Enlazar permanentemente con esta definición"></a></dt>
+<dd><p>Decodea el token</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>token (str): token</p>
+</dd>
+<dt>Returns:</dt><dd><p>Dict[str, Any]: {«userID»: «», «expiry»: 0}</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="crud.user_services.decrypt_password">
+<span class="sig-prename descclassname"><span class="pre">crud.user_services.</span></span><span class="sig-name descname"><span class="pre">decrypt_password</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">password</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crud/user_services.html#decrypt_password"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#crud.user_services.decrypt_password" title="Enlazar permanentemente con esta definición"></a></dt>
+<dd><p>Desencripta una contraseña</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>password (str): contraseña a desencriptar</p>
+</dd>
+<dt>Returns:</dt><dd><p>str: contraseña desencriptada</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="crud.user_services.encrypt_password">
+<span class="sig-prename descclassname"><span class="pre">crud.user_services.</span></span><span class="sig-name descname"><span class="pre">encrypt_password</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">password</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crud/user_services.html#encrypt_password"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#crud.user_services.encrypt_password" title="Enlazar permanentemente con esta definición"></a></dt>
+<dd><p>Realiza un encriptado simetrico a un string haciendo uso de Fernet</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>password (str): String a encriptar</p>
+</dd>
+<dt>Returns:</dt><dd><p>_type_: String encriptada</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="crud.user_services.get_code_for_user">
+<span class="sig-prename descclassname"><span class="pre">crud.user_services.</span></span><span class="sig-name descname"><span class="pre">get_code_for_user</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">username</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crud/user_services.html#get_code_for_user"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#crud.user_services.get_code_for_user" title="Enlazar permanentemente con esta definición"></a></dt>
+<dd><p>Trae el codigo de privacidad de la validacion
+de la base de datos</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>username (str): Usuario del cual queremos el codigo</p>
+</dd>
+<dt>Returns:</dt><dd><p>str: Codigo de privacidad
+Any: Error</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="crud.user_services.get_payload">
+<span class="sig-prename descclassname"><span class="pre">crud.user_services.</span></span><span class="sig-name descname"><span class="pre">get_payload</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">userID</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crud/user_services.html#get_payload"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#crud.user_services.get_payload" title="Enlazar permanentemente con esta definición"></a></dt>
+<dd><p>Encodea el token.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>userID (str): id del usuario.</p>
+</dd>
+<dt>Returns:</dt><dd><p>Dict[str,str]: {«id_usuario»:»fecha de expiración»}</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="crud.user_services.search_user">
+<span class="sig-prename descclassname"><span class="pre">crud.user_services.</span></span><span class="sig-name descname"><span class="pre">search_user</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crud/user_services.html#search_user"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#crud.user_services.search_user" title="Enlazar permanentemente con esta definición"></a></dt>
+<dd><p>Busca un usuario en la base de datos por su nombre.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>name (Any): nombre del usuario a buscar.</p>
+</dd>
+<dt>Returns:</dt><dd><p>Any: ??</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="crud.user_services.search_user_by_email">
+<span class="sig-prename descclassname"><span class="pre">crud.user_services.</span></span><span class="sig-name descname"><span class="pre">search_user_by_email</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">input_email</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crud/user_services.html#search_user_by_email"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#crud.user_services.search_user_by_email" title="Enlazar permanentemente con esta definición"></a></dt>
+<dd><p>Busca un usuario en la base de datos por su email.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>input_email (Any): email del usuario a buscar.</p>
+</dd>
+<dt>Returns:</dt><dd><p>Any: ??</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="crud.user_services.sign_JWT">
+<span class="sig-prename descclassname"><span class="pre">crud.user_services.</span></span><span class="sig-name descname"><span class="pre">sign_JWT</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">userID</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crud/user_services.html#sign_JWT"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#crud.user_services.sign_JWT" title="Enlazar permanentemente con esta definición"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="crud.user_services.update_confirmation">
+<span class="sig-prename descclassname"><span class="pre">crud.user_services.</span></span><span class="sig-name descname"><span class="pre">update_confirmation</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">username</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">code</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crud/user_services.html#update_confirmation"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#crud.user_services.update_confirmation" title="Enlazar permanentemente con esta definición"></a></dt>
+<dd><p>Actualiza el valor del atributo que representa que
+el la cuenta fue confirmada</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>username (str): Usuario confirmado
+code (str): Codigo de privacidad para la validacion</p>
+</dd>
+<dt>Returns:</dt><dd><p>str: String representativa del estado de la salida</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="module-crud.websocket_services">
+<span id="crud-websocket-services-module"></span><h2>crud.websocket_services module<a class="headerlink" href="#module-crud.websocket_services" title="Enlazar permanentemente con este título"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="crud.websocket_services.ConnectionManager">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">crud.websocket_services.</span></span><span class="sig-name descname"><span class="pre">ConnectionManager</span></span><a class="reference internal" href="_modules/crud/websocket_services.html#ConnectionManager"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#crud.websocket_services.ConnectionManager" title="Enlazar permanentemente con esta definición"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Handler of socket connections</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="crud.websocket_services.ConnectionManager.broadcast_json">
+<em class="property"><span class="pre">async</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">broadcast_json</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">id_game</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">message</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crud/websocket_services.html#ConnectionManager.broadcast_json"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#crud.websocket_services.ConnectionManager.broadcast_json" title="Enlazar permanentemente con esta definición"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="crud.websocket_services.ConnectionManager.broadcast_text">
+<em class="property"><span class="pre">async</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">broadcast_text</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">id_game</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">message</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crud/websocket_services.html#ConnectionManager.broadcast_text"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#crud.websocket_services.ConnectionManager.broadcast_text" title="Enlazar permanentemente con esta definición"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="crud.websocket_services.ConnectionManager.connect">
+<em class="property"><span class="pre">async</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">connect</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">websocket</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">starlette.websockets.WebSocket</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">id_game</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">id_player</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crud/websocket_services.html#ConnectionManager.connect"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#crud.websocket_services.ConnectionManager.connect" title="Enlazar permanentemente con esta definición"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="crud.websocket_services.ConnectionManager.disconnect">
+<em class="property"><span class="pre">async</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">disconnect</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">id_game</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">id_player</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crud/websocket_services.html#ConnectionManager.disconnect"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#crud.websocket_services.ConnectionManager.disconnect" title="Enlazar permanentemente con esta definición"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="crud.websocket_services.ConnectionManager.exist_socket_of_player">
+<span class="sig-name descname"><span class="pre">exist_socket_of_player</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">id_game</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">id_player</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="reference internal" href="_modules/crud/websocket_services.html#ConnectionManager.exist_socket_of_player"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#crud.websocket_services.ConnectionManager.exist_socket_of_player" title="Enlazar permanentemente con esta definición"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="crud.websocket_services.ConnectionManager.get_all_connections">
+<span class="sig-name descname"><span class="pre">get_all_connections</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/crud/websocket_services.html#ConnectionManager.get_all_connections"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#crud.websocket_services.ConnectionManager.get_all_connections" title="Enlazar permanentemente con esta definición"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="crud.websocket_services.ConnectionManager.get_socket_player">
+<span class="sig-name descname"><span class="pre">get_socket_player</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">id_game</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">id_player</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">starlette.websockets.WebSocket</span></span></span><a class="reference internal" href="_modules/crud/websocket_services.html#ConnectionManager.get_socket_player"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#crud.websocket_services.ConnectionManager.get_socket_player" title="Enlazar permanentemente con esta definición"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="crud.websocket_services.ConnectionManager.send_personal_json">
+<em class="property"><span class="pre">async</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">send_personal_json</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">message</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">websocket</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">starlette.websockets.WebSocket</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crud/websocket_services.html#ConnectionManager.send_personal_json"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#crud.websocket_services.ConnectionManager.send_personal_json" title="Enlazar permanentemente con esta definición"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-crud">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-crud" title="Enlazar permanentemente con este título"></a></h2>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Pie de página">
+        <a href="modules.html" class="btn btn-neutral float-left" title="Becarfuliate-Back" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Anterior</a>
+        <a href="db.html" class="btn btn-neutral float-right" title="db package" accesskey="n" rel="next">Siguiente <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Derechos de autor 2022, Capogrossi, Centeno, Kersul, Martinez, Ochoa, Pereyra, Yornet.</p>
+  </div>
+
+  Compilado con <a href="https://www.sphinx-doc.org/">Sphinx</a> usando un
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">tema</a>
+    proporcionado por <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

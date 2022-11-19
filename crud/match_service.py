@@ -5,6 +5,10 @@ from pony.orm import db_session, commit, select, left_join
 from schemas import imatch
 from models.entities import Match, User, Robot
 from crud.user_services import decode_JWT, encrypt_password, search_user_by_email
+from routers.simulation_controller import game
+from crud import simulation_service as sc
+from crud.robot_service import get_file_by_id
+from random import randint
 import re
 
 
@@ -44,10 +48,6 @@ def create_match(match: imatch.MatchCreate):
         decode_token = decode_JWT(match.token)
         if decode_token["expiry"] > str(datetime.now()):
             try:
-                creator_aux = find_by_username_or_email(match.user_creator)
-            except Exception as e:
-                return "ObjectNotFound"
-            try:
                 Match(
                     name=match.name,
                     max_players=abs(match.max_players),
@@ -55,10 +55,6 @@ def create_match(match: imatch.MatchCreate):
                     password=encrypt_password(match.password),
                     n_matchs=min(abs(match.n_matchs), 200),
                     n_rounds_matchs=min(abs(match.n_rounds_matchs), 10000),
-                    users={
-                        creator_aux,
-                    },
-                    user_creator=creator_aux,
                 )
                 commit()
             except Exception as e:
@@ -104,6 +100,22 @@ def get_match_id(match_name: str):
 
 
 @db_session
+def get_match_rounds(match_id: int):
+    query = select(m.n_rounds_matchs for m in Match if m.id == match_id)
+    for i in query:
+        result = i
+    return result
+
+
+@db_session
+def get_match_games(match_id: int):
+    query = select(m.n_matchs for m in Match if m.id == match_id)
+    for i in query:
+        result = i
+    return result
+
+
+@db_session
 def read_match_players(id_match: int):
     result = select(m.users for m in Match if m.id == id_match)
     return result
@@ -122,8 +134,8 @@ def add_player(id_match: int, tkn: str, id_robot: int):
     with db_session:
         decode_token = decode_JWT(tkn)
         error = ""
-        username = decode_token['userID']
-        if (str(decode_token["expiry"]) < str(datetime.now())):
+        username = decode_token["userID"]
+        if str(decode_token["expiry"]) < str(datetime.now()):
             return "Token no valido"
         try:
             match = Match[id_match]
@@ -174,3 +186,133 @@ def remove_player(id_match: int, name_user: str):
             error = "El usuario no existe"
         return error
     return result
+
+
+@db_session
+def start_game(id_match: int, name_user: str):
+    try:
+        msg = ""
+        match = Match[id_match]
+        user = User[name_user]
+        if not user.username == match.user_creator.username:
+            msg = {"Status": "No es el creador de la partida"}
+            return msg
+        match_robots = match.robots_in_match
+        if len(match_robots) < 2:
+            msg = {"Status": "La partida no tiene suficientes jugadores"}
+            return msg
+    except Exception as e:
+        return str(e)
+    return list(match_robots)
+
+
+def parse_robots(robot_list: list):
+    """Dado un arreglo de id de robots devuelve el comportamiento
+    correspondiente a ese id segun el archivo .py
+
+    Args:
+        robot_list (list): Lista de valores enteros que se corresponden con
+        los id de los robots en la partida
+
+    Returns:
+        robots (list): Lista de objetos cuyas clases están definidas en
+        un archivo .py.
+    """
+    robots = []
+    for x in robot_list:
+        file = get_file_by_id(x)
+        if "default1" in file:
+            file = "default1.py"
+        elif "default2" in file:
+            file = "default2.py"
+
+        filename = "routers/robots/" + file
+        exec(
+            open(filename).read(),
+            globals(),
+        )
+        file = file.strip(".py")
+        file = file.split("_")[0]
+        klass = globals()[file]
+        r = klass((randint(100, 800), randint(100, 800)), randint(0, 360))
+        robots.append(r)
+    return robots
+
+
+def add_robot_attributes(
+    n_games: int, n_rounds: int, robots: list, robot_id_list: list
+):
+    """Dada una lista de objetos de robots, ejecuta n_games cantidad de juegos
+    con n_rounds rondas cada una, y los devuelve en un arreglo de arreglos
+
+    Args:
+        n_games (int): Cantidad de juegos a jugar en la partida
+        n_rounds (int): Cantidad de rondas que cada juego va a tener
+        robots (list): Lista de objetos que contiene comportamiento de los robots
+        robot_id_list (list): Lista de los id de cada robot en partida
+
+    Returns:
+        outer_response (list): Arreglo de arreglos de arrreglos de objetos JSON
+    """
+    outer_response = []
+    for i in range(n_games):
+        outer_response.append(game(robots, n_rounds))
+        for j in outer_response:
+            for i in j:
+                k = 0
+                for j in i:
+                    j["id"] = robot_id_list[k]
+                    j["nombre"] = sc.get_robot_name(robot_id_list[k])
+                    j["imagen"] = sc.get_robot_avatar(robot_id_list[k])
+                    k += 1
+    return outer_response
+
+
+def games_last_round(outer_response: list):
+    """Dado un arreglo de arreglos de arreglos de objetos JSON que representan
+    la ejecucion de una partida devuelve el ultimo arreglo de objetos JSON de cada
+    partida que representan la última ronda de la misma
+
+    Args:
+        outer_response (list): Arreglo de arreglos de arreglos de objetos JSON
+
+    Returns:
+        juego (list): Diccionario de valores que contiene la ultima ronda de
+        cada juego.
+    """
+    final_round = []
+    juego = {}
+    contador = 0
+    # Para cada partida
+    for i in outer_response:
+        contador += 1
+        # Para rondas de partida
+        for j in i:
+            final_round.append(j)
+        juego["Juego: " + str(contador)] = final_round[-1]
+    return juego
+
+
+def get_winners(juego: list):
+    """Dado un diccionario de valores que contiene la ultima ronda de cada
+    juego devuelve aquellos robots que aun estén vivos en la última ronda
+
+    Args:
+        juego (list): Diccionario de valores que contiene la ultima ronda de
+        cada juego
+
+    Returns:
+        resultado: Diccionario que contiene los robots vivos al final de la
+        ejecucion de cada juego
+    """
+    robots_sobrevivientes = []
+    resultado = {}
+    contador2 = 0
+    for i in juego:
+        contador2 += 1
+        for j in juego[i]:
+            if j["vida"] > 0:
+                robots_sobrevivientes.append(j)
+        resultado["Ganador/es juego: " + str(contador2)] = robots_sobrevivientes
+        robots_sobrevivientes = []
+    return resultado
