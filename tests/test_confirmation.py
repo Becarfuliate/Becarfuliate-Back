@@ -48,8 +48,12 @@ def test_confirmation_success():
         username_to_ver="anonymous",
         user_code=get_code_for_user("anonymous")
         )
-    assert response.json()["Status"] == "Usuario confirmado con exito"
-
+    assert str(response) ==  "<Response [404]>"
+    response = client_get_verify(
+        username_to_ver="anonymous",
+        user_code=get_code_for_user("anonymous")
+        )
+    assert str(response) ==  "<Response [404]>"
 
 def test_confirmation_user_wrong():
     user_wrong = "anonymousNotExist"
