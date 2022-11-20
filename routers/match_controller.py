@@ -16,7 +16,8 @@ async def create_match(match: imatch.MatchCreate):
         raise HTTPException(status_code=409, detail="El nombre de la partida ya existe")
     if "ObjectNotFound" in msg:
         raise HTTPException(status_code=400, detail="El usuario o email no existe")
-    return {"Status": "Match added succesfully"}
+    response = match_service.get_match_id(match.name)
+    return {"id_match": response}
 
 
 @match_end_points.post("/match/run")
