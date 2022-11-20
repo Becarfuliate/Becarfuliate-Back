@@ -31,7 +31,6 @@ def add_robot(
     avatar_file: str,
     robot_name: str,
     user_token: str,
-    username: str,
 ):
     """Agregar robot a la base de datos.
 
@@ -45,31 +44,33 @@ def add_robot(
     Returns:
         str: Mensaje de retorno.
     """
+    username = ""
     with db_session:
         decode_token = decode_JWT(user_token)
         vto = decode_token["expiry"]
         if not (str(vto) > str(datetime.now())) or (vto == 0):
             return "Token no válido"
+        username = decode_token["userID"]
         if validate_file(robot_name, config_file):
             try:
-                user_for_validate = User[username]
-            except Exception as e:
-                return str(e) + " no existe"
-            try:
+                if avatar_file != "default.jpeg":
+                    avatar_file = avatar_file[1:].split('.')
+                    avatar_file[0] =  username + "_" + robot_name + '.'
+                    avatar_file = "".join(avatar_file)
                 Robot(
-                    name=robot_name + "_" + user_for_validate.username,
-                    avatar=avatar_file + "_" + user_for_validate.username,
+                    name=robot_name + "_" + username,
+                    avatar=avatar_file,
                     matchs_pleyed=0,
                     matchs_won=0,
                     avg_life_time=0,
-                    user_owner=user_for_validate.username,
+                    user_owner= username,
                 )
                 commit()
             except Exception as e:
                 return str("El robot ya existe")
         else:
             return "El archivo no cumple los requisitos"
-        return "Robot agregado con exito"
+        return "Robot agregado con exito:" + username + ":" + avatar_file
 
 
 @db_session
@@ -129,6 +130,7 @@ def add_default_robot(username: str):
             matchs_won=0,
             avg_life_time=0,
             user_owner=username,
+            avatar = "default.jpeg"
         )
         commit()
         Robot(
@@ -137,5 +139,17 @@ def add_default_robot(username: str):
             matchs_won=0,
             avg_life_time=0,
             user_owner=username,
+            avatar = "default.jpeg"
         )
         commit()
+
+@db_session
+def get_image_name(token,id):
+    decode_token = decode_JWT(token)
+    user = decode_token["userID"]
+    with db_session:
+        res = Robot[id]
+        if (res.user_owner.username == user):
+            return res.avatar
+        else:
+            return "default.jpeg"
