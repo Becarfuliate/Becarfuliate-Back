@@ -1,8 +1,9 @@
-from fastapi import APIRouter, HTTPException, UploadFile
+from fastapi import APIRouter, HTTPException, UploadFile, File
 from crud import robot_service
 from crud.robot_service import add_robot,get_image_name
 import shutil
 from fastapi.responses import FileResponse
+from typing import Optional
 
 robot_end_points = APIRouter()
 
@@ -22,8 +23,7 @@ def store_avatar(file: UploadFile):
 
 @robot_end_points.post("/upload/robot")
 async def robot_upload(
-    config: UploadFile, avatar: UploadFile, name: str, tkn: str, username: str
-):
+    *, config: UploadFile, avatar: Optional[UploadFile] = File(None), name: str, tkn: str):
     """Cargar Robot
 
     Args:
@@ -42,28 +42,30 @@ async def robot_upload(
     Returns:
         _type_: _description_
     """
-    new_name = avatar.filename.split('.')
-    new_name[0] =  username + "_" + name + '.'
-    new_name = "".join(new_name)
-    avatar.filename = new_name
-
-    msg = add_robot(config, avatar.filename, name, tkn, username)
+    no_avatar = True
+    if avatar != None:
+        avatar_name = "P" + avatar.filename
+        no_avatar = False
+    else:
+        avatar_name = "default.jpeg"
+    msg = add_robot(config, avatar_name, name, tkn)
     # El robot ya existe
     if "ya existe" in msg:
         raise HTTPException(status_code=409, detail=msg)
-    # El usuario no existe
-    if "no existe" in msg:
-        raise HTTPException(
-            status_code=400, detail="El usuario " + username + " no existe"
-        )
     # Los nombres para el robot no se corresponden
     if "requisitos" in msg:
         raise HTTPException(status_code=422, detail=msg)
     # Token invalido o expirado
     if "Token" in msg:
         raise HTTPException(status_code=440, detail="Sesión expirada")
+    # Tomamos el nombre del usuario y el nombre del archivo
+    username = msg.split(":")[1]
+    avatar_name = msg.split(":")[2]
+    msg = msg.split(":")[0]
     store_config(config, username)
-    store_avatar(avatar)
+    if not no_avatar:
+        avatar.filename = avatar_name
+        store_avatar(avatar)
     return {"msg": msg}
 
 
