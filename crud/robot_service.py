@@ -58,7 +58,7 @@ def add_robot(
             try:
                 Robot(
                     name=robot_name + "_" + user_for_validate.username,
-                    avatar=avatar_file + "_" + user_for_validate.username,
+                    avatar=avatar_file,
                     matchs_pleyed=0,
                     matchs_won=0,
                     avg_life_time=0,
@@ -129,6 +129,7 @@ def add_default_robot(username: str):
             matchs_won=0,
             avg_life_time=0,
             user_owner=username,
+            avatar = "default.jpeg"
         )
         commit()
         Robot(
@@ -137,5 +138,17 @@ def add_default_robot(username: str):
             matchs_won=0,
             avg_life_time=0,
             user_owner=username,
+            avatar = "default.jpeg"
         )
         commit()
+
+@db_session
+def get_image_name(token,id):
+    decode_token = decode_JWT(token)
+    user = decode_token["userID"]
+    with db_session:
+        res = Robot[id]
+        if (res.user_owner.username == user):
+            return res.avatar
+        else:
+            return "default.jpeg"

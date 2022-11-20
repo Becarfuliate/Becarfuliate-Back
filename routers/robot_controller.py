@@ -1,8 +1,8 @@
-from fastapi import APIRouter, HTTPException, File, UploadFile, Response
+from fastapi import APIRouter, HTTPException, UploadFile
 from crud import robot_service
-from crud.robot_service import add_robot
-from pathlib import Path
+from crud.robot_service import add_robot,get_image_name
 import shutil
+from fastapi.responses import FileResponse
 
 robot_end_points = APIRouter()
 
@@ -14,12 +14,9 @@ def store_config(file: UploadFile, owner: str):
         shutil.copyfileobj(file.file, upload_folder)
 
 
-def store_avatar(file: UploadFile, owner: str):
+def store_avatar(file: UploadFile):
     file.file.seek(0)
-    new_filename = file.filename.replace(".jpeg", "_" + owner + ".jpeg")
-    new_filename = file.filename.replace(".peg", "_" + owner + ".peg")
-    new_filename = file.filename.replace(".jpg", "_" + owner + ".jpg")
-    with open("routers/robots/avatars/" + new_filename, "wb+") as upload_folder:
+    with open("routers/robots/avatars/" + file.filename, "wb+") as upload_folder:
         shutil.copyfileobj(file.file, upload_folder)
 
 
@@ -45,6 +42,11 @@ async def robot_upload(
     Returns:
         _type_: _description_
     """
+    new_name = avatar.filename.split('.')
+    new_name[0] =  username + "_" + name + '.'
+    new_name = "".join(new_name)
+    avatar.filename = new_name
+
     msg = add_robot(config, avatar.filename, name, tkn, username)
     # El robot ya existe
     if "ya existe" in msg:
@@ -61,7 +63,7 @@ async def robot_upload(
     if "Token" in msg:
         raise HTTPException(status_code=440, detail="Sesión expirada")
     store_config(config, username)
-    store_avatar(avatar, username)
+    store_avatar(avatar)
     return {"msg": msg}
 
 
@@ -81,8 +83,8 @@ def read_robots(token: str):
         raise HTTPException(status_code=401, detail="No autorizado, debe logearse")
     return msg
 
-@robot_end_points.get("/image",responses = {200: {"content": {"image/png": {}}}}, response_class=Response)
-def get_image():
-    image_bytes: bytes = generate_cat_picture()
-    # media_type here sets the media type of the actual response sent to the client.
-    return Response(content=image_bytes, media_type="image/png")
+@robot_end_points.get("/image")
+def get_image(token,robot_id):
+    image_name = get_image_name(token,robot_id)
+    path = "routers/robots/avatars/"+image_name
+    return FileResponse(path)
