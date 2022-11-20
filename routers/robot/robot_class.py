@@ -1,5 +1,4 @@
 from math import sin, cos, pi, sqrt, degrees, atan2
-from typing import Tuple
 from decouple import config
 
 def distance(t1: tuple, t2: tuple):
@@ -193,6 +192,7 @@ class Robot:
                 origin=self.current_position,
             )
             self.misil_position = misil_target
+            self.cannon_shoot = False
         else:
             self.cannon_ammo = 1
         self.misil_position = misil_target
@@ -295,7 +295,8 @@ class Robot:
                 robots_f.append(robot[1])
         #calcular el minimo
         res = min(robots_f)
-        self.scan_result = res 
+        self.scan_result = res
+         
 
 def amplitude_to_depth(degre):
     """Toma una apertura de 1 a 10 y
