@@ -16,7 +16,7 @@ def delete_db(user: str):
     elim_user(user)
     file_path = os.path.join("routers/robots/", "robot1_Alexis.py")
     os.remove(file_path)
-    file_path2 = os.path.join("routers/robots/avatars/", "tortuga_Alexis.jpg")
+    file_path2 = os.path.join("routers/robots/avatars/", "Alexis_robot1.jpg")
     os.remove(file_path2)
 
 

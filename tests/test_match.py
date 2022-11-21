@@ -496,15 +496,12 @@ def test_start_match_not_enough_players():
         match.user_creator = user
         match.users.add(user)
         commit()
-    print(match)
-    response = client.post(
-        "match/run?id_match=" + str(id_match) + "&name_user=" + "Alexis"
-    )
+    response = client.post("match/run?id_match=" + str(id_match) + "&token=" + toq_var)
+    assert response.json() == {
+        "detail": "La cantidad de jugadores no coincide con los parámetros de la partida"
+    }
     elim_match(id_match)
     delete_db()
-    assert response.json() == {
-        "Status": "La cantidad de jugadores no coincide con los parámetros de la partida"
-    }
 
 
 def test_match_get_success():

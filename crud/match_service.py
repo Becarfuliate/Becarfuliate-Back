@@ -161,7 +161,6 @@ def get_match_games(match_id: int):
     return result
 
 
-
 @db_session
 def read_match_players(id_match: int):
     result = select(m.users for m in Match if m.id == id_match)
@@ -182,6 +181,8 @@ def add_player(id_match: int, tkn: str, id_robot: int):
         decode_token = decode_JWT(tkn)
         error = ""
         username = decode_token["userID"]
+        if decode_token["expiry"] == 0:
+            return "Token no valido"
         if str(decode_token["expiry"]) < str(datetime.now()):
             return "Token no valido"
         try:
@@ -240,29 +241,38 @@ def remove_player(id_match: int, id_robot: int, name_user: str):
 
 
 @db_session
-def start_game(id_match: int, name_user: str):
-    try:
-        msg = ""
-        match = Match[id_match]
-        user = User[name_user]
-        if not user.username == match.user_creator.username:
-            msg = {"Status": "No es el creador de la partida"}
-            return msg
-        match_robots = match.robots_in_match
-        if (len(match_robots) < get_match_min_players(id_match)) or (
-            len(match_robots) > get_match_max_players(id_match)
-        ):
-            msg = {
-                "Status": "La cantidad de jugadores no coincide con los parámetros de la partida"
-            }
-            return msg
-    except Exception as e:
-        error = ""
-        if "Match" in str(e):
-            error = "La partida no existe"
-        elif "User" in str(e):
-            error = "El usuario no existe"
-        return error
+def start_game(id_match: int, token: str):
+    with db_session:
+        decode_token = decode_JWT(token)
+        print(decode_token["expiry"])
+        name_user = decode_token["userID"]
+        try:
+            if decode_token["expiry"] == 0:
+                return "Token no valido"
+            if str(decode_token["expiry"]) < str(datetime.now()):
+                return "Token no valido"
+            try:
+                msg = ""
+                match = Match[id_match]
+                user = User[name_user]
+                if not user.username == match.user_creator.username:
+                    msg = {"Status": "No es el creador de la partida"}
+                    return msg
+                match_robots = match.robots_in_match
+                if (len(match_robots) < get_match_min_players(id_match)) or (
+                    len(match_robots) > get_match_max_players(id_match)
+                ):
+                    msg = {"ObjectNotFound"}
+                    return msg
+            except Exception as e:
+                error = ""
+                if "Match" in str(e):
+                    error = {"Status": "La partida no existe"}
+                elif "User" in str(e):
+                    error = {"Status": "El usuario no existe"}
+                return error
+        except Exception as e:
+            return str(e)
     return list(match_robots)
 
 

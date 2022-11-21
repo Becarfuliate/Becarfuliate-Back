@@ -21,13 +21,24 @@ async def create_match(match: imatch.MatchCreate):
 
 
 @match_end_points.post("/match/run")
-async def start_match(id_match: int, name_user: str):
-    robot_list = match_service.start_game(id_match, name_user)
+async def start_match(id_match: int, token: str):
+    robot_list = match_service.start_game(id_match, token)
     if "Status" in robot_list:
         return robot_list
+    if "Token no valido" in robot_list:
+        raise HTTPException(
+            status_code=400,
+            detail="Sesión expirada",
+        )
+    if "ObjectNotFound" in robot_list:
+        raise HTTPException(
+            status_code=400,
+            detail="La cantidad de jugadores no coincide con los parámetros de la partida",
+        )
+    if "'>' not supported between instances of 'int' and 'str'" in robot_list:
+        raise HTTPException(status_code=401, detail="No autorizado, debe loguearse")
     n_rounds = match_service.get_match_rounds(id_match)
     n_games = match_service.get_match_games(id_match)
-
     robots = match_service.parse_robots(robot_list)
     outer_response = match_service.add_robot_attributes(
         n_games, n_rounds, robots, robot_list
