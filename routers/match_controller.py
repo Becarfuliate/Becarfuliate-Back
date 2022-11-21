@@ -2,6 +2,7 @@ from fastapi import APIRouter, HTTPException, WebSocket, WebSocketDisconnect
 from fastapi.responses import HTMLResponse
 from schemas import imatch
 from crud import match_service, websocket_services
+from pony.orm import db_session
 
 
 match_end_points = APIRouter()
@@ -34,9 +35,12 @@ async def start_match(id_match: int, name_user: str):
     )
     juego = match_service.games_last_round(outer_response)
     resultado = match_service.get_winners(juego)
-    await manager.broadcast_json(id_match, "Iniciando Partida")
-    await manager.broadcast_json(id_match, resultado)
-    return resultado
+    ganador = match_service.return_results(resultado)
+
+    await manager.broadcast_json(id_match, {"status": "Iniciando partida"})
+    await manager.broadcast_json(id_match, ganador)
+
+    return ganador
 
 
 @match_end_points.websocket("/ws/match/{id_game}/{tkn}/{id_robot}")
