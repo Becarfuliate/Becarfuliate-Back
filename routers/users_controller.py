@@ -1,4 +1,4 @@
-from fastapi import APIRouter, HTTPException
+from fastapi import APIRouter, HTTPException,UploadFile
 from starlette.responses import RedirectResponse
 from fastapi_mail import FastMail, MessageSchema, ConnectionConfig
 from decouple import config
@@ -10,9 +10,15 @@ from crud.user_services import (
     search_user,
     sign_JWT,
     decrypt_password,
+    store_user_avatar,
+    decode_JWT,
+    get_user_image_name
 )
 from schemas.iuser import User_base, User_login_schema
 from crud.robot_service import add_default_robot
+import shutil
+from datetime import datetime
+import base64
 user_end_points = APIRouter()
 
 
@@ -168,3 +174,30 @@ async def send_confirmation_mail(
     )
     fm = FastMail(conf)
     await fm.send_message(message)
+
+@user_end_points.post("/storeUserImage")
+async def user_avatar(token:str,file:UploadFile):
+    decode_token = decode_JWT(token)
+    print(decode_token["userID"])
+    if (decode_token["expiry"]>str(datetime.now())):
+        store_user_avatar(decode_token['userID'],file.filename)
+        new_filename = file.filename.split('.')
+        new_filename[0] = decode_token['userID']+"." 
+        file.filename = "".join(new_filename)
+        store_Userimg(file)
+        return {"imagen guardada con exito"}
+    else:
+        raise HTTPException(status_code=400,detail="token invalido")
+
+def store_Userimg(file: UploadFile):
+    file.file.seek(0)
+    with open("routers/users/avatars/" + file.filename, "wb+") as upload_folder:
+        shutil.copyfileobj(file.file, upload_folder)
+
+@user_end_points.get("/userImage")
+def get_image(token):
+    image_name = get_user_image_name(token)
+    path = "routers/users/avatars/"+str(image_name)
+    with open(path, 'rb') as f:
+        base64image = base64.b64encode(f.read())
+    return base64image

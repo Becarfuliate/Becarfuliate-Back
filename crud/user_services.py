@@ -38,7 +38,8 @@ def add_user(new_user: User_create):
                 password=password_encrypted,
                 confirmation_mail=False,
                 email=new_user.email,
-                validation_code=code_for_validation
+                validation_code=code_for_validation,
+                avatar= "default.jpeg"
             )
             commit()
         except Exception as e:
@@ -186,3 +187,19 @@ def encrypt_password(password: str):
     encripted_password = f.encrypt(encoded_pasword)
     decoded_password = encripted_password.decode()
     return decoded_password
+
+@db_session
+def store_user_avatar(username,avatarfilename:str):
+    with db_session:
+        User[username].avatar = avatarfilename
+
+@db_session
+def get_user_image_name(token):
+    decode_token = decode_JWT(token)
+    user = decode_token["userID"]
+    with db_session:
+        try:
+            res = User[user]
+            return res.avatar
+        except:
+            return "default.jpeg"
