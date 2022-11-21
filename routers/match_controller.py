@@ -50,6 +50,10 @@ async def start_match(id_match: int, token: str):
 
     await manager.broadcast_json(id_match, {"status": "Iniciando partida"})
     await manager.broadcast_json(id_match, ganador)
+    in_match = manager.active_connections[id_match]
+    print(manager.active_connections)
+    # for users in list(in_match.keys()):
+    #     await manager.disconnect(id_match, users, manager.active_connections[id_match][users])
     return ganador
 
 
