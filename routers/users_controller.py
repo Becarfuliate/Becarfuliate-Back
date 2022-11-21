@@ -1,4 +1,5 @@
 from fastapi import APIRouter, HTTPException
+from starlette.responses import RedirectResponse
 from fastapi_mail import FastMail, MessageSchema, ConnectionConfig
 from decouple import config
 from crud.user_services import (
@@ -120,8 +121,10 @@ def user_verification(username: str, code: str):
             status_code=400,
             detail=msg
             )
-    add_default_robot(username)
-    return {"Status": msg}
+    if (msg == "Usuario confirmado con exito"):       
+        add_default_robot(username)
+    response = RedirectResponse(url='http://localhost:3000/home/login')
+    return response
 
 
 MAIL_USERNAME_S = config("MAIL_USERNAME")
