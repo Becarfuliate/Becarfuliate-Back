@@ -62,9 +62,11 @@ def update_confirmation(username: str, code: str):
         user_for_validate = User[username]
     except Exception as e:
         return str(e)+" no existe"
-    if (code == user_for_validate.validation_code):
+    if (code == user_for_validate.validation_code and user_for_validate.confirmation_mail == False):
         user_for_validate.confirmation_mail = True
         return "Usuario confirmado con exito"
+    elif (code == user_for_validate.validation_code and user_for_validate.confirmation_mail == True):
+        return "Intento volver a confirmar"
     return "El codigo de confirmacion no es valido"
 
 

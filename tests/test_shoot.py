@@ -1,5 +1,3 @@
-import pytest
-import main
 from routers.robot.robot_class import *
 import random
 
@@ -14,10 +12,9 @@ def test_shoot_in_table():
     obj1.current_damage = 100
     obj1.current_velocity = 100
     obj1.cannon(45, 200)
-    result = obj1.shoot()
-    assert result[0] > -1 and result[0] < 1000 and result[1] > -1 and result[1] < 1000
-    print(result)
-    #assert obj1.misil_position == result
+    obj1._shoot()
+    assert obj1.misil_position[0] > -1 and obj1.misil_position[0] < 1000 and obj1.misil_position[1] > -1 and obj1.misil_position[1] < 1000
+
 
 
 def test_shoot_false():
@@ -27,9 +24,8 @@ def test_shoot_false():
     )
     obj1.current_velocity = 100
     obj1.current_damage = 100
-    result = obj1.shoot()
-    assert result == (None, None)
-    assert obj1.misil_position == result
+    obj1._shoot()
+    assert obj1.misil_position == (None,None)
 
 
 def test_random_in_range_1():
@@ -44,8 +40,8 @@ def test_random_in_range_1():
     print("T2")
     print("Position -> ", obj1.current_position)
     print("(grados, distancia) ->", tup_test)
-    result = obj1.shoot()
-    print(result)
+    obj1._shoot()
+    result= obj1.misil_position
     assert result[0] > -1 and result[0] < 1000 and result[1] > -1 and result[1] < 1000
     assert obj1.misil_position == result
 
@@ -62,8 +58,8 @@ def test_random_in_range_2():
     print("T2")
     print("Position -> ", obj1.current_position)
     print("(grados, distancia) ->", tup_test)
-    result = obj1.shoot()
-    print(result)
+    obj1._shoot()
+    result= obj1.misil_position
     assert result[0] > -1 and result[0] < 1000 and result[1] > -1 and result[1] < 1000
     assert obj1.misil_position == result
 
@@ -82,8 +78,8 @@ def test_random_in_range_3():
     print("T3")
     print("Position -> ", obj1.current_position)
     print("(grados, distancia) ->", tup_test)
-    result = obj1.shoot()
-    print(result)
+    obj1._shoot()
+    result= obj1.misil_position
     assert result[0] > -1 and result[0] < 1000 and result[1] > -1 and result[1] < 1000
     assert obj1.misil_position == result
 
@@ -100,8 +96,8 @@ def test_random_in_range_4():
     print("T4")
     print("Position -> ", obj1.current_position)
     print("(grados, distancia) ->", tup_test)
-    result = obj1.shoot()
-    print(result)
+    obj1._shoot()
+    result= obj1.misil_position
     assert result[0] > -1 and result[0] < 1000 and result[1] > -1 and result[1] < 1000
     assert obj1.misil_position == result
 
@@ -118,8 +114,8 @@ def test_random_in_range_5():
     print("T5")
     print("Position -> ", obj1.current_position)
     print("(grados, distancia) ->", tup_test)
-    result = obj1.shoot()
-    print(result)
+    obj1._shoot()
+    result= obj1.misil_position
     assert result[0] > -1 and result[0] < 1000 and result[1] > -1 and result[1] < 1000
     assert obj1.misil_position == result
 
@@ -136,8 +132,8 @@ def test_random_in_range_6():
     print("T6")
     print("Position -> ", obj1.current_position)
     print("(grados, distancia) ->", tup_test)
-    result = obj1.shoot()
-    print(result)
+    obj1._shoot()
+    result= obj1.misil_position
     assert result[0] > -1 and result[0] < 1000 and result[1] > -1 and result[1] < 1000
     assert obj1.misil_position == result
 
@@ -154,8 +150,8 @@ def test_random_in_range_7():
     print("T7")
     print("Position -> ", obj1.current_position)
     print("(grados, distancia) ->", tup_test)
-    result = obj1.shoot()
-    print(result)
+    obj1._shoot()
+    result= obj1.misil_position
     assert result[0] > -1 and result[0] < 1000 and result[1] > -1 and result[1] < 1000
     assert obj1.misil_position == result
 
@@ -172,8 +168,8 @@ def test_random_in_range_8():
     print("T8")
     print("Position -> ", obj1.current_position)
     print("(grados, distancia) ->", tup_test)
-    result = obj1.shoot()
-    print(result)
+    obj1._shoot()
+    result= obj1.misil_position
     assert result[0] > -1 and result[0] < 1000 and result[1] > -1 and result[1] < 1000
     assert obj1.misil_position == result
 
@@ -190,8 +186,8 @@ def test_random_in_range_9():
     print("T9")
     print("Position -> ", obj1.current_position)
     print("(grados, distancia) ->", tup_test)
-    result = obj1.shoot()
-    print(result)
+    obj1._shoot()
+    result= obj1.misil_position
     assert result[0] > -1 and result[0] < 1000 and result[1] > -1 and result[1] < 1000
     assert obj1.misil_position == result
 
@@ -208,8 +204,8 @@ def test_random_in_range_10():
     print("T10")
     print("Position -> ", obj1.current_position)
     print("(grados, distancia) ->", tup_test)
-    result = obj1.shoot()
-    print(result)
+    obj1._shoot()
+    result= obj1.misil_position
     assert result[0] > -1 and result[0] < 1000 and result[1] > -1 and result[1] < 1000
     assert obj1.misil_position == result
 
@@ -226,8 +222,8 @@ def test_random_in_range_11():
     print("T11")
     print("Position -> ", obj1.current_position)
     print("(grados, distancia) ->", tup_test)
-    result = obj1.shoot()
-    print(result)
+    obj1._shoot()
+    result= obj1.misil_position
     assert result[0] > -1 and result[0] < 1000 and result[1] > -1 and result[1] < 1000
     assert obj1.misil_position == result
 
@@ -244,8 +240,8 @@ def test_random_in_range_12():
     print("T12")
     print("Position -> ", obj1.current_position)
     print("(grados, distancia) ->", tup_test)
-    result = obj1.shoot()
-    print(result)
+    obj1._shoot()
+    result= obj1.misil_position
     assert result[0] > -1 and result[0] < 1000 and result[1] > -1 and result[1] < 1000
     assert obj1.misil_position == result
 
@@ -258,7 +254,8 @@ def test_random_out_of_range_1():
     obj1.current_velocity = 100
     obj1.current_damage = 100
     obj1.cannon(random.randint(-10000, 10000), random.randint(-10000, 10000))
-    result = obj1.shoot()
+    obj1._shoot()
+    result= obj1.misil_position
     assert result[0] > -1 and result[0] < 1000 and result[1] > -1 and result[1] < 1000
     assert obj1.misil_position == result
 
@@ -271,7 +268,8 @@ def test_random_out_of_range_2():
     obj1.current_velocity = 100
     obj1.current_damage = 100
     obj1.cannon(random.randint(-10000, 10000), random.randint(-10000, 10000))
-    result = obj1.shoot()
+    obj1._shoot()
+    result= obj1.misil_position
     assert result[0] > -1 and result[0] < 1000 and result[1] > -1 and result[1] < 1000
     assert obj1.misil_position == result
 
@@ -284,6 +282,7 @@ def test_random_out_of_range_3():
     obj1.current_velocity = 100
     obj1.current_damage = 100
     obj1.cannon(random.randint(-10000, 10000), random.randint(-10000, 10000))
-    result = obj1.shoot()
+    obj1._shoot()
+    result= obj1.misil_position
     assert result[0] > -1 and result[0] < 1000 and result[1] > -1 and result[1] < 1000
     assert obj1.misil_position == result

@@ -105,7 +105,7 @@ def test_match_add_success():
     )
     id_match = get_match_id(nombre_partida)
     elim_match(id_match)
-    assert response.json() == {"Status": "Match added succesfully"}
+    assert response.json() == {"id_match": id_match}
 
 
 def test_match_add_bad_max_players():
@@ -140,7 +140,7 @@ def test_match_add_bad_max_players():
         "detail": [
             {
                 "loc": ["body", "max_players"],
-                "msg": "El valor debe estar entre 2 y 4",
+                "msg": "La cantidad de jugadores debe estar entre 2 y 4",
                 "type": "value_error",
             }
         ]
@@ -179,7 +179,7 @@ def test_match_add_bad_min_players():
         "detail": [
             {
                 "loc": ["body", "min_players"],
-                "msg": "El valor debe estar entre 2 y 4",
+                "msg": "La cantidad de jugadores debe estar entre 2 y 4",
                 "type": "value_error",
             }
         ]
@@ -217,7 +217,7 @@ def test_match_add_bad_number_matchs():
         "detail": [
             {
                 "loc": ["body", "n_matchs"],
-                "msg": "El valor debe estar entre 1 y 200",
+                "msg": "La cantidad de juegos debe estar entre 1 y 200",
                 "type": "value_error",
             }
         ]
@@ -255,7 +255,7 @@ def test_match_add_bad_number_rounds():
         "detail": [
             {
                 "loc": ["body", "n_rounds_matchs"],
-                "msg": "El valor debe estar entre 2 y 10.000",
+                "msg": "La cantidad de rondas debe estar entre 2 y 10.000",
                 "type": "value_error",
             }
         ]
@@ -485,7 +485,7 @@ def test_start_match_not_enough_players():
             "n_matchs": 2,
             "n_rounds_matchs": 2,
             "token": toq_var,
-            "user_creator": "Alexis"
+            "user_creator": "Alexis",
         },
     )
     id_match = get_match_id(nombre_partida)
@@ -496,13 +496,12 @@ def test_start_match_not_enough_players():
         match.user_creator = user
         match.users.add(user)
         commit()
-    print(match)
-    response = client.post(
-        "match/run?id_match=" + str(id_match) + "&name_user=" + "Alexis"
-    )
+    response = client.post("match/run?id_match=" + str(id_match) + "&token=" + toq_var)
+    assert response.json() == {
+        "detail": "La cantidad de jugadores no coincide con los parámetros de la partida"
+    }
     elim_match(id_match)
     delete_db()
-    assert response.json() == {"Status": "La partida no tiene suficientes jugadores"}
 
 
 def test_match_get_success():
@@ -551,7 +550,7 @@ def test_match_get_success():
         },
     )
     elim_match(id_match)
-    assert len(response.json()) == len(prev.json())+1
+    assert len(response.json()) == len(prev.json()) + 1
 
 
 def test_match_get_success_v2():
@@ -619,4 +618,4 @@ def test_match_get_success_v2():
     id_match_2 = get_match_id(nombre_partida_2)
     elim_match(id_match_1)
     elim_match(id_match_2)
-    assert len(response.json()) == len(prev.json())+2
+    assert len(response.json()) == len(prev.json()) + 2
