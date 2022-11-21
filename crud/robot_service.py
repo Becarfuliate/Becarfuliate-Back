@@ -148,8 +148,11 @@ def get_image_name(token,id):
     decode_token = decode_JWT(token)
     user = decode_token["userID"]
     with db_session:
-        res = Robot[id]
-        if (res.user_owner.username == user):
-            return res.avatar
-        else:
+        try:
+            res = Robot[id]
+            if (res.user_owner.username == user):
+                return res.avatar
+            else:
+                return "default.jpeg"
+        except:
             return "default.jpeg"
