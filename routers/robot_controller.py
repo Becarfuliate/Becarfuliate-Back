@@ -2,9 +2,8 @@ from fastapi import APIRouter, HTTPException, UploadFile, File
 from crud import robot_service
 from crud.robot_service import add_robot,get_image_name
 import shutil
-from fastapi.responses import FileResponse
 from typing import Optional
-
+import base64
 robot_end_points = APIRouter()
 
 
@@ -89,4 +88,6 @@ def read_robots(token: str):
 def get_image(token,robot_id):
     image_name = get_image_name(token,robot_id)
     path = "routers/robots/avatars/"+image_name
-    return FileResponse(path)
+    with open(path, 'rb') as f:
+        base64image = base64.b64encode(f.read())
+    return base64image
