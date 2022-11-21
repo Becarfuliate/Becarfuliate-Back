@@ -1,6 +1,5 @@
-from routers.robot.robot_class import Robot
 from math import sqrt
-
+from routers.robot.robot_class import Robot
 def distance(t1: tuple, t2: tuple):
     res = round(sqrt((t2[0]-t1[0])**2 + (t2[1]-t1[1])**2))
     return res 
@@ -101,14 +100,14 @@ def avanzar_ronda(robots:list):
     #atack
     for robot in robots:
         if robot.current_damage > 0:
-            robot.shoot()
+            robot._shoot()
         else:
             robot.misil_position = (None,None)
     #move
     for robot in robots:
         if robot.current_damage > 0:
             robot.last_position = robot.current_position
-            robot.move()
+            robot._move()
     #generate json
     for robot in robots:
         if robot.current_damage > 0:
