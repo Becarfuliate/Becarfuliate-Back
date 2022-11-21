@@ -1,4 +1,4 @@
-from routers.robot.robot_class import Robot, distance
+from routers.robot.robot_class import Robot
 
 def test_1():
     """
