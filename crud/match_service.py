@@ -163,8 +163,12 @@ def get_match_games(match_id: int):
 
 @db_session
 def read_match_players(id_match: int):
-    result = select(m.users for m in Match if m.id == id_match)
-    return result
+    str_result = []
+    with db_session:
+        result = select(m.users for m in Match if m.id == id_match)
+        for i in result:
+            str_result.append(i.username)
+        return str_result
 
 
 @db_session
@@ -386,3 +390,21 @@ def get_winners(juego: list):
         resultado["Ganador/es juego: " + str(contador2)] = robots_sobrevivientes
         robots_sobrevivientes = []
     return resultado
+
+
+def return_results(resultado: list):
+    resultado2 = {}
+    for i in resultado:
+        for j in resultado[i]:
+            resultado2[j["nombre"]] = 0
+    for i in resultado:
+        for j in resultado[i]:
+            resultado2[j["nombre"]] += 1
+    temp_value = 0
+    ganador = {}
+    for i in resultado2:
+        if resultado2[i] > temp_value:
+            temp_value = resultado2[i]
+            ganador["ganador"] = i
+    ganador["resultado"] = resultado2
+    return ganador
