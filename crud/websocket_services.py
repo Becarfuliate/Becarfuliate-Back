@@ -36,6 +36,7 @@ class ConnectionManager:
             await self.broadcast_json(id_game,{"join": broadcast_msg })
             # await for messages and send messages
             while True and websocket.client_state == WebSocketState.CONNECTED:
+                print("ENTRE")
                 data = await websocket.receive_json()
                 if data == {"connection": "close"} and user_name != list(self.in_match[id_game].keys())[0]:
                     remove_player(id_game, id_robot, user_name)
@@ -45,22 +46,26 @@ class ConnectionManager:
                 else:
                     await self.send_personal_json({"Error": "No puedes abandonar la partida"}, websocket)
         except Exception or RuntimeError:
-            print(msg)
             if (websocket.client_state == WebSocketState.CONNECTED):
                 await websocket.send_json({"status": "Cerrada - " + msg})
-            await self.disconnect(id_game, user_name, websocket)
+            try:
+                if (user_name in list(self.active_connections[id_game].keys())):
+                    await self.disconnect(id_game, user_name, websocket)
+            except KeyError:
+                print("Partida Eliminada")
             remove_player(id_game, id_robot, user_name)
             await self.broadcast_json(id_game, {"leave": msg})
 
     async def disconnect(self, id_game: int, name_player: int, websocket):
-        print("Para ", name_player, websocket.client_state)
+        socket_to_close = ""
         if websocket.client_state == WebSocketState.CONNECTED:
-            await self.active_connections[id_game].get(name_player).close()
+            socket_to_close = self.active_connections[id_game].get(name_player)
         self.active_connections[id_game].pop(name_player)
         self.in_match[id_game].pop(name_player)
         if self.active_connections[id_game] == {}:  # Empty game
             self.active_connections.pop(id_game)
             self.in_match.pop(id_game)
+        await socket_to_close.close()
 
     async def send_personal_json(self, message, websocket: WebSocket):
         await websocket.send_json(message)
