@@ -16,24 +16,37 @@ async def create_match(match: imatch.MatchCreate):
         raise HTTPException(status_code=409, detail="El nombre de la partida ya existe")
     if "ObjectNotFound" in msg:
         raise HTTPException(status_code=400, detail="El usuario o email no existe")
-    return {"Status": "Match added succesfully"}
+    response = match_service.get_match_id(match.name)
+    return {"id_match": response}
 
 
 @match_end_points.post("/match/run")
-async def start_match(id_match: int, name_user: str):
-    robot_list = match_service.start_game(id_match, name_user)
+async def start_match(id_match: int, token: str):
+    robot_list = match_service.start_game(id_match, token)
     if "Status" in robot_list:
         return robot_list
+    if "Token no valido" in robot_list:
+        raise HTTPException(
+            status_code=400,
+            detail="Sesión expirada",
+        )
+    if "ObjectNotFound" in robot_list:
+        raise HTTPException(
+            status_code=400,
+            detail="La cantidad de jugadores no coincide con los parámetros de la partida",
+        )
+    if "'>' not supported between instances of 'int' and 'str'" in robot_list:
+        raise HTTPException(status_code=401, detail="No autorizado, debe loguearse")
     n_rounds = match_service.get_match_rounds(id_match)
     n_games = match_service.get_match_games(id_match)
-
     robots = match_service.parse_robots(robot_list)
     outer_response = match_service.add_robot_attributes(
         n_games, n_rounds, robots, robot_list
     )
     juego = match_service.games_last_round(outer_response)
     resultado = match_service.get_winners(juego)
-
+    await manager.broadcast_json(id_match, "Iniciando Partida")
+    await manager.broadcast_json(id_match, resultado)
     return resultado
 
 
@@ -44,5 +57,16 @@ async def join_match(websocket: WebSocket, id_game: int, tkn: str, id_robot: int
 
 @match_end_points.get("/matchs")
 async def read_matchs(token: str):
+    """Lista las partidas
+
+    Args:
+        token (str): recibe el token
+
+    Returns:
+        str: Error.
+        List[Match]: Lista de partidas.
+    """
     msg = match_service.read_matchs(token)
+    if "'>' not supported between instances of 'int' and 'str'" in msg:
+        raise HTTPException(status_code=401, detail="No autorizado, debe logearse")
     return msg

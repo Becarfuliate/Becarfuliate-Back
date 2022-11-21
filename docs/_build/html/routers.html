@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="es" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>routers package &mdash; documentación de Becarefuliate - 0.1</title>
+      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script src="_static/translations.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Índice" href="genindex.html" />
+    <link rel="search" title="Búsqueda" href="search.html" />
+    <link rel="next" title="schemas package" href="schemas.html" />
+    <link rel="prev" title="models package" href="models.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="index.html" class="icon icon-home"> Becarefuliate
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Buscar documentos" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="modules.html">Becarfuliate-Back</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="crud.html">crud package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="db.html">db package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="main.html">main module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="models.html">models package</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">routers package</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#submodules">Submodules</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#module-routers.match_controller">routers.match_controller module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#module-routers.robot_controller">routers.robot_controller module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#module-routers.simulation_controller">routers.simulation_controller module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#module-routers.users_controller">routers.users_controller module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#module-routers">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="schemas.html">schemas package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tests.html">tests package</a></li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">Becarefuliate</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home"></a></li>
+          <li class="breadcrumb-item"><a href="modules.html">Becarfuliate-Back</a></li>
+      <li class="breadcrumb-item active">routers package</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/routers.rst.txt" rel="nofollow"> Ver código fuente de la página</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="routers-package">
+<h1>routers package<a class="headerlink" href="#routers-package" title="Enlazar permanentemente con este título"></a></h1>
+<section id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Enlazar permanentemente con este título"></a></h2>
+</section>
+<section id="module-routers.match_controller">
+<span id="routers-match-controller-module"></span><h2>routers.match_controller module<a class="headerlink" href="#module-routers.match_controller" title="Enlazar permanentemente con este título"></a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="routers.match_controller.create_match">
+<em class="property"><span class="k"><span class="pre">async</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">routers.match_controller.</span></span><span class="sig-name descname"><span class="pre">create_match</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">match</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="schemas.html#schemas.imatch.MatchCreate" title="schemas.imatch.MatchCreate"><span class="pre">schemas.imatch.MatchCreate</span></a></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/routers/match_controller.html#create_match"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#routers.match_controller.create_match" title="Enlazar permanentemente con esta definición"></a></dt>
+<dd><p>Crear una partida.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>match (imatch.MatchCreate): Partida a crear</p>
+</dd>
+<dt>Raises:</dt><dd><p>HTTPException: IntegrityError:409 si el nombre de la partida ya existe
+HTTPException: ObjectNotFound:400 si el usuario o email no exiten</p>
+</dd>
+<dt>Returns:</dt><dd><p>dict[str, str]: {«Status»: «Match added succesfully»}</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="routers.match_controller.join_match">
+<em class="property"><span class="k"><span class="pre">async</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">routers.match_controller.</span></span><span class="sig-name descname"><span class="pre">join_match</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">id_match</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name_user</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/routers/match_controller.html#join_match"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#routers.match_controller.join_match" title="Enlazar permanentemente con esta definición"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="routers.match_controller.read_matchs">
+<em class="property"><span class="k"><span class="pre">async</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">routers.match_controller.</span></span><span class="sig-name descname"><span class="pre">read_matchs</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">token</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/routers/match_controller.html#read_matchs"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#routers.match_controller.read_matchs" title="Enlazar permanentemente con esta definición"></a></dt>
+<dd><p>Lista las partidas</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>token (str): recibe el token</p>
+</dd>
+<dt>Returns:</dt><dd><p>str: Error.
+List[Match]: Lista de partidas.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="routers.match_controller.websocket_endpoint">
+<em class="property"><span class="k"><span class="pre">async</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">routers.match_controller.</span></span><span class="sig-name descname"><span class="pre">websocket_endpoint</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">websocket</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">starlette.websockets.WebSocket</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">game_id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">player_id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/routers/match_controller.html#websocket_endpoint"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#routers.match_controller.websocket_endpoint" title="Enlazar permanentemente con esta definición"></a></dt>
+<dd><p>Accept socket connection and wait to receive data.
+When the connection is accepted, Broadcast to all players in the game match, letting them know that a new player has joined.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>websocket (WebSocket): is the socket connection.
+game_id (str): name of game
+player_id (str): name of player</p>
+</dd>
+<dt>Returns:</dt><dd><p>Broadcast to all players in the game match, letting them know that a new player has joined. It Sends an updated list of player nicknames in the game.
+{“joinPlayerEvent” : [player1.nickname, player2.nickname, …]}</p>
+</dd>
+<dt>Example of use:</dt><dd><p>ws://127.0.0.1:8000/ws/1/5/</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="module-routers.robot_controller">
+<span id="routers-robot-controller-module"></span><h2>routers.robot_controller module<a class="headerlink" href="#module-routers.robot_controller" title="Enlazar permanentemente con este título"></a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="routers.robot_controller.read_robots">
+<span class="sig-prename descclassname"><span class="pre">routers.robot_controller.</span></span><span class="sig-name descname"><span class="pre">read_robots</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">token</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/routers/robot_controller.html#read_robots"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#routers.robot_controller.read_robots" title="Enlazar permanentemente con esta definición"></a></dt>
+<dd><p>Listar Robots</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>token (str): token</p>
+</dd>
+<dt>Returns:</dt><dd><p>str: Error
+List[Robots]: Lista de robots.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="routers.robot_controller.robot_upload">
+<em class="property"><span class="k"><span class="pre">async</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">routers.robot_controller.</span></span><span class="sig-name descname"><span class="pre">robot_upload</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">config</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">fastapi.datastructures.UploadFile</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">avatar</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">fastapi.datastructures.UploadFile</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tkn</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">username</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/routers/robot_controller.html#robot_upload"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#routers.robot_controller.robot_upload" title="Enlazar permanentemente con esta definición"></a></dt>
+<dd><p>Cargar Robot</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>config (UploadFile): archivo del robot.
+avatar (UploadFile): imagen del robot.
+name (str): nombre del robot.
+tkn (str): token.
+username (str): nombre de usuario.</p>
+</dd>
+<dt>Raises:</dt><dd><p>HTTPException: 409: El robot ya existe.
+HTTPException: 400: El usuario no existe.
+HTTPException: 422: El nombre del Robot con el archivo no se corresponden.
+HTTPException: 440: El token no es correcto o está expirado.</p>
+</dd>
+<dt>Returns:</dt><dd><p>_type_: _description_</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="routers.robot_controller.store_avatar">
+<span class="sig-prename descclassname"><span class="pre">routers.robot_controller.</span></span><span class="sig-name descname"><span class="pre">store_avatar</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">file</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">fastapi.datastructures.UploadFile</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">owner</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/routers/robot_controller.html#store_avatar"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#routers.robot_controller.store_avatar" title="Enlazar permanentemente con esta definición"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="routers.robot_controller.store_config">
+<span class="sig-prename descclassname"><span class="pre">routers.robot_controller.</span></span><span class="sig-name descname"><span class="pre">store_config</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">file</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">fastapi.datastructures.UploadFile</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">owner</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/routers/robot_controller.html#store_config"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#routers.robot_controller.store_config" title="Enlazar permanentemente con esta definición"></a></dt>
+<dd></dd></dl>
+
+</section>
+<section id="module-routers.simulation_controller">
+<span id="routers-simulation-controller-module"></span><h2>routers.simulation_controller module<a class="headerlink" href="#module-routers.simulation_controller" title="Enlazar permanentemente con este título"></a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="routers.simulation_controller.create_simulation">
+<em class="property"><span class="k"><span class="pre">async</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">routers.simulation_controller.</span></span><span class="sig-name descname"><span class="pre">create_simulation</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">simulation</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="schemas.html#schemas.isim.SimulationCreate" title="schemas.isim.SimulationCreate"><span class="pre">schemas.isim.SimulationCreate</span></a></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/routers/simulation_controller.html#create_simulation"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#routers.simulation_controller.create_simulation" title="Enlazar permanentemente con esta definición"></a></dt>
+<dd><p>Crea una simulación.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>simulation (isim.SimulationCreate): Simulación con todos sus campos.</p>
+</dd>
+<dt>Returns:</dt><dd><p>List[Any]: Lista con rondas.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="routers.simulation_controller.game">
+<span class="sig-prename descclassname"><span class="pre">routers.simulation_controller.</span></span><span class="sig-name descname"><span class="pre">game</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">robots</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rounds</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/routers/simulation_controller.html#game"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#routers.simulation_controller.game" title="Enlazar permanentemente con esta definición"></a></dt>
+<dd><p>Ejecuta un juego</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>robots (list): Lista de robots de la simulación
+rounds (int): Cantidad de rondas del juego</p>
+</dd>
+<dt>Returns:</dt><dd><p>List[Any]: Lista de Rondas, un juego.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="module-routers.users_controller">
+<span id="routers-users-controller-module"></span><h2>routers.users_controller module<a class="headerlink" href="#module-routers.users_controller" title="Enlazar permanentemente con este título"></a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="routers.users_controller.send_confirmation_mail">
+<em class="property"><span class="k"><span class="pre">async</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">routers.users_controller.</span></span><span class="sig-name descname"><span class="pre">send_confirmation_mail</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">email</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">code_validation</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">username</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/routers/users_controller.html#send_confirmation_mail"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#routers.users_controller.send_confirmation_mail" title="Enlazar permanentemente con esta definición"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="routers.users_controller.user_login">
+<em class="property"><span class="k"><span class="pre">async</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">routers.users_controller.</span></span><span class="sig-name descname"><span class="pre">user_login</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">credentials</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="schemas.html#schemas.iuser.User_login_schema" title="schemas.iuser.User_login_schema"><span class="pre">schemas.iuser.User_login_schema</span></a></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/routers/users_controller.html#user_login"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#routers.users_controller.user_login" title="Enlazar permanentemente con esta definición"></a></dt>
+<dd><p>Iniciar Sesión.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>credentials (User_login_schema): credenciales, username o email, y contraseña.</p>
+</dd>
+<dt>Raises:</dt><dd><p>HTTPException: 400: el usuario no existe.
+HTTPException: 400: contraseña incorrecta.
+HTTPException: 400: email no verificado.</p>
+</dd>
+<dt>Returns:</dt><dd><p>dict[str:str]: {«token»: response}</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="routers.users_controller.user_register">
+<em class="property"><span class="k"><span class="pre">async</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">routers.users_controller.</span></span><span class="sig-name descname"><span class="pre">user_register</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">user_to_add</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="schemas.html#schemas.iuser.User_base" title="schemas.iuser.User_base"><span class="pre">schemas.iuser.User_base</span></a></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/routers/users_controller.html#user_register"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#routers.users_controller.user_register" title="Enlazar permanentemente con esta definición"></a></dt>
+<dd><p>Registrar usuario</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>user_to_add (User_base): usuario a registrar</p>
+</dd>
+<dt>Raises:</dt><dd><p>HTTPException: IntegrityError:409, el usuario ya existe.
+HTTPException: IntegrityError:409, el email ya existe.
+HTTPException: 400: el usuario no existe.</p>
+</dd>
+<dt>Returns:</dt><dd><p>dict[str, str]: {«Status»: msg}</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="routers.users_controller.user_verification">
+<span class="sig-prename descclassname"><span class="pre">routers.users_controller.</span></span><span class="sig-name descname"><span class="pre">user_verification</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">username</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">code</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/routers/users_controller.html#user_verification"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#routers.users_controller.user_verification" title="Enlazar permanentemente con esta definición"></a></dt>
+<dd><p>Verificación de usuario</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>username (str): username
+code (str): token</p>
+</dd>
+<dt>Raises:</dt><dd><p>HTTPException: 400: el usuario no existe
+HTTPException: 400 el token no es válido</p>
+</dd>
+<dt>Returns:</dt><dd><p>dict[str, str]: {«Status»: msg}</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="module-routers">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-routers" title="Enlazar permanentemente con este título"></a></h2>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Pie de página">
+        <a href="models.html" class="btn btn-neutral float-left" title="models package" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Anterior</a>
+        <a href="schemas.html" class="btn btn-neutral float-right" title="schemas package" accesskey="n" rel="next">Siguiente <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Derechos de autor 2022, Capogrossi, Centeno, Kersul, Martinez, Ochoa, Pereyra, Yornet.</p>
+  </div>
+
+  Compilado con <a href="https://www.sphinx-doc.org/">Sphinx</a> usando un
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">tema</a>
+    proporcionado por <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

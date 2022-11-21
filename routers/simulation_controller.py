@@ -11,10 +11,22 @@ simulation_end_points = APIRouter()
 
 
 def game(robots:list, rounds):
+    """Ejecuta un juego
+
+    Args:
+        robots (list): Lista de robots de la simulación
+        rounds (int): Cantidad de rondas del juego
+
+    Returns:
+        List[Any]: Lista de Rondas, un juego.
+    """
     results_by_robots = []
     for robot in robots:
         if robot != None:
-            robot.initialize()
+            try:
+                robot.initialize()
+            except:
+                pass
     for i in range(rounds):
         results_by_robots.append(avanzar_ronda(robots))
     return results_by_robots
@@ -22,6 +34,14 @@ def game(robots:list, rounds):
 
 @simulation_end_points.post("/simulation/add")
 async def create_simulation(simulation: isim.SimulationCreate):
+    """Crea una simulación.
+
+    Args:
+        simulation (isim.SimulationCreate): Simulación con todos sus campos.
+
+    Returns:
+        List[Any]: Lista con rondas.
+    """
     id_robot_parsed = simulation.id_robot.split(",")
     outer_response = []
     robots = []
@@ -36,16 +56,21 @@ async def create_simulation(simulation: isim.SimulationCreate):
             "routers/robots/"
             + file
         )
-        exec(
-            open(filename).read(),
-            globals(),
-        )
-        file = file.strip(".py")
-        file = file.split("_")[0]
-        klass = globals()[file]
-        r = klass((randint(100, 800), randint(100, 800)), randint(0, 360))
-        robots.append(r)
-    
+        try:
+            exec(
+                open(filename).read(),
+                globals(),
+            )
+            file = file.strip(".py")
+            file = file.split("_")[0]
+            klass = globals()[file]
+            r = klass((randint(100, 800), randint(100, 800)), randint(0, 360))
+            robots.append(r)
+        except:
+            r = Robot((randint(100, 800), randint(100, 800)), randint(0, 360))
+            r.current_damage = 0
+            robots.append(r)
+
     # for i in range(simulation.n_rounds_simulations):
     outer_response = game(robots,simulation.n_rounds_simulations)
     for i in outer_response:

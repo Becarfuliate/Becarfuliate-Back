@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="es" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>crud.match_service &mdash; documentación de Becarefuliate - 0.1</title>
+      <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+        <script src="../../_static/jquery.js"></script>
+        <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/doctools.js"></script>
+        <script src="../../_static/translations.js"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Índice" href="../../genindex.html" />
+    <link rel="search" title="Búsqueda" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../../index.html" class="icon icon-home"> Becarefuliate
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Buscar documentos" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../modules.html">Becarfuliate-Back</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">Becarefuliate</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Código de módulo</a></li>
+      <li class="breadcrumb-item active">crud.match_service</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Código fuente para crud.match_service</h1><div class="highlight"><pre>
+<span></span><span class="kn">from</span> <span class="nn">datetime</span> <span class="kn">import</span> <span class="n">datetime</span>
+<span class="c1"># from types import NoneType</span>
+<span class="kn">from</span> <span class="nn">pony.orm</span> <span class="kn">import</span> <span class="n">db_session</span><span class="p">,</span> <span class="n">commit</span><span class="p">,</span> <span class="n">select</span><span class="p">,</span> <span class="n">left_join</span>
+<span class="kn">from</span> <span class="nn">schemas</span> <span class="kn">import</span> <span class="n">imatch</span>
+<span class="kn">from</span> <span class="nn">models.entities</span> <span class="kn">import</span> <span class="n">Match</span><span class="p">,</span> <span class="n">User</span>
+<span class="kn">from</span> <span class="nn">crud.user_services</span> <span class="kn">import</span> <span class="n">decode_JWT</span><span class="p">,</span> <span class="n">encrypt_password</span><span class="p">,</span> <span class="n">search_user_by_email</span>
+<span class="kn">import</span> <span class="nn">re</span>
+
+
+<div class="viewcode-block" id="is_email"><a class="viewcode-back" href="../../crud.html#crud.match_service.is_email">[documentos]</a><span class="k">def</span> <span class="nf">is_email</span><span class="p">(</span><span class="n">user_crator</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Chequea que user_creator sea un email correcto.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        user_crator (str): username o email.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        bool: True si user_crator es un email válido.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">regex</span> <span class="o">=</span> <span class="p">(</span>
+        <span class="sa">r</span><span class="s2">&quot;[a-zA-Z0-9_.-]+[^!#$%^&amp;*()]@(?:gmail&quot;</span>
+        <span class="sa">r</span><span class="s2">&quot;|hotmail|yahoo|live|mi.unc|outlook)\.(?:com|es|edu.ar)&quot;</span>
+    <span class="p">)</span>
+    <span class="n">result</span> <span class="o">=</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">re</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="n">regex</span><span class="p">,</span> <span class="n">user_crator</span><span class="p">),</span> <span class="n">re</span><span class="o">.</span><span class="n">Match</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">result</span></div>
+
+
+<div class="viewcode-block" id="is_username"><a class="viewcode-back" href="../../crud.html#crud.match_service.is_username">[documentos]</a><span class="k">def</span> <span class="nf">is_username</span><span class="p">(</span><span class="n">user_creator</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Chequea que user_creator sea un username válido.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        user_creator (str): username o email</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        bool: True si user_creator es un username válido.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">result</span> <span class="o">=</span> <span class="kc">True</span>
+    <span class="k">if</span> <span class="n">user_creator</span> <span class="o">==</span> <span class="s2">&quot;&quot;</span><span class="p">:</span>
+        <span class="n">resutl</span> <span class="o">=</span> <span class="kc">False</span>
+    <span class="k">if</span> <span class="s2">&quot; &quot;</span> <span class="ow">in</span> <span class="n">user_creator</span><span class="p">:</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="kc">False</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">user_creator</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">40</span><span class="p">:</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="kc">False</span>
+    <span class="k">return</span> <span class="n">result</span></div>
+
+
+<div class="viewcode-block" id="find_by_username_or_email"><a class="viewcode-back" href="../../crud.html#crud.match_service.find_by_username_or_email">[documentos]</a><span class="k">def</span> <span class="nf">find_by_username_or_email</span><span class="p">(</span><span class="n">user_creator</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Busca un usuario por username o email</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        user_creator (str): username o email.</span>
+
+<span class="sd">    Raises:</span>
+<span class="sd">        Exception: _description_</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        Any: Error</span>
+<span class="sd">        User: Retorna el usuario.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">is_email</span><span class="p">(</span><span class="n">user_creator</span><span class="p">):</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="n">search_user_by_email</span><span class="p">(</span><span class="n">user_creator</span><span class="p">)</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">result</span><span class="p">,</span> <span class="n">NoneType</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">Exception</span>
+    <span class="k">elif</span> <span class="n">is_username</span><span class="p">(</span><span class="n">user_creator</span><span class="p">):</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="n">User</span><span class="p">[</span><span class="n">user_creator</span><span class="p">]</span>
+    <span class="k">return</span> <span class="n">result</span></div>
+
+
+<div class="viewcode-block" id="create_match"><a class="viewcode-back" href="../../crud.html#crud.match_service.create_match">[documentos]</a><span class="nd">@db_session</span>
+<span class="k">def</span> <span class="nf">create_match</span><span class="p">(</span><span class="n">match</span><span class="p">:</span> <span class="n">imatch</span><span class="o">.</span><span class="n">MatchCreate</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Crea una partida</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        match (imatch.MatchCreate): Valores de la partida a crear.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        str: retorna un string de error o validando la partida agregada.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">with</span> <span class="n">db_session</span><span class="p">:</span>
+        <span class="n">decode_token</span> <span class="o">=</span> <span class="n">decode_JWT</span><span class="p">(</span><span class="n">match</span><span class="o">.</span><span class="n">token</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">decode_token</span><span class="p">[</span><span class="s2">&quot;expiry&quot;</span><span class="p">]</span> <span class="o">&gt;</span> <span class="nb">str</span><span class="p">(</span><span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()):</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">creator_aux</span> <span class="o">=</span> <span class="n">find_by_username_or_email</span><span class="p">(</span><span class="n">match</span><span class="o">.</span><span class="n">user_creator</span><span class="p">)</span>
+            <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+                <span class="k">return</span> <span class="s2">&quot;ObjectNotFound&quot;</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">Match</span><span class="p">(</span>
+                    <span class="n">name</span><span class="o">=</span><span class="n">match</span><span class="o">.</span><span class="n">name</span><span class="p">,</span>
+                    <span class="n">max_players</span><span class="o">=</span><span class="nb">abs</span><span class="p">(</span><span class="n">match</span><span class="o">.</span><span class="n">max_players</span><span class="p">),</span>
+                    <span class="n">min_players</span><span class="o">=</span><span class="nb">abs</span><span class="p">(</span><span class="n">match</span><span class="o">.</span><span class="n">min_players</span><span class="p">),</span>
+                    <span class="n">password</span><span class="o">=</span><span class="n">encrypt_password</span><span class="p">(</span><span class="n">match</span><span class="o">.</span><span class="n">password</span><span class="p">),</span>
+                    <span class="n">n_matchs</span><span class="o">=</span><span class="nb">min</span><span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="n">match</span><span class="o">.</span><span class="n">n_matchs</span><span class="p">),</span> <span class="mi">200</span><span class="p">),</span>
+                    <span class="n">n_rounds_matchs</span><span class="o">=</span><span class="nb">min</span><span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="n">match</span><span class="o">.</span><span class="n">n_rounds_matchs</span><span class="p">),</span> <span class="mi">10000</span><span class="p">),</span>
+                    <span class="n">users</span><span class="o">=</span><span class="p">{</span>
+                        <span class="n">creator_aux</span><span class="p">,</span>
+                    <span class="p">},</span>
+                    <span class="n">user_creator</span><span class="o">=</span><span class="n">creator_aux</span><span class="p">,</span>
+                <span class="p">)</span>
+                <span class="n">commit</span><span class="p">()</span>
+            <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+                <span class="k">return</span> <span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="s2">&quot;Token no válido&quot;</span>
+        <span class="k">return</span> <span class="s2">&quot;added&quot;</span></div>
+
+
+<div class="viewcode-block" id="read_matchs"><a class="viewcode-back" href="../../crud.html#crud.match_service.read_matchs">[documentos]</a><span class="nd">@db_session</span>
+<span class="k">def</span> <span class="nf">read_matchs</span><span class="p">(</span><span class="n">token</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Listar Partidas</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        token (str): token</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        str: En caso de error</span>
+<span class="sd">        List[Match]: Lista de partidas.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">with</span> <span class="n">db_session</span><span class="p">:</span>
+        <span class="n">decode_token</span> <span class="o">=</span> <span class="n">decode_JWT</span><span class="p">(</span><span class="n">token</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">decode_token</span><span class="p">[</span><span class="s2">&quot;expiry&quot;</span><span class="p">]</span> <span class="o">&gt;</span> <span class="nb">str</span><span class="p">(</span><span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()):</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">matchs</span> <span class="o">=</span> <span class="n">Match</span><span class="o">.</span><span class="n">select</span><span class="p">()</span>
+                <span class="n">result</span> <span class="o">=</span> <span class="p">[</span><span class="n">imatch</span><span class="o">.</span><span class="n">Match</span><span class="o">.</span><span class="n">from_orm</span><span class="p">(</span><span class="n">p</span><span class="p">)</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">matchs</span><span class="p">]</span>
+                <span class="n">commit</span><span class="p">()</span>
+            <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+                <span class="k">return</span> <span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">result</span> <span class="o">=</span> <span class="s2">&quot;Token no válido&quot;</span>
+        <span class="k">return</span> <span class="n">result</span></div>
+
+
+<div class="viewcode-block" id="read_match"><a class="viewcode-back" href="../../crud.html#crud.match_service.read_match">[documentos]</a><span class="nd">@db_session</span>
+<span class="k">def</span> <span class="nf">read_match</span><span class="p">(</span><span class="n">id_match</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Lista una partida.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        id_match (int): id de la partida a listar.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        str: En caso de error.</span>
+<span class="sd">        Match: Devuelve la partida.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">with</span> <span class="n">db_session</span><span class="p">:</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">match</span> <span class="o">=</span> <span class="n">Match</span><span class="p">[</span><span class="n">id_match</span><span class="p">]</span>
+            <span class="n">result</span> <span class="o">=</span> <span class="n">imatch</span><span class="o">.</span><span class="n">Match</span><span class="o">.</span><span class="n">from_orm</span><span class="p">(</span><span class="n">match</span><span class="p">)</span>
+            <span class="n">commit</span><span class="p">()</span>
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="k">return</span> <span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">result</span></div>
+
+
+<div class="viewcode-block" id="get_match_id"><a class="viewcode-back" href="../../crud.html#crud.match_service.get_match_id">[documentos]</a><span class="nd">@db_session</span>
+<span class="k">def</span> <span class="nf">get_match_id</span><span class="p">(</span><span class="n">match_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Devuelve el id de una partida.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        match_name (str): nombre de la partida</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        Any: </span>
+<span class="sd">        None:</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">result</span> <span class="o">=</span> <span class="n">select</span><span class="p">(</span><span class="n">m</span><span class="o">.</span><span class="n">id</span> <span class="k">for</span> <span class="n">m</span> <span class="ow">in</span> <span class="n">Match</span> <span class="k">if</span> <span class="n">m</span><span class="o">.</span><span class="n">name</span> <span class="o">==</span> <span class="n">match_name</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">result</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">i</span></div>
+
+
+<div class="viewcode-block" id="read_match_players"><a class="viewcode-back" href="../../crud.html#crud.match_service.read_match_players">[documentos]</a><span class="nd">@db_session</span>
+<span class="k">def</span> <span class="nf">read_match_players</span><span class="p">(</span><span class="n">id_match</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Lista los jugadores de la partida</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        id_match (int): id de la partida</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        Query: Consulta con la lista de jugadores de partida.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">result</span> <span class="o">=</span> <span class="n">select</span><span class="p">(</span><span class="n">m</span><span class="o">.</span><span class="n">users</span> <span class="k">for</span> <span class="n">m</span> <span class="ow">in</span> <span class="n">Match</span> <span class="k">if</span> <span class="n">m</span><span class="o">.</span><span class="n">id</span> <span class="o">==</span> <span class="n">id_match</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">result</span></div>
+
+
+<div class="viewcode-block" id="add_player"><a class="viewcode-back" href="../../crud.html#crud.match_service.add_player">[documentos]</a><span class="nd">@db_session</span>
+<span class="k">def</span> <span class="nf">add_player</span><span class="p">(</span><span class="n">id_match</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">name_user</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Agregar un jugador a la partida</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        id_match (int): id de la partida.</span>
+<span class="sd">        name_user (str): username del jugador a agregar.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        str: Mensaje de retorno.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+        <span class="n">match</span> <span class="o">=</span> <span class="n">Match</span><span class="p">[</span><span class="n">id_match</span><span class="p">]</span>
+        <span class="n">user</span> <span class="o">=</span> <span class="n">User</span><span class="p">[</span><span class="n">name_user</span><span class="p">]</span>
+        <span class="n">count</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">match</span><span class="o">.</span><span class="n">users</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">count</span> <span class="o">&gt;=</span> <span class="mi">4</span><span class="p">:</span>
+            <span class="n">result</span> <span class="o">=</span> <span class="s2">&quot;La partida esta llena&quot;</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">match</span><span class="o">.</span><span class="n">users</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">user</span><span class="p">)</span>
+            <span class="n">result</span> <span class="o">=</span> <span class="s2">&quot;El usuario fue agregado a la partida&quot;</span>
+    <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+        <span class="n">error</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+        <span class="k">if</span> <span class="s2">&quot;Match&quot;</span> <span class="ow">in</span> <span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">):</span>
+            <span class="n">error</span> <span class="o">=</span> <span class="s2">&quot;La partida no existe&quot;</span>
+        <span class="k">elif</span> <span class="s2">&quot;User&quot;</span> <span class="ow">in</span> <span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">):</span>
+            <span class="n">error</span> <span class="o">=</span> <span class="s2">&quot;El usuario no existe&quot;</span>
+        <span class="k">return</span> <span class="n">error</span>
+    <span class="k">return</span> <span class="n">result</span></div>
+
+
+<div class="viewcode-block" id="remove_player"><a class="viewcode-back" href="../../crud.html#crud.match_service.remove_player">[documentos]</a><span class="nd">@db_session</span>
+<span class="k">def</span> <span class="nf">remove_player</span><span class="p">(</span><span class="n">id_match</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">name_user</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Quita un jugador de una partida</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        id_match (int): id del jugador a quitar.</span>
+<span class="sd">        name_user (str): username del jugador a quitar</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        str: Mensaje de retorno.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+        <span class="n">match</span> <span class="o">=</span> <span class="n">Match</span><span class="p">[</span><span class="n">id_match</span><span class="p">]</span>
+        <span class="n">user</span> <span class="o">=</span> <span class="n">User</span><span class="p">[</span><span class="n">name_user</span><span class="p">]</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">match</span><span class="o">.</span><span class="n">users</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">user</span><span class="o">.</span><span class="n">username</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">i</span><span class="o">.</span><span class="n">username</span><span class="p">:</span>
+                <span class="n">result</span> <span class="o">=</span> <span class="s2">&quot;El usuario no está en la partida&quot;</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">result</span> <span class="o">=</span> <span class="s2">&quot;El usuario fue removido de la partida&quot;</span>
+        <span class="k">match</span><span class="o">.</span><span class="n">users</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">user</span><span class="p">)</span>
+    <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+        <span class="n">error</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+        <span class="k">if</span> <span class="s2">&quot;Match&quot;</span> <span class="ow">in</span> <span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">):</span>
+            <span class="n">error</span> <span class="o">=</span> <span class="s2">&quot;La partida no existe&quot;</span>
+        <span class="k">elif</span> <span class="s2">&quot;User&quot;</span> <span class="ow">in</span> <span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">):</span>
+            <span class="n">error</span> <span class="o">=</span> <span class="s2">&quot;El usuario no existe&quot;</span>
+        <span class="k">return</span> <span class="n">error</span>
+    <span class="k">return</span> <span class="n">result</span></div>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Derechos de autor 2022, Capogrossi, Centeno, Kersul, Martinez, Ochoa, Pereyra, Yornet.</p>
+  </div>
+
+  Compilado con <a href="https://www.sphinx-doc.org/">Sphinx</a> usando un
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">tema</a>
+    proporcionado por <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

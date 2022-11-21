@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="es" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>models package &mdash; documentación de Becarefuliate - 0.1</title>
+      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script src="_static/translations.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Índice" href="genindex.html" />
+    <link rel="search" title="Búsqueda" href="search.html" />
+    <link rel="next" title="routers package" href="routers.html" />
+    <link rel="prev" title="main module" href="main.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="index.html" class="icon icon-home"> Becarefuliate
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Buscar documentos" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="modules.html">Becarfuliate-Back</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="crud.html">crud package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="db.html">db package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="main.html">main module</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">models package</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#submodules">Submodules</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#module-models.entities">models.entities module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#module-models">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="routers.html">routers package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="schemas.html">schemas package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tests.html">tests package</a></li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">Becarefuliate</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home"></a></li>
+          <li class="breadcrumb-item"><a href="modules.html">Becarfuliate-Back</a></li>
+      <li class="breadcrumb-item active">models package</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/models.rst.txt" rel="nofollow"> Ver código fuente de la página</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="models-package">
+<h1>models package<a class="headerlink" href="#models-package" title="Enlazar permanentemente con este título"></a></h1>
+<section id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Enlazar permanentemente con este título"></a></h2>
+</section>
+<section id="module-models.entities">
+<span id="models-entities-module"></span><h2>models.entities module<a class="headerlink" href="#module-models.entities" title="Enlazar permanentemente con este título"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="models.entities.Match">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">models.entities.</span></span><span class="sig-name descname"><span class="pre">Match</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/models/entities.html#Match"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#models.entities.Match" title="Enlazar permanentemente con esta definición"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">pony.orm.core.Entity</span></code></p>
+<p>Crea la tabla de partidas.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="models.entities.Match.id">
+<span class="sig-name descname"><span class="pre">id</span></span><a class="headerlink" href="#models.entities.Match.id" title="Enlazar permanentemente con esta definición"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="models.entities.Match.max_players">
+<span class="sig-name descname"><span class="pre">max_players</span></span><a class="headerlink" href="#models.entities.Match.max_players" title="Enlazar permanentemente con esta definición"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="models.entities.Match.min_players">
+<span class="sig-name descname"><span class="pre">min_players</span></span><a class="headerlink" href="#models.entities.Match.min_players" title="Enlazar permanentemente con esta definición"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="models.entities.Match.n_matchs">
+<span class="sig-name descname"><span class="pre">n_matchs</span></span><a class="headerlink" href="#models.entities.Match.n_matchs" title="Enlazar permanentemente con esta definición"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="models.entities.Match.n_rounds_matchs">
+<span class="sig-name descname"><span class="pre">n_rounds_matchs</span></span><a class="headerlink" href="#models.entities.Match.n_rounds_matchs" title="Enlazar permanentemente con esta definición"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="models.entities.Match.name">
+<span class="sig-name descname"><span class="pre">name</span></span><a class="headerlink" href="#models.entities.Match.name" title="Enlazar permanentemente con esta definición"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="models.entities.Match.password">
+<span class="sig-name descname"><span class="pre">password</span></span><a class="headerlink" href="#models.entities.Match.password" title="Enlazar permanentemente con esta definición"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="models.entities.Match.user_creator">
+<span class="sig-name descname"><span class="pre">user_creator</span></span><a class="headerlink" href="#models.entities.Match.user_creator" title="Enlazar permanentemente con esta definición"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="models.entities.Match.users">
+<span class="sig-name descname"><span class="pre">users</span></span><a class="headerlink" href="#models.entities.Match.users" title="Enlazar permanentemente con esta definición"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="models.entities.Robot">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">models.entities.</span></span><span class="sig-name descname"><span class="pre">Robot</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/models/entities.html#Robot"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#models.entities.Robot" title="Enlazar permanentemente con esta definición"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">pony.orm.core.Entity</span></code></p>
+<p>Crea la tabla de robots.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="models.entities.Robot.avatar">
+<span class="sig-name descname"><span class="pre">avatar</span></span><a class="headerlink" href="#models.entities.Robot.avatar" title="Enlazar permanentemente con esta definición"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="models.entities.Robot.avg_life_time">
+<span class="sig-name descname"><span class="pre">avg_life_time</span></span><a class="headerlink" href="#models.entities.Robot.avg_life_time" title="Enlazar permanentemente con esta definición"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="models.entities.Robot.id">
+<span class="sig-name descname"><span class="pre">id</span></span><a class="headerlink" href="#models.entities.Robot.id" title="Enlazar permanentemente con esta definición"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="models.entities.Robot.matchs_pleyed">
+<span class="sig-name descname"><span class="pre">matchs_pleyed</span></span><a class="headerlink" href="#models.entities.Robot.matchs_pleyed" title="Enlazar permanentemente con esta definición"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="models.entities.Robot.matchs_won">
+<span class="sig-name descname"><span class="pre">matchs_won</span></span><a class="headerlink" href="#models.entities.Robot.matchs_won" title="Enlazar permanentemente con esta definición"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="models.entities.Robot.name">
+<span class="sig-name descname"><span class="pre">name</span></span><a class="headerlink" href="#models.entities.Robot.name" title="Enlazar permanentemente con esta definición"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="models.entities.Robot.user_owner">
+<span class="sig-name descname"><span class="pre">user_owner</span></span><a class="headerlink" href="#models.entities.Robot.user_owner" title="Enlazar permanentemente con esta definición"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="models.entities.User">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">models.entities.</span></span><span class="sig-name descname"><span class="pre">User</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/models/entities.html#User"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#models.entities.User" title="Enlazar permanentemente con esta definición"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">pony.orm.core.Entity</span></code></p>
+<p>Crea la tabla de usuarios.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="models.entities.User.avatar">
+<span class="sig-name descname"><span class="pre">avatar</span></span><a class="headerlink" href="#models.entities.User.avatar" title="Enlazar permanentemente con esta definición"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="models.entities.User.confirmation_mail">
+<span class="sig-name descname"><span class="pre">confirmation_mail</span></span><a class="headerlink" href="#models.entities.User.confirmation_mail" title="Enlazar permanentemente con esta definición"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="models.entities.User.email">
+<span class="sig-name descname"><span class="pre">email</span></span><a class="headerlink" href="#models.entities.User.email" title="Enlazar permanentemente con esta definición"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="models.entities.User.match_creates">
+<span class="sig-name descname"><span class="pre">match_creates</span></span><a class="headerlink" href="#models.entities.User.match_creates" title="Enlazar permanentemente con esta definición"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="models.entities.User.matchs">
+<span class="sig-name descname"><span class="pre">matchs</span></span><a class="headerlink" href="#models.entities.User.matchs" title="Enlazar permanentemente con esta definición"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="models.entities.User.password">
+<span class="sig-name descname"><span class="pre">password</span></span><a class="headerlink" href="#models.entities.User.password" title="Enlazar permanentemente con esta definición"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="models.entities.User.robots">
+<span class="sig-name descname"><span class="pre">robots</span></span><a class="headerlink" href="#models.entities.User.robots" title="Enlazar permanentemente con esta definición"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="models.entities.User.username">
+<span class="sig-name descname"><span class="pre">username</span></span><a class="headerlink" href="#models.entities.User.username" title="Enlazar permanentemente con esta definición"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="models.entities.User.validation_code">
+<span class="sig-name descname"><span class="pre">validation_code</span></span><a class="headerlink" href="#models.entities.User.validation_code" title="Enlazar permanentemente con esta definición"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-models">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-models" title="Enlazar permanentemente con este título"></a></h2>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Pie de página">
+        <a href="main.html" class="btn btn-neutral float-left" title="main module" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Anterior</a>
+        <a href="routers.html" class="btn btn-neutral float-right" title="routers package" accesskey="n" rel="next">Siguiente <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Derechos de autor 2022, Capogrossi, Centeno, Kersul, Martinez, Ochoa, Pereyra, Yornet.</p>
+  </div>
+
+  Compilado con <a href="https://www.sphinx-doc.org/">Sphinx</a> usando un
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">tema</a>
+    proporcionado por <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
