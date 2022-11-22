@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="es" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>tests.test_simulation &mdash; documentación de Becarefuliate - 0.1</title>
+      <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+        <script src="../../_static/jquery.js"></script>
+        <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/doctools.js"></script>
+        <script src="../../_static/translations.js"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Índice" href="../../genindex.html" />
+    <link rel="search" title="Búsqueda" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../../index.html" class="icon icon-home"> Becarefuliate
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Buscar documentos" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../modules.html">Becarfuliate-Back</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">Becarefuliate</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Código de módulo</a></li>
+      <li class="breadcrumb-item active">tests.test_simulation</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Código fuente para tests.test_simulation</h1><div class="highlight"><pre>
+<span></span><span class="kn">from</span> <span class="nn">random</span> <span class="kn">import</span> <span class="n">randint</span><span class="p">,</span> <span class="n">uniform</span>
+<span class="kn">from</span> <span class="nn">requests</span> <span class="kn">import</span> <span class="n">delete</span>
+<span class="kn">from</span> <span class="nn">fastapi.testclient</span> <span class="kn">import</span> <span class="n">TestClient</span>
+<span class="kn">import</span> <span class="nn">main</span>
+<span class="kn">from</span> <span class="nn">crud.user_services</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="kn">from</span> <span class="nn">crud.simulation_service</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="kn">import</span> <span class="nn">pytest</span>
+
+
+<span class="n">client</span> <span class="o">=</span> <span class="n">TestClient</span><span class="p">(</span><span class="n">main</span><span class="o">.</span><span class="n">app</span><span class="p">)</span>
+
+
+<span class="c1"># Funciones auxiliares para los test</span>
+<div class="viewcode-block" id="client_post_register"><a class="viewcode-back" href="../../tests.html#tests.test_simulation.client_post_register">[documentos]</a><span class="k">def</span> <span class="nf">client_post_register</span><span class="p">(</span><span class="n">username</span><span class="p">,</span> <span class="n">password</span><span class="p">,</span> <span class="n">email</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">client</span><span class="o">.</span><span class="n">post</span><span class="p">(</span>
+        <span class="s2">&quot;/register&quot;</span><span class="p">,</span> <span class="n">json</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;username&quot;</span><span class="p">:</span> <span class="n">username</span><span class="p">,</span> <span class="s2">&quot;password&quot;</span><span class="p">:</span> <span class="n">password</span><span class="p">,</span> <span class="s2">&quot;email&quot;</span><span class="p">:</span> <span class="n">email</span><span class="p">}</span>
+    <span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="elim_user"><a class="viewcode-back" href="../../tests.html#tests.test_simulation.elim_user">[documentos]</a><span class="nd">@db_session</span>
+<span class="k">def</span> <span class="nf">elim_user</span><span class="p">(</span><span class="n">username</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+    <span class="k">with</span> <span class="n">db_session</span><span class="p">:</span>
+        <span class="n">User</span><span class="p">[</span><span class="n">username</span><span class="p">]</span><span class="o">.</span><span class="n">delete</span><span class="p">()</span></div>
+
+
+<div class="viewcode-block" id="elim_robots"><a class="viewcode-back" href="../../tests.html#tests.test_simulation.elim_robots">[documentos]</a><span class="nd">@db_session</span>
+<span class="k">def</span> <span class="nf">elim_robots</span><span class="p">():</span>
+    <span class="k">with</span> <span class="n">db_session</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">5</span><span class="p">):</span>
+            <span class="n">index</span> <span class="o">=</span> <span class="n">get_robot_id</span><span class="p">(</span><span class="s2">&quot;test_robot_&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">i</span><span class="p">))</span>
+            <span class="n">Robot</span><span class="p">[</span><span class="n">index</span><span class="p">]</span><span class="o">.</span><span class="n">delete</span><span class="p">()</span></div>
+
+
+<div class="viewcode-block" id="client_fast_confirmation"><a class="viewcode-back" href="../../tests.html#tests.test_simulation.client_fast_confirmation">[documentos]</a><span class="nd">@db_session</span>
+<span class="k">def</span> <span class="nf">client_fast_confirmation</span><span class="p">(</span><span class="n">username</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+    <span class="k">with</span> <span class="n">db_session</span><span class="p">:</span>
+        <span class="n">User</span><span class="p">[</span><span class="n">username</span><span class="p">]</span><span class="o">.</span><span class="n">confirmation_mail</span> <span class="o">=</span> <span class="kc">True</span></div>
+
+
+<div class="viewcode-block" id="client_add_robots"><a class="viewcode-back" href="../../tests.html#tests.test_simulation.client_add_robots">[documentos]</a><span class="nd">@db_session</span>
+<span class="k">def</span> <span class="nf">client_add_robots</span><span class="p">(</span><span class="n">username</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+    <span class="k">with</span> <span class="n">db_session</span><span class="p">:</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">5</span><span class="p">):</span>
+                <span class="n">Robot</span><span class="p">(</span>
+                    <span class="n">name</span><span class="o">=</span><span class="s2">&quot;test_robot_&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">i</span><span class="p">),</span>
+                    <span class="n">avatar</span><span class="o">=</span><span class="s2">&quot;test_pic_&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">i</span><span class="p">),</span>
+                    <span class="n">matchs_pleyed</span><span class="o">=</span><span class="n">randint</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1000</span><span class="p">),</span>
+                    <span class="n">matchs_won</span><span class="o">=</span><span class="mi">1000</span> <span class="o">-</span> <span class="n">randint</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1000</span><span class="p">),</span>
+                    <span class="n">avg_life_time</span><span class="o">=</span><span class="n">uniform</span><span class="p">(</span><span class="mf">1.1</span><span class="p">,</span> <span class="mf">100.9</span><span class="p">),</span>
+                    <span class="n">user_owner</span><span class="o">=</span><span class="n">username</span><span class="p">,</span>
+                <span class="p">)</span>
+                <span class="n">commit</span><span class="p">()</span>
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="k">return</span> <span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">)</span>
+        <span class="k">return</span> <span class="s2">&quot;added&quot;</span></div>
+
+
+<div class="viewcode-block" id="delete_db"><a class="viewcode-back" href="../../tests.html#tests.test_simulation.delete_db">[documentos]</a><span class="k">def</span> <span class="nf">delete_db</span><span class="p">():</span>
+    <span class="n">elim_user</span><span class="p">(</span><span class="s2">&quot;Alexis&quot;</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="delete_db_v2"><a class="viewcode-back" href="../../tests.html#tests.test_simulation.delete_db_v2">[documentos]</a><span class="k">def</span> <span class="nf">delete_db_v2</span><span class="p">():</span>
+    <span class="n">elim_robots</span><span class="p">()</span></div>
+
+
+<span class="c1"># Tests de partidas</span>
+<div class="viewcode-block" id="test_simulation_add_bad_robot"><a class="viewcode-back" href="../../tests.html#tests.test_simulation.test_simulation_add_bad_robot">[documentos]</a><span class="k">def</span> <span class="nf">test_simulation_add_bad_robot</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    TEST_1: Agregar partida incorrectamente,</span>
+<span class="sd">    sobrepasando el número máximo de robots</span>
+<span class="sd">    devuelve un error de 422.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">client_post_register</span><span class="p">(</span><span class="s2">&quot;Alexis&quot;</span><span class="p">,</span> <span class="s2">&quot;Asd23asdasdasdasd@&quot;</span><span class="p">,</span> <span class="s2">&quot;ale@gmail.com&quot;</span><span class="p">)</span>
+    <span class="n">client_fast_confirmation</span><span class="p">(</span><span class="s2">&quot;Alexis&quot;</span><span class="p">)</span>
+    <span class="n">client_add_robots</span><span class="p">(</span><span class="s2">&quot;Alexis&quot;</span><span class="p">)</span>
+    <span class="n">response</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">post</span><span class="p">(</span>
+        <span class="s2">&quot;/login&quot;</span><span class="p">,</span>
+        <span class="n">json</span><span class="o">=</span><span class="p">{</span>
+            <span class="s2">&quot;username&quot;</span><span class="p">:</span> <span class="s2">&quot;Alexis&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;email&quot;</span><span class="p">:</span> <span class="s2">&quot;ale@gmail.com&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;password&quot;</span><span class="p">:</span> <span class="s2">&quot;Asd23asdasdasdasd@&quot;</span><span class="p">,</span>
+        <span class="p">},</span>
+    <span class="p">)</span>
+    <span class="n">num_rondas</span> <span class="o">=</span> <span class="n">randint</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">10000</span><span class="p">)</span>
+    <span class="n">toq_var</span> <span class="o">=</span> <span class="n">response</span><span class="o">.</span><span class="n">json</span><span class="p">()[</span><span class="s2">&quot;token&quot;</span><span class="p">]</span>
+    <span class="n">robots</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">5</span><span class="p">):</span>
+        <span class="n">robots</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">get_robot_id</span><span class="p">(</span><span class="s2">&quot;test_robot_&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">i</span><span class="p">)))</span>
+    <span class="n">response</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">post</span><span class="p">(</span>
+        <span class="s2">&quot;/simulation/add&quot;</span><span class="p">,</span>
+        <span class="n">json</span><span class="o">=</span><span class="p">{</span>
+            <span class="s2">&quot;id_robot&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span>
+            <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">robots</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+            <span class="o">+</span> <span class="s2">&quot;,&quot;</span>
+            <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">robots</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+            <span class="o">+</span> <span class="s2">&quot;,&quot;</span>
+            <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">robots</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span>
+            <span class="o">+</span> <span class="s2">&quot;,&quot;</span>
+            <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">robots</span><span class="p">[</span><span class="mi">3</span><span class="p">])</span>
+            <span class="o">+</span> <span class="s2">&quot;,&quot;</span>
+            <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">robots</span><span class="p">[</span><span class="mi">4</span><span class="p">])</span>
+            <span class="o">+</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;n_rounds_simulations&quot;</span><span class="p">:</span> <span class="n">num_rondas</span><span class="p">,</span>
+            <span class="s2">&quot;user_creator&quot;</span><span class="p">:</span> <span class="s2">&quot;Alexis&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;token&quot;</span><span class="p">:</span> <span class="n">toq_var</span><span class="p">,</span>
+        <span class="p">},</span>
+    <span class="p">)</span>
+    <span class="n">delete_db</span><span class="p">()</span>
+    <span class="k">assert</span> <span class="n">response</span><span class="o">.</span><span class="n">json</span><span class="p">()</span> <span class="o">==</span> <span class="p">{</span>
+        <span class="s2">&quot;detail&quot;</span><span class="p">:</span> <span class="p">[</span>
+            <span class="p">{</span>
+                <span class="s2">&quot;loc&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;body&quot;</span><span class="p">,</span> <span class="s2">&quot;id_robot&quot;</span><span class="p">],</span>
+                <span class="s2">&quot;msg&quot;</span><span class="p">:</span> <span class="s2">&quot;El valor debe estar entre 2 y 4&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;value_error&quot;</span><span class="p">,</span>
+            <span class="p">}</span>
+        <span class="p">]</span>
+    <span class="p">}</span></div>
+
+
+<div class="viewcode-block" id="test_simulation_add_bad_robot_v2"><a class="viewcode-back" href="../../tests.html#tests.test_simulation.test_simulation_add_bad_robot_v2">[documentos]</a><span class="k">def</span> <span class="nf">test_simulation_add_bad_robot_v2</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    TEST_2: Agregar partida incorrectamente,</span>
+<span class="sd">    sobrepasando el número mínimo de robots</span>
+<span class="sd">    devuelve un error de 422.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">client_post_register</span><span class="p">(</span><span class="s2">&quot;Alexis&quot;</span><span class="p">,</span> <span class="s2">&quot;Asd23asdasdasdasd@&quot;</span><span class="p">,</span> <span class="s2">&quot;ale@gmail.com&quot;</span><span class="p">)</span>
+    <span class="n">client_fast_confirmation</span><span class="p">(</span><span class="s2">&quot;Alexis&quot;</span><span class="p">)</span>
+    <span class="n">client_add_robots</span><span class="p">(</span><span class="s2">&quot;Alexis&quot;</span><span class="p">)</span>
+    <span class="n">response</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">post</span><span class="p">(</span>
+        <span class="s2">&quot;/login&quot;</span><span class="p">,</span>
+        <span class="n">json</span><span class="o">=</span><span class="p">{</span>
+            <span class="s2">&quot;username&quot;</span><span class="p">:</span> <span class="s2">&quot;Alexis&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;email&quot;</span><span class="p">:</span> <span class="s2">&quot;ale@gmail.com&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;password&quot;</span><span class="p">:</span> <span class="s2">&quot;Asd23asdasdasdasd@&quot;</span><span class="p">,</span>
+        <span class="p">},</span>
+    <span class="p">)</span>
+    <span class="n">num_rondas</span> <span class="o">=</span> <span class="n">randint</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">10000</span><span class="p">)</span>
+    <span class="n">toq_var</span> <span class="o">=</span> <span class="n">response</span><span class="o">.</span><span class="n">json</span><span class="p">()[</span><span class="s2">&quot;token&quot;</span><span class="p">]</span>
+    <span class="n">robots</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">5</span><span class="p">):</span>
+        <span class="n">robots</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">get_robot_id</span><span class="p">(</span><span class="s2">&quot;test_robot_&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">i</span><span class="p">)))</span>
+    <span class="n">response</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">post</span><span class="p">(</span>
+        <span class="s2">&quot;/simulation/add&quot;</span><span class="p">,</span>
+        <span class="n">json</span><span class="o">=</span><span class="p">{</span>
+            <span class="s2">&quot;id_robot&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">robots</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="o">+</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;n_rounds_simulations&quot;</span><span class="p">:</span> <span class="n">num_rondas</span><span class="p">,</span>
+            <span class="s2">&quot;user_creator&quot;</span><span class="p">:</span> <span class="s2">&quot;Alexis&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;token&quot;</span><span class="p">:</span> <span class="n">toq_var</span><span class="p">,</span>
+        <span class="p">},</span>
+    <span class="p">)</span>
+    <span class="n">delete_db</span><span class="p">()</span>
+    <span class="k">assert</span> <span class="n">response</span><span class="o">.</span><span class="n">json</span><span class="p">()</span> <span class="o">==</span> <span class="p">{</span>
+        <span class="s2">&quot;detail&quot;</span><span class="p">:</span> <span class="p">[</span>
+            <span class="p">{</span>
+                <span class="s2">&quot;loc&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;body&quot;</span><span class="p">,</span> <span class="s2">&quot;id_robot&quot;</span><span class="p">],</span>
+                <span class="s2">&quot;msg&quot;</span><span class="p">:</span> <span class="s2">&quot;El valor debe estar entre 2 y 4&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;value_error&quot;</span><span class="p">,</span>
+            <span class="p">}</span>
+        <span class="p">]</span>
+    <span class="p">}</span></div>
+
+
+<div class="viewcode-block" id="test_simulation_empty_robot"><a class="viewcode-back" href="../../tests.html#tests.test_simulation.test_simulation_empty_robot">[documentos]</a><span class="k">def</span> <span class="nf">test_simulation_empty_robot</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    TEST_3: Agregar partida incorrectamente,</span>
+<span class="sd">    pasando lista vacía de robots.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">client_post_register</span><span class="p">(</span><span class="s2">&quot;Alexis&quot;</span><span class="p">,</span> <span class="s2">&quot;Asd23asdasdasdasd@&quot;</span><span class="p">,</span> <span class="s2">&quot;ale@gmail.com&quot;</span><span class="p">)</span>
+    <span class="n">client_fast_confirmation</span><span class="p">(</span><span class="s2">&quot;Alexis&quot;</span><span class="p">)</span>
+    <span class="n">response</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">post</span><span class="p">(</span>
+        <span class="s2">&quot;/login&quot;</span><span class="p">,</span>
+        <span class="n">json</span><span class="o">=</span><span class="p">{</span>
+            <span class="s2">&quot;username&quot;</span><span class="p">:</span> <span class="s2">&quot;Alexis&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;email&quot;</span><span class="p">:</span> <span class="s2">&quot;ale@gmail.com&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;password&quot;</span><span class="p">:</span> <span class="s2">&quot;Asd23asdasdasdasd@&quot;</span><span class="p">,</span>
+        <span class="p">},</span>
+    <span class="p">)</span>
+    <span class="n">num_rondas</span> <span class="o">=</span> <span class="n">randint</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">10000</span><span class="p">)</span>
+    <span class="n">toq_var</span> <span class="o">=</span> <span class="n">response</span><span class="o">.</span><span class="n">json</span><span class="p">()[</span><span class="s2">&quot;token&quot;</span><span class="p">]</span>
+    <span class="n">response</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">post</span><span class="p">(</span>
+        <span class="s2">&quot;/simulation/add&quot;</span><span class="p">,</span>
+        <span class="n">json</span><span class="o">=</span><span class="p">{</span>
+            <span class="s2">&quot;id_robot&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;n_rounds_simulations&quot;</span><span class="p">:</span> <span class="n">num_rondas</span><span class="p">,</span>
+            <span class="s2">&quot;user_creator&quot;</span><span class="p">:</span> <span class="s2">&quot;Alexis&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;token&quot;</span><span class="p">:</span> <span class="n">toq_var</span><span class="p">,</span>
+        <span class="p">},</span>
+    <span class="p">)</span>
+    <span class="n">delete_db</span><span class="p">()</span>
+    <span class="k">assert</span> <span class="n">response</span><span class="o">.</span><span class="n">json</span><span class="p">()</span> <span class="o">==</span> <span class="p">{</span>
+        <span class="s2">&quot;detail&quot;</span><span class="p">:</span> <span class="p">[</span>
+            <span class="p">{</span>
+                <span class="s2">&quot;loc&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;body&quot;</span><span class="p">,</span> <span class="s2">&quot;id_robot&quot;</span><span class="p">],</span>
+                <span class="s2">&quot;msg&quot;</span><span class="p">:</span> <span class="s2">&quot;El valor debe estar entre 2 y 4&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;value_error&quot;</span><span class="p">,</span>
+            <span class="p">}</span>
+        <span class="p">]</span>
+    <span class="p">}</span></div>
+
+
+<div class="viewcode-block" id="test_simulation_wrong_format"><a class="viewcode-back" href="../../tests.html#tests.test_simulation.test_simulation_wrong_format">[documentos]</a><span class="k">def</span> <span class="nf">test_simulation_wrong_format</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    TEST_4: Agregar partida incorrectamente,</span>
+<span class="sd">    pasando la lista de robots con formato incorrecto.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">client_post_register</span><span class="p">(</span><span class="s2">&quot;Alexis&quot;</span><span class="p">,</span> <span class="s2">&quot;Asd23asdasdasdasd@&quot;</span><span class="p">,</span> <span class="s2">&quot;ale@gmail.com&quot;</span><span class="p">)</span>
+    <span class="n">client_fast_confirmation</span><span class="p">(</span><span class="s2">&quot;Alexis&quot;</span><span class="p">)</span>
+    <span class="n">client_add_robots</span><span class="p">(</span><span class="s2">&quot;Alexis&quot;</span><span class="p">)</span>
+    <span class="n">response</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">post</span><span class="p">(</span>
+        <span class="s2">&quot;/login&quot;</span><span class="p">,</span>
+        <span class="n">json</span><span class="o">=</span><span class="p">{</span>
+            <span class="s2">&quot;username&quot;</span><span class="p">:</span> <span class="s2">&quot;Alexis&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;email&quot;</span><span class="p">:</span> <span class="s2">&quot;ale@gmail.com&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;password&quot;</span><span class="p">:</span> <span class="s2">&quot;Asd23asdasdasdasd@&quot;</span><span class="p">,</span>
+        <span class="p">},</span>
+    <span class="p">)</span>
+    <span class="n">num_rondas</span> <span class="o">=</span> <span class="n">randint</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">10000</span><span class="p">)</span>
+    <span class="n">toq_var</span> <span class="o">=</span> <span class="n">response</span><span class="o">.</span><span class="n">json</span><span class="p">()[</span><span class="s2">&quot;token&quot;</span><span class="p">]</span>
+    <span class="n">robots</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">5</span><span class="p">):</span>
+        <span class="n">robots</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">get_robot_id</span><span class="p">(</span><span class="s2">&quot;test_robot_&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">i</span><span class="p">)))</span>
+    <span class="n">response</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">post</span><span class="p">(</span>
+        <span class="s2">&quot;/simulation/add&quot;</span><span class="p">,</span>
+        <span class="n">json</span><span class="o">=</span><span class="p">{</span>
+            <span class="s2">&quot;id_robot&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span>
+            <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">robots</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+            <span class="o">+</span> <span class="s2">&quot;, &quot;</span>
+            <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">robots</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+            <span class="o">+</span> <span class="s2">&quot;, &quot;</span>
+            <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">robots</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span>
+            <span class="o">+</span> <span class="s2">&quot; &quot;</span><span class="p">,</span>
+            <span class="s2">&quot;n_rounds_simulations&quot;</span><span class="p">:</span> <span class="n">num_rondas</span><span class="p">,</span>
+            <span class="s2">&quot;user_creator&quot;</span><span class="p">:</span> <span class="s2">&quot;Alexis&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;token&quot;</span><span class="p">:</span> <span class="n">toq_var</span><span class="p">,</span>
+        <span class="p">},</span>
+    <span class="p">)</span>
+    <span class="n">delete_db</span><span class="p">()</span>
+    <span class="k">assert</span> <span class="n">response</span><span class="o">.</span><span class="n">json</span><span class="p">()</span> <span class="o">==</span> <span class="p">{</span>
+        <span class="s2">&quot;detail&quot;</span><span class="p">:</span> <span class="p">[</span>
+            <span class="p">{</span>
+                <span class="s2">&quot;loc&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;body&quot;</span><span class="p">,</span> <span class="s2">&quot;id_robot&quot;</span><span class="p">],</span>
+                <span class="s2">&quot;msg&quot;</span><span class="p">:</span> <span class="s2">&quot;La lista de robots no puede contener caracteres vacíos&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;value_error&quot;</span><span class="p">,</span>
+            <span class="p">}</span>
+        <span class="p">]</span>
+    <span class="p">}</span></div>
+
+
+<div class="viewcode-block" id="test_simulation_wrong_rounds"><a class="viewcode-back" href="../../tests.html#tests.test_simulation.test_simulation_wrong_rounds">[documentos]</a><span class="k">def</span> <span class="nf">test_simulation_wrong_rounds</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    TEST_5: Crear una simulacion con mas rondas de las posibles</span>
+<span class="sd">    devuelve un error de 422.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">client_post_register</span><span class="p">(</span><span class="s2">&quot;Alexis&quot;</span><span class="p">,</span> <span class="s2">&quot;Asd23asdasdasdasd@&quot;</span><span class="p">,</span> <span class="s2">&quot;ale@gmail.com&quot;</span><span class="p">)</span>
+    <span class="n">client_fast_confirmation</span><span class="p">(</span><span class="s2">&quot;Alexis&quot;</span><span class="p">)</span>
+    <span class="n">client_add_robots</span><span class="p">(</span><span class="s2">&quot;Alexis&quot;</span><span class="p">)</span>
+    <span class="n">response</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">post</span><span class="p">(</span>
+        <span class="s2">&quot;/login&quot;</span><span class="p">,</span>
+        <span class="n">json</span><span class="o">=</span><span class="p">{</span>
+            <span class="s2">&quot;username&quot;</span><span class="p">:</span> <span class="s2">&quot;Alexis&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;email&quot;</span><span class="p">:</span> <span class="s2">&quot;ale@gmail.com&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;password&quot;</span><span class="p">:</span> <span class="s2">&quot;Asd23asdasdasdasd@&quot;</span><span class="p">,</span>
+        <span class="p">},</span>
+    <span class="p">)</span>
+    <span class="n">toq_var</span> <span class="o">=</span> <span class="n">response</span><span class="o">.</span><span class="n">json</span><span class="p">()[</span><span class="s2">&quot;token&quot;</span><span class="p">]</span>
+    <span class="n">robots</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">5</span><span class="p">):</span>
+        <span class="n">robots</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">get_robot_id</span><span class="p">(</span><span class="s2">&quot;test_robot_&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">i</span><span class="p">)))</span>
+    <span class="n">response</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">post</span><span class="p">(</span>
+        <span class="s2">&quot;/simulation/add&quot;</span><span class="p">,</span>
+        <span class="n">json</span><span class="o">=</span><span class="p">{</span>
+            <span class="s2">&quot;id_robot&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span>
+            <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">robots</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+            <span class="o">+</span> <span class="s2">&quot;,&quot;</span>
+            <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">robots</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+            <span class="o">+</span> <span class="s2">&quot;,&quot;</span>
+            <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">robots</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span>
+            <span class="o">+</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;n_rounds_simulations&quot;</span><span class="p">:</span> <span class="mi">10001</span><span class="p">,</span>
+            <span class="s2">&quot;user_creator&quot;</span><span class="p">:</span> <span class="s2">&quot;Alexis&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;token&quot;</span><span class="p">:</span> <span class="n">toq_var</span><span class="p">,</span>
+        <span class="p">},</span>
+    <span class="p">)</span>
+    <span class="n">delete_db</span><span class="p">()</span>
+    <span class="k">assert</span> <span class="n">response</span><span class="o">.</span><span class="n">json</span><span class="p">()</span> <span class="o">==</span> <span class="p">{</span>
+        <span class="s2">&quot;detail&quot;</span><span class="p">:</span> <span class="p">[</span>
+            <span class="p">{</span>
+                <span class="s2">&quot;loc&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;body&quot;</span><span class="p">,</span> <span class="s2">&quot;n_rounds_simulations&quot;</span><span class="p">],</span>
+                <span class="s2">&quot;msg&quot;</span><span class="p">:</span> <span class="s2">&quot;El valor debe estar entre 2 y 10.000&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;value_error&quot;</span><span class="p">,</span>
+            <span class="p">}</span>
+        <span class="p">]</span>
+    <span class="p">}</span></div>
+
+
+<div class="viewcode-block" id="test_simulation_wrong_rounds_v2"><a class="viewcode-back" href="../../tests.html#tests.test_simulation.test_simulation_wrong_rounds_v2">[documentos]</a><span class="k">def</span> <span class="nf">test_simulation_wrong_rounds_v2</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    TEST_5: Crear una simulacion con menos rondas de las posibles</span>
+<span class="sd">    devuelve un error de 422.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">client_post_register</span><span class="p">(</span><span class="s2">&quot;Alexis&quot;</span><span class="p">,</span> <span class="s2">&quot;Asd23asdasdasdasd@&quot;</span><span class="p">,</span> <span class="s2">&quot;ale@gmail.com&quot;</span><span class="p">)</span>
+    <span class="n">client_fast_confirmation</span><span class="p">(</span><span class="s2">&quot;Alexis&quot;</span><span class="p">)</span>
+    <span class="n">client_add_robots</span><span class="p">(</span><span class="s2">&quot;Alexis&quot;</span><span class="p">)</span>
+    <span class="n">response</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">post</span><span class="p">(</span>
+        <span class="s2">&quot;/login&quot;</span><span class="p">,</span>
+        <span class="n">json</span><span class="o">=</span><span class="p">{</span>
+            <span class="s2">&quot;username&quot;</span><span class="p">:</span> <span class="s2">&quot;Alexis&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;email&quot;</span><span class="p">:</span> <span class="s2">&quot;ale@gmail.com&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;password&quot;</span><span class="p">:</span> <span class="s2">&quot;Asd23asdasdasdasd@&quot;</span><span class="p">,</span>
+        <span class="p">},</span>
+    <span class="p">)</span>
+    <span class="n">toq_var</span> <span class="o">=</span> <span class="n">response</span><span class="o">.</span><span class="n">json</span><span class="p">()[</span><span class="s2">&quot;token&quot;</span><span class="p">]</span>
+    <span class="n">robots</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">5</span><span class="p">):</span>
+        <span class="n">robots</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">get_robot_id</span><span class="p">(</span><span class="s2">&quot;test_robot_&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">i</span><span class="p">)))</span>
+    <span class="n">response</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">post</span><span class="p">(</span>
+        <span class="s2">&quot;/simulation/add&quot;</span><span class="p">,</span>
+        <span class="n">json</span><span class="o">=</span><span class="p">{</span>
+            <span class="s2">&quot;id_robot&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span>
+            <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">robots</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+            <span class="o">+</span> <span class="s2">&quot;,&quot;</span>
+            <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">robots</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+            <span class="o">+</span> <span class="s2">&quot;,&quot;</span>
+            <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">robots</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span>
+            <span class="o">+</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;n_rounds_simulations&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+            <span class="s2">&quot;user_creator&quot;</span><span class="p">:</span> <span class="s2">&quot;Alexis&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;token&quot;</span><span class="p">:</span> <span class="n">toq_var</span><span class="p">,</span>
+        <span class="p">},</span>
+    <span class="p">)</span>
+    <span class="n">delete_db</span><span class="p">()</span>
+    <span class="k">assert</span> <span class="n">response</span><span class="o">.</span><span class="n">json</span><span class="p">()</span> <span class="o">==</span> <span class="p">{</span>
+        <span class="s2">&quot;detail&quot;</span><span class="p">:</span> <span class="p">[</span>
+            <span class="p">{</span>
+                <span class="s2">&quot;loc&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;body&quot;</span><span class="p">,</span> <span class="s2">&quot;n_rounds_simulations&quot;</span><span class="p">],</span>
+                <span class="s2">&quot;msg&quot;</span><span class="p">:</span> <span class="s2">&quot;El valor debe estar entre 2 y 10.000&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;value_error&quot;</span><span class="p">,</span>
+            <span class="p">}</span>
+        <span class="p">]</span>
+    <span class="p">}</span></div>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Derechos de autor 2022, Capogrossi, Centeno, Kersul, Martinez, Ochoa, Pereyra, Yornet.</p>
+  </div>
+
+  Compilado con <a href="https://www.sphinx-doc.org/">Sphinx</a> usando un
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">tema</a>
+    proporcionado por <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

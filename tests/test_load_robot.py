@@ -24,8 +24,10 @@ def delete_db():
     elim_user("anonymous")
     file_path = os.path.join('routers/robots/', 'robot1_anonymous.py')
     os.remove(file_path)
-    file_path2 = os.path.join('routers/robots/avatars/', 'tortuga_anonymous.jpg')
+    file_path2 = os.path.join('routers/robots/', 'robot2_anonymous.py')
     os.remove(file_path2)
+    file_path3 = os.path.join('routers/robots/avatars/', 'anonymous_robot1.jpg')
+    os.remove(file_path3)
 
 # Funciones auxiliares para los test
 def client_post_register(username, password, email):
@@ -61,20 +63,18 @@ def test_load_robot():
     )
     usr_tkn = response.json()['token']
     files_up = [("config", open("tests/test_files/robot1.py", "rb")),
-             ("avatar", open("tests/test_files/tortuga.jpg", "rb"))]
+                ("avatar", open("tests/test_files/tortuga.jpg", "rb"))]
     response = client.post(
         "/upload/robot",
         params={
             "name": "robot1",
-            "tkn": usr_tkn,
-            "username": "anonymous"
+            "tkn": usr_tkn
         },
         files=files_up
     )
     assert response.json()["msg"] == "Robot agregado con exito"
 
-
-def test_load_user_not_exist():
+def test_load_robot_no_avatar():
     response = client.post(
         "/login",
         json={
@@ -84,18 +84,16 @@ def test_load_user_not_exist():
         },
     )
     usr_tkn = response.json()['token']
-    files_up = [("config", open("tests/test_files/robot1.py", "rb")),
-             ("avatar", open("tests/test_files/tortuga.jpg", "rb"))]
+    files_up = [("config", open("tests/test_files/robot2.py", "rb"))]
     response = client.post(
         "/upload/robot",
         params={
-            "name": "robot1",
-            "tkn": usr_tkn,
-            "username": "anonmous"
+            "name": "robot2",
+            "tkn": usr_tkn
         },
         files=files_up
     )
-    assert response.json()["detail"] == "El usuario anonmous no existe"
+    assert response.json()["msg"] == "Robot agregado con exito"
 
 def test_load_bad_tkn():
     response = client.post(
@@ -108,13 +106,12 @@ def test_load_bad_tkn():
     )
     usr_tkn = response.json()['token']
     files_up = [("config", open("tests/test_files/robot1.py", "rb")),
-             ("avatar", open("tests/test_files/tortuga.jpg", "rb"))]
+                ("avatar", open("tests/test_files/tortuga.jpg", "rb"))]
     response = client.post(
         "/upload/robot",
         params={
             "name": "robot1",
-            "tkn": usr_tkn+"____",
-            "username": "anonymous"
+            "tkn": usr_tkn+"____"
         },
         files=files_up
     )
@@ -131,13 +128,12 @@ def test_load_bad_format():
     )
     usr_tkn = response.json()['token']
     files_up = [("config", open("tests/test_files/robot1.py", "rb")),
-             ("avatar", open("tests/test_files/tortuga.jpg", "rb"))]
+                ("avatar", open("tests/test_files/tortuga.jpg", "rb"))]
     response = client.post(
         "/upload/robot",
         params={
             "name": "robot",
-            "tkn": usr_tkn,
-            "username": "anonymous"
+            "tkn": usr_tkn
         },
         files=files_up
     )

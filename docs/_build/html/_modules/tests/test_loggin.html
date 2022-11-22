@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="es" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>tests.test_loggin &mdash; documentación de Becarefuliate - 0.1</title>
+      <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+        <script src="../../_static/jquery.js"></script>
+        <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/doctools.js"></script>
+        <script src="../../_static/translations.js"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Índice" href="../../genindex.html" />
+    <link rel="search" title="Búsqueda" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../../index.html" class="icon icon-home"> Becarefuliate
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Buscar documentos" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../modules.html">Becarfuliate-Back</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">Becarefuliate</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Código de módulo</a></li>
+      <li class="breadcrumb-item active">tests.test_loggin</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Código fuente para tests.test_loggin</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">pytest</span>
+<span class="kn">from</span> <span class="nn">fastapi.testclient</span> <span class="kn">import</span> <span class="n">TestClient</span>
+<span class="kn">import</span> <span class="nn">main</span>
+<span class="kn">from</span> <span class="nn">routers.users_controller</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="kn">from</span> <span class="nn">crud.user_services</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="kn">import</span> <span class="nn">string</span>
+<span class="kn">import</span> <span class="nn">random</span>
+<span class="kn">from</span> <span class="nn">datetime</span> <span class="kn">import</span> <span class="n">datetime</span>
+
+
+<span class="n">client</span> <span class="o">=</span> <span class="n">TestClient</span><span class="p">(</span><span class="n">main</span><span class="o">.</span><span class="n">app</span><span class="p">)</span>
+
+
+<span class="c1"># Cargando la base de datos</span>
+<div class="viewcode-block" id="client_post_register_l"><a class="viewcode-back" href="../../tests.html#tests.test_loggin.client_post_register_l">[documentos]</a><span class="k">def</span> <span class="nf">client_post_register_l</span><span class="p">(</span><span class="n">username</span><span class="p">,</span> <span class="n">password</span><span class="p">,</span> <span class="n">email</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">client</span><span class="o">.</span><span class="n">post</span><span class="p">(</span>
+        <span class="s2">&quot;/register&quot;</span><span class="p">,</span>
+        <span class="n">json</span><span class="o">=</span><span class="p">{</span>
+            <span class="s2">&quot;username&quot;</span><span class="p">:</span> <span class="n">username</span><span class="p">,</span>
+            <span class="s2">&quot;password&quot;</span><span class="p">:</span> <span class="n">password</span><span class="p">,</span>
+            <span class="s2">&quot;email&quot;</span><span class="p">:</span> <span class="n">email</span>
+            <span class="p">}</span>
+    <span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="test_register_username1_success"><a class="viewcode-back" href="../../tests.html#tests.test_loggin.test_register_username1_success">[documentos]</a><span class="k">def</span> <span class="nf">test_register_username1_success</span><span class="p">():</span>
+    <span class="n">response</span> <span class="o">=</span> <span class="n">client_post_register_l</span><span class="p">(</span>
+        <span class="s2">&quot;juanka&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;Asd123@&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;juanka@hotmail.com&quot;</span>
+    <span class="p">)</span>
+    <span class="k">assert</span> <span class="n">response</span><span class="o">.</span><span class="n">json</span><span class="p">()</span> <span class="o">==</span> <span class="p">{</span><span class="s2">&quot;Status&quot;</span><span class="p">:</span> <span class="s2">&quot;Usuario agregado con exito&quot;</span><span class="p">}</span></div>
+
+
+<div class="viewcode-block" id="test_register_username2_success"><a class="viewcode-back" href="../../tests.html#tests.test_loggin.test_register_username2_success">[documentos]</a><span class="k">def</span> <span class="nf">test_register_username2_success</span><span class="p">():</span>
+    <span class="n">response</span> <span class="o">=</span> <span class="n">client_post_register_l</span><span class="p">(</span>
+        <span class="s2">&quot;messi&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;Antonela@123&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;messi@hotmail.com&quot;</span><span class="p">)</span>
+    <span class="k">assert</span> <span class="n">response</span><span class="o">.</span><span class="n">json</span><span class="p">()</span> <span class="o">==</span> <span class="p">{</span><span class="s2">&quot;Status&quot;</span><span class="p">:</span> <span class="s2">&quot;Usuario agregado con exito&quot;</span><span class="p">}</span></div>
+
+
+<div class="viewcode-block" id="test_set_confirmation_true"><a class="viewcode-back" href="../../tests.html#tests.test_loggin.test_set_confirmation_true">[documentos]</a><span class="k">def</span> <span class="nf">test_set_confirmation_true</span><span class="p">():</span>
+    <span class="n">response</span> <span class="o">=</span> <span class="n">set_confirmation_true</span><span class="p">(</span><span class="s2">&quot;juanka&quot;</span><span class="p">)</span>
+    <span class="k">assert</span> <span class="n">response</span> <span class="o">==</span> <span class="p">{</span><span class="s2">&quot;exito&quot;</span><span class="p">}</span></div>
+
+
+<span class="c1"># Tests para login</span>
+<div class="viewcode-block" id="test_username_login_invalid_user"><a class="viewcode-back" href="../../tests.html#tests.test_loggin.test_username_login_invalid_user">[documentos]</a><span class="k">def</span> <span class="nf">test_username_login_invalid_user</span><span class="p">():</span>
+    <span class="n">response</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">post</span><span class="p">(</span>
+        <span class="s2">&quot;/login&quot;</span><span class="p">,</span>
+        <span class="n">json</span><span class="o">=</span><span class="p">{</span>
+            <span class="s2">&quot;username&quot;</span><span class="p">:</span> <span class="s2">&quot;asdsad&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;email&quot;</span><span class="p">:</span> <span class="s2">&quot;aasdasd&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;password&quot;</span><span class="p">:</span> <span class="s2">&quot;asdasdasd&quot;</span>
+            <span class="p">}</span>
+    <span class="p">)</span>
+    <span class="k">assert</span> <span class="n">response</span><span class="o">.</span><span class="n">json</span><span class="p">()</span> <span class="o">==</span> <span class="p">{</span><span class="s2">&quot;detail&quot;</span><span class="p">:</span> <span class="s2">&quot;no existe el usuario&quot;</span><span class="p">}</span></div>
+
+
+<div class="viewcode-block" id="test_email_login_invalid_user"><a class="viewcode-back" href="../../tests.html#tests.test_loggin.test_email_login_invalid_user">[documentos]</a><span class="k">def</span> <span class="nf">test_email_login_invalid_user</span><span class="p">():</span>
+    <span class="n">response</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">post</span><span class="p">(</span>
+        <span class="s2">&quot;/login&quot;</span><span class="p">,</span>
+        <span class="n">json</span><span class="o">=</span><span class="p">{</span>
+            <span class="s2">&quot;username&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;email&quot;</span><span class="p">:</span> <span class="s2">&quot;aasdasd&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;password&quot;</span><span class="p">:</span> <span class="s2">&quot;asdasdasd&quot;</span>
+            <span class="p">}</span>
+    <span class="p">)</span>
+    <span class="k">assert</span> <span class="n">response</span><span class="o">.</span><span class="n">json</span><span class="p">()</span> <span class="o">==</span> <span class="p">{</span><span class="s2">&quot;detail&quot;</span><span class="p">:</span> <span class="s2">&quot;no existe el usuario&quot;</span><span class="p">}</span></div>
+
+
+<div class="viewcode-block" id="test_user_login_invalid_password"><a class="viewcode-back" href="../../tests.html#tests.test_loggin.test_user_login_invalid_password">[documentos]</a><span class="k">def</span> <span class="nf">test_user_login_invalid_password</span><span class="p">():</span>
+    <span class="n">response</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">post</span><span class="p">(</span>
+        <span class="s2">&quot;/login&quot;</span><span class="p">,</span>
+        <span class="n">json</span><span class="o">=</span><span class="p">{</span>
+            <span class="s2">&quot;username&quot;</span><span class="p">:</span> <span class="s2">&quot;juanka&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;email&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;password&quot;</span><span class="p">:</span> <span class="s2">&quot;asdasdasd&quot;</span>
+        <span class="p">}</span>
+    <span class="p">)</span>
+    <span class="k">assert</span> <span class="n">response</span><span class="o">.</span><span class="n">json</span><span class="p">()</span> <span class="o">==</span> <span class="p">{</span><span class="s2">&quot;detail&quot;</span><span class="p">:</span> <span class="s2">&quot;contrasenia incorrecta&quot;</span><span class="p">}</span></div>
+
+
+<div class="viewcode-block" id="test_email_login_invalid_password"><a class="viewcode-back" href="../../tests.html#tests.test_loggin.test_email_login_invalid_password">[documentos]</a><span class="k">def</span> <span class="nf">test_email_login_invalid_password</span><span class="p">():</span>
+    <span class="n">response</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">post</span><span class="p">(</span>
+        <span class="s2">&quot;/login&quot;</span><span class="p">,</span>
+        <span class="n">json</span><span class="o">=</span><span class="p">{</span>
+            <span class="s2">&quot;username&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;email&quot;</span><span class="p">:</span> <span class="s2">&quot;juanka@hotmail.com&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;password&quot;</span><span class="p">:</span> <span class="s2">&quot;asdasdasd&quot;</span>
+            <span class="p">}</span>
+    <span class="p">)</span>
+    <span class="k">assert</span> <span class="n">response</span><span class="o">.</span><span class="n">json</span><span class="p">()</span> <span class="o">==</span> <span class="p">{</span><span class="s2">&quot;detail&quot;</span><span class="p">:</span> <span class="s2">&quot;contrasenia incorrecta&quot;</span><span class="p">}</span></div>
+
+
+<div class="viewcode-block" id="test_user_login_email_not_verificated"><a class="viewcode-back" href="../../tests.html#tests.test_loggin.test_user_login_email_not_verificated">[documentos]</a><span class="k">def</span> <span class="nf">test_user_login_email_not_verificated</span><span class="p">():</span>
+    <span class="n">response</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">post</span><span class="p">(</span>
+        <span class="s2">&quot;/login&quot;</span><span class="p">,</span>
+        <span class="n">json</span><span class="o">=</span><span class="p">{</span>
+            <span class="s2">&quot;username&quot;</span><span class="p">:</span> <span class="s2">&quot;messi&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;email&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;password&quot;</span><span class="p">:</span> <span class="s2">&quot;Antonela@123&quot;</span>
+            <span class="p">}</span>
+    <span class="p">)</span>
+    <span class="k">assert</span> <span class="n">response</span><span class="o">.</span><span class="n">json</span><span class="p">()</span> <span class="o">==</span> <span class="p">{</span><span class="s2">&quot;detail&quot;</span><span class="p">:</span> <span class="s2">&quot;email no verificado&quot;</span><span class="p">}</span></div>
+
+
+<div class="viewcode-block" id="test_email_login_email_not_verificated"><a class="viewcode-back" href="../../tests.html#tests.test_loggin.test_email_login_email_not_verificated">[documentos]</a><span class="k">def</span> <span class="nf">test_email_login_email_not_verificated</span><span class="p">():</span>
+    <span class="n">response</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">post</span><span class="p">(</span>
+        <span class="s2">&quot;/login&quot;</span><span class="p">,</span>
+        <span class="n">json</span><span class="o">=</span><span class="p">{</span>
+            <span class="s2">&quot;username&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;email&quot;</span><span class="p">:</span> <span class="s2">&quot;messi@hotmail.com&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;password&quot;</span><span class="p">:</span> <span class="s2">&quot;Antonela@123&quot;</span>
+            <span class="p">}</span>
+    <span class="p">)</span>
+    <span class="k">assert</span> <span class="n">response</span><span class="o">.</span><span class="n">json</span><span class="p">()</span> <span class="o">==</span> <span class="p">{</span><span class="s2">&quot;detail&quot;</span><span class="p">:</span> <span class="s2">&quot;email no verificado&quot;</span><span class="p">}</span></div>
+
+
+<div class="viewcode-block" id="test_user_login_success"><a class="viewcode-back" href="../../tests.html#tests.test_loggin.test_user_login_success">[documentos]</a><span class="k">def</span> <span class="nf">test_user_login_success</span><span class="p">():</span>
+    <span class="n">response</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">post</span><span class="p">(</span>
+        <span class="s2">&quot;/login&quot;</span><span class="p">,</span>
+        <span class="n">json</span><span class="o">=</span><span class="p">{</span>
+            <span class="s2">&quot;username&quot;</span><span class="p">:</span> <span class="s2">&quot;juanka&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;email&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;password&quot;</span><span class="p">:</span> <span class="s2">&quot;Asd123@&quot;</span>
+            <span class="p">}</span>
+    <span class="p">)</span>
+    <span class="k">assert</span> <span class="n">response</span><span class="o">.</span><span class="n">json</span><span class="p">()</span> <span class="o">!=</span> <span class="p">{</span><span class="s2">&quot;detail&quot;</span><span class="p">:</span> <span class="s2">&quot;email no verificado&quot;</span><span class="p">}</span> \
+        <span class="ow">and</span> <span class="n">response</span><span class="o">.</span><span class="n">json</span><span class="p">()</span> <span class="o">!=</span> <span class="p">{</span><span class="s2">&quot;detail&quot;</span><span class="p">:</span> <span class="s2">&quot;contrasenia incorrecta&quot;</span><span class="p">}</span> \
+        <span class="ow">and</span> <span class="n">response</span><span class="o">.</span><span class="n">json</span><span class="p">()</span> <span class="o">!=</span> <span class="p">{</span><span class="s2">&quot;detail&quot;</span><span class="p">:</span> <span class="s2">&quot;no existe el usuario&quot;</span><span class="p">}</span></div>
+
+
+<div class="viewcode-block" id="test_email_login_success"><a class="viewcode-back" href="../../tests.html#tests.test_loggin.test_email_login_success">[documentos]</a><span class="k">def</span> <span class="nf">test_email_login_success</span><span class="p">():</span>
+    <span class="n">response</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">post</span><span class="p">(</span>
+        <span class="s2">&quot;/login&quot;</span><span class="p">,</span>
+        <span class="n">json</span><span class="o">=</span><span class="p">{</span>
+            <span class="s2">&quot;username&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;email&quot;</span><span class="p">:</span> <span class="s2">&quot;juanka@hotmail.com&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;password&quot;</span><span class="p">:</span> <span class="s2">&quot;Asd123@&quot;</span>
+            <span class="p">}</span>
+    <span class="p">)</span>
+    <span class="k">assert</span> <span class="n">response</span><span class="o">.</span><span class="n">json</span><span class="p">()</span> <span class="o">!=</span> <span class="p">{</span><span class="s2">&quot;detail&quot;</span><span class="p">:</span> <span class="s2">&quot;email no verificado&quot;</span><span class="p">}</span> \
+        <span class="ow">and</span> <span class="n">response</span><span class="o">.</span><span class="n">json</span><span class="p">()</span> <span class="o">!=</span> <span class="p">{</span><span class="s2">&quot;detail&quot;</span><span class="p">:</span> <span class="s2">&quot;contrasenia incorrecta&quot;</span><span class="p">}</span> \
+        <span class="ow">and</span> <span class="n">response</span><span class="o">.</span><span class="n">json</span><span class="p">()</span> <span class="o">!=</span> <span class="p">{</span><span class="s2">&quot;detail&quot;</span><span class="p">:</span> <span class="s2">&quot;no existe el usuario&quot;</span><span class="p">}</span></div>
+
+
+<span class="c1"># Funciones auxiliares para los test</span>
+<div class="viewcode-block" id="set_confirmation_true"><a class="viewcode-back" href="../../tests.html#tests.test_loggin.set_confirmation_true">[documentos]</a><span class="nd">@db_session</span>
+<span class="k">def</span> <span class="nf">set_confirmation_true</span><span class="p">(</span><span class="n">username</span><span class="p">):</span>
+    <span class="k">with</span> <span class="n">db_session</span><span class="p">:</span>
+        <span class="n">user_data</span> <span class="o">=</span> <span class="n">User</span><span class="p">[</span><span class="n">username</span><span class="p">]</span>
+        <span class="n">user_data</span><span class="o">.</span><span class="n">confirmation_mail</span> <span class="o">=</span> <span class="kc">True</span>
+        <span class="k">return</span> <span class="p">{</span><span class="s2">&quot;exito&quot;</span><span class="p">}</span></div>
+
+
+<span class="n">length_of_string</span> <span class="o">=</span> <span class="mi">8</span>
+<span class="n">random_str</span> <span class="o">=</span> <span class="p">(</span>
+    <span class="n">random</span><span class="o">.</span><span class="n">choice</span><span class="p">(</span><span class="n">string</span><span class="o">.</span><span class="n">ascii_letters</span> <span class="o">+</span> <span class="n">string</span><span class="o">.</span><span class="n">digits</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">length_of_string</span><span class="p">)</span>
+<span class="p">)</span>
+
+
+<div class="viewcode-block" id="test_get_payload"><a class="viewcode-back" href="../../tests.html#tests.test_loggin.test_get_payload">[documentos]</a><span class="k">def</span> <span class="nf">test_get_payload</span><span class="p">(</span><span class="n">userID</span><span class="o">=</span><span class="n">random_str</span><span class="p">):</span>
+    <span class="k">assert</span> <span class="n">get_payload</span><span class="p">(</span><span class="n">userID</span><span class="p">)[</span><span class="s2">&quot;expiry&quot;</span><span class="p">]</span> <span class="o">&lt;=</span> <span class="nb">str</span><span class="p">(</span><span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span> <span class="o">+</span> <span class="n">JWT_EXPIRES</span><span class="p">)</span></div>
+
+
+<span class="n">random_str</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">random</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="n">string</span><span class="o">.</span><span class="n">ascii_letters</span> <span class="o">+</span> <span class="n">string</span><span class="o">.</span><span class="n">digits</span><span class="p">,</span> <span class="mi">8</span><span class="p">))</span>
+<span class="n">token</span> <span class="o">=</span> <span class="n">sign_JWT</span><span class="p">(</span><span class="n">random_str</span><span class="p">)</span>
+<span class="n">payload</span> <span class="o">=</span> <span class="n">get_payload</span><span class="p">(</span><span class="n">random_str</span><span class="p">)</span>
+<span class="n">decoded_token</span> <span class="o">=</span> <span class="n">decode_JWT</span><span class="p">(</span><span class="n">token</span><span class="p">)</span>
+
+
+<div class="viewcode-block" id="test_sign_and_decode_JWT"><a class="viewcode-back" href="../../tests.html#tests.test_loggin.test_sign_and_decode_JWT">[documentos]</a><span class="k">def</span> <span class="nf">test_sign_and_decode_JWT</span><span class="p">(</span><span class="n">r</span><span class="o">=</span><span class="n">random_str</span><span class="p">):</span>
+    <span class="k">assert</span> <span class="n">payload</span><span class="p">[</span><span class="s1">&#39;userID&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="n">decoded_token</span><span class="p">[</span><span class="s1">&#39;userID&#39;</span><span class="p">]</span>
+    <span class="n">delete_db</span><span class="p">()</span></div>
+
+
+<div class="viewcode-block" id="elim_user"><a class="viewcode-back" href="../../tests.html#tests.test_loggin.elim_user">[documentos]</a><span class="nd">@db_session</span>
+<span class="k">def</span> <span class="nf">elim_user</span><span class="p">(</span><span class="n">username</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+    <span class="k">with</span> <span class="n">db_session</span><span class="p">:</span>
+        <span class="n">User</span><span class="p">[</span><span class="n">username</span><span class="p">]</span><span class="o">.</span><span class="n">delete</span><span class="p">()</span></div>
+
+
+<div class="viewcode-block" id="delete_db"><a class="viewcode-back" href="../../tests.html#tests.test_loggin.delete_db">[documentos]</a><span class="k">def</span> <span class="nf">delete_db</span><span class="p">():</span>
+    <span class="n">elim_user</span><span class="p">(</span><span class="s2">&quot;juanka&quot;</span><span class="p">)</span>
+    <span class="n">elim_user</span><span class="p">(</span><span class="s2">&quot;messi&quot;</span><span class="p">)</span></div>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Derechos de autor 2022, Capogrossi, Centeno, Kersul, Martinez, Ochoa, Pereyra, Yornet.</p>
+  </div>
+
+  Compilado con <a href="https://www.sphinx-doc.org/">Sphinx</a> usando un
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">tema</a>
+    proporcionado por <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

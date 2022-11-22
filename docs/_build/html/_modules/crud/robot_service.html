@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="es" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>crud.robot_service &mdash; documentación de Becarefuliate - 0.1</title>
+      <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+        <script src="../../_static/jquery.js"></script>
+        <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/doctools.js"></script>
+        <script src="../../_static/translations.js"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Índice" href="../../genindex.html" />
+    <link rel="search" title="Búsqueda" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../../index.html" class="icon icon-home"> Becarefuliate
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Buscar documentos" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../modules.html">Becarfuliate-Back</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">Becarefuliate</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Código de módulo</a></li>
+      <li class="breadcrumb-item active">crud.robot_service</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Código fuente para crud.robot_service</h1><div class="highlight"><pre>
+<span></span><span class="kn">from</span> <span class="nn">datetime</span> <span class="kn">import</span> <span class="n">datetime</span>
+<span class="kn">from</span> <span class="nn">pony.orm</span> <span class="kn">import</span> <span class="n">db_session</span><span class="p">,</span> <span class="n">commit</span><span class="p">,</span><span class="n">select</span>
+<span class="kn">from</span> <span class="nn">models.entities</span> <span class="kn">import</span> <span class="n">Robot</span><span class="p">,</span> <span class="n">User</span>
+<span class="kn">from</span> <span class="nn">crud.user_services</span> <span class="kn">import</span> <span class="n">decode_JWT</span>
+<span class="kn">from</span> <span class="nn">fastapi</span> <span class="kn">import</span> <span class="n">UploadFile</span>
+<span class="kn">from</span> <span class="nn">schemas</span> <span class="kn">import</span> <span class="n">irobot</span>
+
+<div class="viewcode-block" id="validate_file"><a class="viewcode-back" href="../../crud.html#crud.robot_service.validate_file">[documentos]</a><span class="k">def</span> <span class="nf">validate_file</span><span class="p">(</span>
+    <span class="n">filename</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+    <span class="n">file</span><span class="p">:</span> <span class="n">UploadFile</span>
+<span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Validación de un archivo, i.e chequea extención &#39;.py&#39; y que el nombre del archivo sea usado dentro.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        filename (str): Nombre de archivo a validar</span>
+<span class="sd">        file (UploadFile): Archivo a validar</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        bool: True en caso de que sea válido.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">content</span> <span class="o">=</span> <span class="n">file</span><span class="o">.</span><span class="n">file</span><span class="o">.</span><span class="n">read</span><span class="p">()</span><span class="o">.</span><span class="n">decode</span><span class="p">()</span>
+    <span class="n">is_valid</span> <span class="o">=</span> <span class="kc">True</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">filename</span><span class="o">+</span><span class="s2">&quot;.py&quot;</span> <span class="o">!=</span> <span class="n">file</span><span class="o">.</span><span class="n">filename</span><span class="p">):</span>
+        <span class="n">is_valid</span> <span class="o">=</span> <span class="kc">False</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="p">(</span><span class="n">filename</span> <span class="ow">in</span> <span class="n">content</span><span class="p">):</span>
+        <span class="n">is_valid</span> <span class="o">=</span> <span class="kc">False</span>
+    <span class="k">return</span> <span class="n">is_valid</span></div>
+
+
+<div class="viewcode-block" id="add_robot"><a class="viewcode-back" href="../../crud.html#crud.robot_service.add_robot">[documentos]</a><span class="nd">@db_session</span>
+<span class="k">def</span> <span class="nf">add_robot</span><span class="p">(</span>
+    <span class="n">config_file</span><span class="p">:</span> <span class="n">UploadFile</span><span class="p">,</span>
+    <span class="n">avatar_file</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+    <span class="n">robot_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+    <span class="n">user_token</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+    <span class="n">username</span><span class="p">:</span> <span class="nb">str</span>
+<span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Agregar robot a la base de datos.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        config_file (UploadFile): Archivo &#39;.py&#39; del robot.</span>
+<span class="sd">        avatar_file (str): Imagen del robot.</span>
+<span class="sd">        robot_name (str): Nombre del robot.</span>
+<span class="sd">        user_token (str): Token.</span>
+<span class="sd">        username (str): Nombre de usuario o email.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        str: Mensaje de retorno.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">with</span> <span class="n">db_session</span><span class="p">:</span>
+        <span class="n">decode_token</span> <span class="o">=</span> <span class="n">decode_JWT</span><span class="p">(</span><span class="n">user_token</span><span class="p">)</span>
+        <span class="n">vto</span> <span class="o">=</span> <span class="n">decode_token</span><span class="p">[</span><span class="s2">&quot;expiry&quot;</span><span class="p">]</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">vto</span><span class="p">)</span> <span class="o">&gt;</span> <span class="nb">str</span><span class="p">(</span><span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()))</span> <span class="ow">or</span> <span class="p">(</span><span class="n">vto</span> <span class="o">==</span> <span class="mi">0</span><span class="p">):</span>
+            <span class="k">return</span> <span class="s2">&quot;Token no válido&quot;</span>
+        <span class="k">if</span> <span class="n">validate_file</span><span class="p">(</span><span class="n">robot_name</span><span class="p">,</span> <span class="n">config_file</span><span class="p">):</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">user_for_validate</span> <span class="o">=</span> <span class="n">User</span><span class="p">[</span><span class="n">username</span><span class="p">]</span>
+            <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+                <span class="k">return</span> <span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot; no existe&quot;</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">Robot</span><span class="p">(</span>
+                    <span class="n">name</span><span class="o">=</span><span class="n">robot_name</span><span class="o">+</span><span class="s2">&quot;_&quot;</span><span class="o">+</span><span class="n">user_for_validate</span><span class="o">.</span><span class="n">username</span><span class="p">,</span>
+                    <span class="n">avatar</span><span class="o">=</span><span class="n">avatar_file</span><span class="o">+</span><span class="s2">&quot;_&quot;</span><span class="o">+</span><span class="n">user_for_validate</span><span class="o">.</span><span class="n">username</span><span class="p">,</span>
+                    <span class="n">matchs_pleyed</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+                    <span class="n">matchs_won</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+                    <span class="n">avg_life_time</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+                    <span class="n">user_owner</span><span class="o">=</span><span class="n">user_for_validate</span><span class="o">.</span><span class="n">username</span>
+                <span class="p">)</span>
+                <span class="n">commit</span><span class="p">()</span>
+            <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+                <span class="k">return</span> <span class="nb">str</span><span class="p">(</span><span class="s2">&quot;El robot ya existe&quot;</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="s2">&quot;El archivo no cumple los requisitos&quot;</span>
+        <span class="k">return</span> <span class="s2">&quot;Robot agregado con exito&quot;</span></div>
+
+
+<div class="viewcode-block" id="read_robots"><a class="viewcode-back" href="../../crud.html#crud.robot_service.read_robots">[documentos]</a><span class="nd">@db_session</span>
+<span class="k">def</span> <span class="nf">read_robots</span><span class="p">(</span><span class="n">token</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Listar robots, consulta a la base de datos.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        token (str): token.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        str: En caso de error.</span>
+<span class="sd">        List[Robot]: Lista de robots.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">with</span> <span class="n">db_session</span><span class="p">:</span>
+        <span class="n">decode_token</span> <span class="o">=</span> <span class="n">decode_JWT</span><span class="p">(</span><span class="n">token</span><span class="p">)</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">if</span> <span class="n">decode_token</span><span class="p">[</span><span class="s2">&quot;expiry&quot;</span><span class="p">]</span> <span class="o">&gt;</span> <span class="nb">str</span><span class="p">(</span><span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()):</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">user</span> <span class="o">=</span> <span class="n">decode_token</span><span class="p">[</span><span class="s2">&quot;userID&quot;</span><span class="p">]</span>
+                <span class="n">robots</span> <span class="o">=</span> <span class="n">select</span><span class="p">(</span><span class="n">x</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">Robot</span> <span class="k">if</span> <span class="n">x</span><span class="o">.</span><span class="n">user_owner</span><span class="o">.</span><span class="n">username</span> <span class="o">==</span> <span class="n">user</span><span class="p">)</span>
+                <span class="n">result</span> <span class="o">=</span> <span class="p">[</span><span class="n">irobot</span><span class="o">.</span><span class="n">Robot</span><span class="o">.</span><span class="n">from_orm</span><span class="p">(</span><span class="n">r</span><span class="p">)</span> <span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="n">robots</span><span class="p">]</span>
+                <span class="n">commit</span><span class="p">()</span>
+            <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+                <span class="k">return</span> <span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">result</span> <span class="o">=</span> <span class="s2">&quot;Token no válido&quot;</span>
+        <span class="k">return</span> <span class="n">result</span></div>
+
+<div class="viewcode-block" id="get_file_by_id"><a class="viewcode-back" href="../../crud.html#crud.robot_service.get_file_by_id">[documentos]</a><span class="nd">@db_session</span>
+<span class="k">def</span> <span class="nf">get_file_by_id</span><span class="p">(</span><span class="n">rob_id</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Obtener un archivo por su id</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        rob_id (int): id del archivo</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        Any: Nombre del archivo del robot.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">with</span> <span class="n">db_session</span><span class="p">:</span>
+        <span class="n">robot</span> <span class="o">=</span> <span class="n">Robot</span><span class="p">[</span><span class="n">rob_id</span><span class="p">]</span>
+        <span class="n">filename</span> <span class="o">=</span> <span class="n">robot</span><span class="o">.</span><span class="n">name</span><span class="o">+</span><span class="s2">&quot;.py&quot;</span>
+        <span class="k">return</span> <span class="n">filename</span></div>
+
+<div class="viewcode-block" id="add_default_robot"><a class="viewcode-back" href="../../crud.html#crud.robot_service.add_default_robot">[documentos]</a><span class="nd">@db_session</span>
+<span class="k">def</span> <span class="nf">add_default_robot</span><span class="p">(</span><span class="n">username</span><span class="p">:</span><span class="nb">str</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Agregar robot por defecto.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        username (str): Usuario al que agregar robot por defecto.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">with</span> <span class="n">db_session</span><span class="p">:</span>
+        <span class="n">Robot</span><span class="p">(</span>
+                    <span class="n">name</span><span class="o">=</span><span class="s2">&quot;default1&quot;</span><span class="o">+</span><span class="s2">&quot;_&quot;</span><span class="o">+</span><span class="n">username</span><span class="p">,</span>
+                    <span class="n">matchs_pleyed</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+                    <span class="n">matchs_won</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+                    <span class="n">avg_life_time</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+                    <span class="n">user_owner</span><span class="o">=</span><span class="n">username</span>
+                <span class="p">)</span>
+        <span class="n">commit</span><span class="p">()</span>
+        <span class="n">Robot</span><span class="p">(</span>
+                    <span class="n">name</span><span class="o">=</span><span class="s2">&quot;default2&quot;</span><span class="o">+</span><span class="s2">&quot;_&quot;</span><span class="o">+</span><span class="n">username</span><span class="p">,</span>
+                    <span class="n">matchs_pleyed</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+                    <span class="n">matchs_won</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+                    <span class="n">avg_life_time</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+                    <span class="n">user_owner</span><span class="o">=</span><span class="n">username</span>
+                <span class="p">)</span>
+        <span class="n">commit</span><span class="p">()</span></div>
+        
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Derechos de autor 2022, Capogrossi, Centeno, Kersul, Martinez, Ochoa, Pereyra, Yornet.</p>
+  </div>
+
+  Compilado con <a href="https://www.sphinx-doc.org/">Sphinx</a> usando un
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">tema</a>
+    proporcionado por <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
