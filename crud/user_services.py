@@ -38,7 +38,8 @@ def add_user(new_user: User_create):
                 password=password_encrypted,
                 confirmation_mail=False,
                 email=new_user.email,
-                validation_code=code_for_validation
+                validation_code=code_for_validation,
+                avatar= "default.jpeg"
             )
             commit()
         except Exception as e:
@@ -186,3 +187,30 @@ def encrypt_password(password: str):
     encripted_password = f.encrypt(encoded_pasword)
     decoded_password = encripted_password.decode()
     return decoded_password
+
+@db_session
+def store_user_avatar(token,file):
+    with db_session:
+        try:
+            decode_token = decode_JWT(token)
+            if decode_token["expiry"] > str(datetime.now()):
+                new_filename = file.filename.split('.')
+                new_filename[0] = decode_token["userID"]+"." 
+                file.filename = "".join(new_filename)
+                User[decode_token["userID"]].avatar = file.filename
+                return decode_token["userID"]
+            else:
+                return "token invalido"
+        except:
+            return "token invalido"
+
+@db_session
+def get_user_from_db(token):
+    decode_token = decode_JWT(token)
+    user = decode_token["userID"]
+    with db_session:
+        try:
+            res = User[user]
+            return res
+        except:
+            return "token invalido"
