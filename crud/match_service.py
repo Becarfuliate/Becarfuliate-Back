@@ -193,7 +193,7 @@ def add_player(id_match: int, tkn: str, id_robot: int):
             match = Match[id_match]
             user = User[username]
             robot = Robot[id_robot]
-            if match.user_creator == user:
+            if match.user_creator == user and len(match.robots_in_match) == 0 and str(robot.name).split("_")[1] == username:
                 list_robots = match.robots_in_match
                 list_robots.append(id_robot)
                 match.robots_in_match = list_robots
@@ -248,7 +248,6 @@ def remove_player(id_match: int, id_robot: int, name_user: str):
 def start_game(id_match: int, token: str):
     with db_session:
         decode_token = decode_JWT(token)
-        print(decode_token["expiry"])
         name_user = decode_token["userID"]
         try:
             if decode_token["expiry"] == 0:
@@ -408,3 +407,11 @@ def return_results(resultado: list):
             ganador["ganador"] = i
     ganador["resultado"] = resultado2
     return ganador
+
+@db_session
+def delete_match(id_match: int):
+    with db_session:
+        try:
+            Match[id_match].delete()
+        except Exception as e:
+            return str(e)
